@@ -1,6 +1,6 @@
 # Project-Lacuna
 
-A space tactics game I am developing. Early prototype screenshot:
+A space tactics game I am developing. Early prototype screenshot (click to enlarge):
 
 ![prototype ss](https://i.imgur.com/7Jnl1gx.png)
 
