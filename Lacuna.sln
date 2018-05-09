@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lacuna", "Lacuna\Lacuna.csproj", "{A500C76A-3FF9-4622-AAD6-C8BB183C08CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A500C76A-3FF9-4622-AAD6-C8BB183C08CF}.Debug|x86.ActiveCfg = Debug|x86
+		{A500C76A-3FF9-4622-AAD6-C8BB183C08CF}.Debug|x86.Build.0 = Debug|x86
+		{A500C76A-3FF9-4622-AAD6-C8BB183C08CF}.Release|x86.ActiveCfg = Release|x86
+		{A500C76A-3FF9-4622-AAD6-C8BB183C08CF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E566573D-AA91-4646-92D1-A57183B17271}
+	EndGlobalSection
+EndGlobal
