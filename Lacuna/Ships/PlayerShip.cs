@@ -12,7 +12,7 @@ namespace Lacuna {
     public class PlayerShip : Ship {
 
         // ------------------------------------------------------------------------------------------
-        public PlayerShip(string[] texture2DPaths, Grid grid, Point gridPoint) : base(texture2DPaths, grid, gridPoint) {
+        public PlayerShip(string[] texture2DPaths, IsoGrid grid, Point gridPoint) : base(texture2DPaths, grid, gridPoint) {
         }
 
         // ------------------------------------------------------------------------------------------

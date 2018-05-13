@@ -14,23 +14,23 @@ namespace Lacuna
         Button startButton;
         Button exitButton;
 
+        // ------------------------------------------------------------------------------------------
         public MainMenuScreen(Core core, bool initializeOnStartup = true) : base("MainMenuScreen", core, initializeOnStartup) {
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Initialize() {
-            startButton = new Button(new Sprite("button", new Vector2(1, 80), Color.White), "Start", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
+            startButton = new Button("button", "Terminus", new Vector2(1, 120), "Start", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
             startButton.Click += StartGame;
-            exitButton = new Button(new Sprite("button", new Vector2(1, 121), Color.White), "Exit", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
+            exitButton = new Button("button", "Terminus", new Vector2(1, 161), "Exit", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
             exitButton.Click += delegate(object s, EventArgs e) {
                 Core.Quit(s, e);
             };
 
-            startButton.Initialize();
-            exitButton.Initialize();
-
             base.Initialize();
         }
 
+        // ------------------------------------------------------------------------------------------
         public void StartGame(object s, EventArgs e) {
             if (!ScreenManager.GetScreen("GameplayScreen").Initialized) {
                 ScreenManager.InitializeScreen("GameplayScreen");
@@ -41,12 +41,14 @@ namespace Lacuna
 
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             startButton.Update(Mouse.GetState());
             exitButton.Update(Mouse.GetState());
             base.Update(gameTime, NewKeyState, OldKeyState);
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime) {
             base.Draw(spriteBatch, gameTime);
         }

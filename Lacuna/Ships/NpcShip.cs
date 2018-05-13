@@ -9,7 +9,7 @@ namespace Lacuna {
     public class NpcShip : Ship {
 
         // ------------------------------------------------------------------------------------------
-        public NpcShip(string[] texture2DPaths, Grid grid, Point gridPosition, PlayerShip playerShip) : base(texture2DPaths, grid, gridPosition) {
+        public NpcShip(string[] texture2DPaths, IsoGrid grid, Point gridPosition, PlayerShip playerShip) : base(texture2DPaths, grid, gridPosition) {
             playerShip.ShipMoved += OnPlayerMoved;
         }
 
@@ -29,16 +29,16 @@ namespace Lacuna {
             EngagementVector ev = GetEngagementCombination(e.Direction,  e.GridPosition);
         }
 
-        Random r = new Random();
         // TODO: check if not moving out of bounds first then redo random
+        // ------------------------------------------------------------------------------------------
         public ShipMoveDirection DetermineNextMove(Point targetPos) {
             Compass c = GetRelativeCompassDirection(GridPosition, targetPos);
 
             if (c == Compass.Unknown) {
-                int choice = r.Next(0, 2);
+                int choice = Rng.Random.Next(0, 2);
                 if (choice == 0) {
                     if (targetPos.X < GridPosition.X) {
-                        int choice2 = r.Next(0, 2);
+                        int choice2 = Rng.Random.Next(0, 2);
                         if (choice2 == 0) {
                             return ShipMoveDirection.Left;
                         }
@@ -47,7 +47,7 @@ namespace Lacuna {
                         }
                     }
                     else if (targetPos.X > GridPosition.X) {
-                        int choice2 = r.Next(0, 2);
+                        int choice2 = Rng.Random.Next(0, 2);
                         if (choice2 == 0) {
                             return ShipMoveDirection.Left;
                         }
@@ -58,7 +58,7 @@ namespace Lacuna {
                 }
                 else {
                     if (targetPos.Y > GridPosition.Y) {
-                        int choice2 = r.Next(0, 2);
+                        int choice2 = Rng.Random.Next(0, 2);
                         if (choice2 == 0) {
                             return ShipMoveDirection.Backward;
                         }
@@ -67,7 +67,7 @@ namespace Lacuna {
                         }
                     }
                     else if (targetPos.Y < GridPosition.Y) {
-                        int choice2 = r.Next(0, 2);
+                        int choice2 = Rng.Random.Next(0, 2);
                         if (choice2 == 0) {
                             return ShipMoveDirection.Backward;
                         }
@@ -78,7 +78,7 @@ namespace Lacuna {
                 }
             }
             else {
-                int choice = r.Next(0, 4);
+                int choice = Rng.Random.Next(0, 4);
                 if (choice == 0) {
                     return ShipMoveDirection.Forward;
                 }
@@ -92,74 +92,6 @@ namespace Lacuna {
                     return ShipMoveDirection.Left;
                 }
             }          
-
-            //if(c == Compass.Unknown) {
-            //    if(targetPos.X < GridPosition.X) {
-            //        return ShipMoveDirection.Left;
-            //    }
-            //    else if (targetPos.X > GridPosition.X) {
-            //        return ShipMoveDirection.Right;
-            //    }
-
-            //    if(targetPos.Y > GridPosition.Y) {
-            //        return ShipMoveDirection.Backward;
-            //    }
-            //    else if(targetPos.Y < GridPosition.Y) {
-            //        return ShipMoveDirection.Forward;
-            //    }
-            //}
-            //else if (c == Compass.South) {
-            //    Random r = new Random();
-            //    int choice = r.Next(0, 3);
-            //    if (choice == 0) {
-            //        return ShipMoveDirection.Forward;
-            //    }
-            //    else if (choice == 1) {
-            //        return ShipMoveDirection.Right;
-            //    }
-            //    else if (choice == 2) {
-            //        return ShipMoveDirection.Left;
-            //    }                
-            //}
-            //else if(c == Compass.North) {
-            //    Random r = new Random();
-            //    int choice = r.Next(0, 3);
-            //    if (choice == 0) {
-            //        return ShipMoveDirection.Backward;
-            //    }
-            //    else if (choice == 1) {
-            //        return ShipMoveDirection.Right;
-            //    }
-            //    else if (choice == 2) {
-            //        return ShipMoveDirection.Left;
-            //    }
-            //}
-            //else if (c == Compass.East) {
-            //    Random r = new Random();
-            //    int choice = r.Next(0, 3);
-            //    if (choice == 0) {
-            //        return ShipMoveDirection.Forward;
-            //    }
-            //    else if (choice == 1) {
-            //        return ShipMoveDirection.Backward;
-            //    }
-            //    else if (choice == 2) {
-            //        return ShipMoveDirection.Left;
-            //    }
-            //}
-            //else if (c == Compass.West) {
-            //    Random r = new Random();
-            //    int choice = r.Next(0, 3);
-            //    if (choice == 0) {
-            //        return ShipMoveDirection.Forward;
-            //    }
-            //    else if (choice == 1) {
-            //        return ShipMoveDirection.Backward;
-            //    }
-            //    else if (choice == 2) {
-            //        return ShipMoveDirection.Right;
-            //    }
-            //}
 
             return ShipMoveDirection.Unknown;
         }

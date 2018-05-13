@@ -20,6 +20,7 @@ namespace Lacuna {
         public float LayerDepth { get; set; }
         public bool DoDraw { get; set; } = true;
 
+        // ------------------------------------------------------------------------------------------
         public Drawable2D(Vector2 position, Color color, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.0f) {
             Position = position;
             Color = color;

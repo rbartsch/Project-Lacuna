@@ -13,11 +13,13 @@ namespace Lacuna {
         public Point GridPosition { get; set; }
         public bool Occupied { get; set; }
 
+        // ------------------------------------------------------------------------------------------
         public GridTile(Sprite tileSprite, Point gridPosition) {
             sprite = tileSprite;
             GridPosition = gridPosition;
         }
 
+        // ------------------------------------------------------------------------------------------
         public void SetOriginCenter() => sprite.SetOriginCenter();
     }
 }

@@ -13,11 +13,11 @@ namespace Lacuna {
 
         public event EventHandler<ShipMoveCompleteEventArgs> ShipMoved;
 
-        private Grid grid;
+        private IsoGrid grid;
         private GridTile activeGridTile;
 
         // ------------------------------------------------------------------------------------------
-        public Ship(string[] texture2DPaths, Grid grid, Point gridPosition) {            
+        public Ship(string[] texture2DPaths, IsoGrid grid, Point gridPosition) {            
             GridPosition = gridPosition;
             this.grid = grid;
             activeGridTile = grid.GetGridTileByPoint(gridPosition);

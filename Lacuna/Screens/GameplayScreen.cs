@@ -13,27 +13,30 @@ namespace Lacuna
     public class GameplayScreen : Screen {
         Sprite uiLayout;
         Button button;
-        Grid grid;
+        IsoGrid grid;
         PlayerShip playerShip;
         Sprite planet;
         Sprite gasGiant;
         NpcShip npcShip;
         Sprite background;
 
+        // ------------------------------------------------------------------------------------------
         public void Test(object s, EventArgs e) {
             Console.WriteLine("Test");
         }
 
+        // ------------------------------------------------------------------------------------------
         public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Initialize() {
             uiLayout = new Sprite("ui_layout", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White);
 
-            button = new Button(new Sprite("button", new Vector2(Core.minRelativeWidth + 117, Core.minRelativeHeight + 220), Color.White), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
+            button = new Button("button", "Terminus", new Vector2(Core.minRelativeWidth + 117, Core.minRelativeHeight + 220), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
             button.Click += Test;
 
-            grid = new Grid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minRelativeWidth, 261 + Core.minRelativeHeight), "single_blue_grid_tile");
+            grid = new IsoGrid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minRelativeWidth, 261 + Core.minRelativeHeight), "single_blue_grid_tile");
             grid.Construct();
 
             playerShip = new PlayerShip(new string[] {
@@ -58,8 +61,6 @@ namespace Lacuna
 
             uiLayout.SetOriginCenter();
 
-            button.Initialize();
-
             foreach (GridTile g in grid.GridTiles) {
                 g.SetOriginCenter();
             }
@@ -76,9 +77,12 @@ namespace Lacuna
             npcShip.Sprite.SetOriginCenter();
             npcShip.SetDirection(ShipMoveDirection.Backward);
 
+            Persistence.StartCluster();
+
             base.Initialize();
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             button.Update(Mouse.GetState());
             playerShip.Update(NewKeyState, OldKeyState);
@@ -93,10 +97,13 @@ namespace Lacuna
             if(NewKeyState.IsKeyDown(Keys.Escape) && OldKeyState.IsKeyDown(Keys.Escape)) {
                 ScreenManager.SwitchScreen("MainMenuScreen");
             }
-        }
+            if(NewKeyState.IsKeyDown(Keys.M) && OldKeyState.IsKeyDown(Keys.M)) {
+                if (!ScreenManager.GetScreen("StarMapScreen").Initialized) {
+                    ScreenManager.InitializeScreen("StarMapScreen");
+                }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime) {
-            base.Draw(spriteBatch, gameTime);
+                ScreenManager.SwitchScreen("StarMapScreen");
+            }
         }
     }
 }

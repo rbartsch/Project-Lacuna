@@ -46,6 +46,20 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AstronomicalObjects\AsteroidBelt.cs" />
+    <Compile Include="AstronomicalObjects\AstronomicalObject.cs" />
+    <Compile Include="AstronomicalObjects\Cluster.cs" />
+    <Compile Include="Generators\ClusterGenerator.cs" />
+    <Compile Include="AstronomicalObjects\Moon.cs" />
+    <Compile Include="AstronomicalObjects\PlanetarySystem.cs" />
+    <Compile Include="AstronomicalObjects\Planet.cs" />
+    <Compile Include="AstronomicalObjects\Star.cs" />
+    <Compile Include="Generators\NameGenerator.cs" />
+    <Compile Include="Generators\PlanetarySystemGenerator.cs" />
+    <Compile Include="Generators\StringPairs.cs" />
+    <Compile Include="Graphics\Line.cs" />
+    <Compile Include="Persistence.cs" />
+    <Compile Include="Screens\StarMapScreen.cs" />
     <Compile Include="Utils\AssetManager.cs" />
     <Compile Include="GUI\Button.cs" />
     <Compile Include="Draw\Drawable2D.cs" />
@@ -55,12 +69,12 @@
     <Compile Include="Enums.cs" />
     <Compile Include="EventData\ShipMoveCompleteEventArgs.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
-    <Compile Include="Grid\Grid.cs" />
+    <Compile Include="Grid\IsoGrid.cs" />
     <Compile Include="Grid\GridTile.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
-    <Compile Include="Draw\MultiSprite.cs" />
-    <Compile Include="Ship\NpcShip.cs" />
-    <Compile Include="Ship\PlayerShip.cs" />
+    <Compile Include="Graphics\MultiSprite.cs" />
+    <Compile Include="Ships\NpcShip.cs" />
+    <Compile Include="Ships\PlayerShip.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource1.Designer.cs">
@@ -68,12 +82,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\LinearConversion.cs" />
     <Compile Include="Utils\Rng.cs" />
     <Compile Include="Utils\RomanNumeral.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
-    <Compile Include="Ship\Ship.cs" />
-    <Compile Include="Draw\Sprite.cs" />
+    <Compile Include="Ships\Ship.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Screens\TestScreen.cs" />
     <Compile Include="GUI\Text2D.cs" />
   </ItemGroup>

@@ -14,7 +14,6 @@ namespace Lacuna {
     // unload content for a screen.
     // For now we load everything at startup in Core LoadContent
     public static class AssetManager {
-        public static GraphicsDevice GraphicsDevice;
         public static ContentManager Content;
         private static Dictionary<string, Texture2D> Texture2Ds = new Dictionary<string, Texture2D>();
         private static Dictionary<string, SpriteFont> SpriteFonts = new Dictionary<string, SpriteFont>();
@@ -26,6 +25,7 @@ namespace Lacuna {
         /// </summary>
         /// <param name="assetType"></param>
         /// <param name="path"></param>
+        /// 
         public static void LoadAsset(AssetType assetType, string path) {
             Console.WriteLine("Loading asset " + assetType.ToString() + ": " + path);
             switch (assetType) {
@@ -108,13 +108,14 @@ namespace Lacuna {
         public static Texture2D GetCopyTexture2D(string name) {
             Console.WriteLine("Getting copy of Texture2D: " + name);
             Texture2D original = GetAsset(AssetType.Texture2D, name);
-            Texture2D copy = new Texture2D(GraphicsDevice, original.Width, original.Height);
+            Texture2D copy = new Texture2D(Core.graphics.GraphicsDevice, original.Width, original.Height);
             Color[] data = new Color[copy.Width * copy.Height];
             original.GetData(data);
             copy.SetData(data);
             return copy;
         }
 
+        // ------------------------------------------------------------------------------------------
         public static int TotalLoaded() {
             return Texture2Ds.Count + SpriteFonts.Count + SoundEffects.Count + Songs.Count;
         }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Lacuna {
-    public class Grid {
+    // To build an isometric grid in the game world.
+    public class IsoGrid {
         public Point GridSize { get; set; }
         public Point GridTileSize { get; set; }
         // The very top grid will be the start position
@@ -20,7 +21,8 @@ namespace Lacuna {
             "N","O","P","Q","R","S","T","V","W","X","Y","Z",
         };
 
-        public Grid(Point gridSize, Point gridTileSize, Vector2 gridWorldStartPosition, string spriteName) {
+        // ------------------------------------------------------------------------------------------
+        public IsoGrid(Point gridSize, Point gridTileSize, Vector2 gridWorldStartPosition, string spriteName) {
             GridSize = gridSize;
             GridTileSize = gridTileSize;
             GridWorldStartPosition = gridWorldStartPosition;
@@ -29,7 +31,8 @@ namespace Lacuna {
             SpriteName = spriteName;
         }
 
-        public void Construct() {
+        // ------------------------------------------------------------------------------------------
+        public void Construct(bool generateMarkers = true) {
             Vector2 currGridTilePos = new Vector2(GridWorldStartPosition.X, GridWorldStartPosition.Y);
             int counter = 0;
 
@@ -37,12 +40,14 @@ namespace Lacuna {
                 counter += 1;
 
                 for (int x = 0; x < GridSize.X; x++) {
-                    TextMarkers.Add(new Text2D("Terminus", string.Format("{0},{1}", x, y), new Vector2(currGridTilePos.X, currGridTilePos.Y), Color.White));
-                    if (y == 0) {
-                        TextMarkers.Add(new Text2D("Terminus", (x + 1).ToString(), new Vector2(currGridTilePos.X + 121-40, currGridTilePos.Y - 60+20), Color.White));
-                    }
-                    if (x == 0) {
-                        TextMarkers.Add(new Text2D("Terminus", gridToNamesY[y], new Vector2(currGridTilePos.X - 121+40, currGridTilePos.Y - 60+20), Color.White));
+                    if (generateMarkers) {
+                        TextMarkers.Add(new Text2D("Terminus", string.Format("{0},{1}", x, y), new Vector2(currGridTilePos.X, currGridTilePos.Y), Color.White));
+                        if (y == 0) {
+                            TextMarkers.Add(new Text2D("Terminus", (x + 1).ToString(), new Vector2(currGridTilePos.X + 121 - 40, currGridTilePos.Y - 60 + 20), Color.White));
+                        }
+                        if (x == 0) {
+                            TextMarkers.Add(new Text2D("Terminus", gridToNamesY[y], new Vector2(currGridTilePos.X - 121 + 40, currGridTilePos.Y - 60 + 20), Color.White));
+                        }
                     }
 
                     GridTiles.Add(new GridTile(new Sprite(SpriteName, currGridTilePos, Color.White), new Point(x, y)));
@@ -53,6 +58,7 @@ namespace Lacuna {
             }
         }
 
+        // ------------------------------------------------------------------------------------------
         public Vector2 GetGridTileWorldPosByPoint(Point p) {
             Vector2 v = Vector2.One;
             foreach(GridTile g in GridTiles) {
@@ -64,6 +70,7 @@ namespace Lacuna {
             return v;
         }
 
+        // ------------------------------------------------------------------------------------------
         public GridTile GetGridTileByPoint(Point p) {
             GridTile gridTile = null;
             foreach(GridTile g in GridTiles) {
@@ -75,6 +82,7 @@ namespace Lacuna {
             return gridTile;
         }
 
+        // ------------------------------------------------------------------------------------------
         public bool OccupyGridTileByPoint(Point p, ref GridTile activeGridTile) {
             if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
                 return false;

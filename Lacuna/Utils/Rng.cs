@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Voyage.Utils
-{
-    public static class Rng
-    {
+namespace Lacuna {
+    public static class Rng {
         public static Random Random { get; private set; } = new Random();
 
+        // ------------------------------------------------------------------------------------------
         public static void SetSeed(int seed) {
             Random = new Random(seed);
         }
 
+        // ------------------------------------------------------------------------------------------
         public static bool Chance(int percentage) {
             if (Random.Next(0, 101) <= percentage)
                 return true;
@@ -21,7 +21,7 @@ namespace Voyage.Utils
                 return false;
         }
 
-        public static class Dice { 
+        public static class Dice {
             /// <summary>
             /// Basic roll. Scale is from 1 to x
             /// </summary>

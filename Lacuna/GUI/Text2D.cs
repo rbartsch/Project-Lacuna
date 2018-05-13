@@ -13,11 +13,13 @@ namespace Lacuna {
 
         private SpriteFont spriteFont;
 
+        // ------------------------------------------------------------------------------------------
         public Text2D(string spriteFontName, string text, Vector2 position, Color color, string tag = "") : base(position, color, tag, 0f, null, null, SpriteEffects.None, 0.0f) {
             spriteFont = AssetManager.GetAsset(AssetType.SpriteFont, spriteFontName);
             Text = text;
         }
 
+        // ------------------------------------------------------------------------------------------
         public Vector2 MeasureString(string text = null) {
             if (text != null) {
                 return spriteFont.MeasureString(text);
@@ -27,14 +29,17 @@ namespace Lacuna {
             }
         }
 
+        // ------------------------------------------------------------------------------------------
         public int GetLineSpacing() {
             return spriteFont.LineSpacing;
         }
 
+        // ------------------------------------------------------------------------------------------
         public float GetSpacing() {
             return spriteFont.Spacing;
         }
 
+        // ------------------------------------------------------------------------------------------
         public float GetMaxCharacterWidth() {
             List<Vector2> sizes = new List<Vector2>();
             for (int i = 0; i < spriteFont.Characters.Count; i++) {
@@ -45,15 +50,18 @@ namespace Lacuna {
         }
 
         // Must be set after spritefont loaded
+        // ------------------------------------------------------------------------------------------
         public void SetOriginTopLeft() {
             Origin = new Vector2(0, 0);
         }
 
         // Must be set after spritefont loaded
+        // ------------------------------------------------------------------------------------------
         public void SetOriginCenter() {
             Origin = new Vector2((float)Math.Round(MeasureString().X / 2), (float)Math.Round(MeasureString().Y / 2));
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Draw(SpriteBatch spriteBatch) {
             if (spriteFont != null && Text != null && DoDraw) {
                 spriteBatch.DrawString(spriteFont, Text, ParentPosition + Position, Color, Rotation, Origin, Scale, SpriteEffects, LayerDepth);

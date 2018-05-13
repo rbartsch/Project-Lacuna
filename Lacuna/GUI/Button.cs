@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 
 namespace Lacuna {
-    // TODO: Needs serious refactoring
+    // TODO: Be able to specify custom sound effects
     public class Button {
         public Sprite Image { get; set; }
         public string Text { get => text2D.Text; set => text2D.Text = value; }
@@ -20,6 +20,8 @@ namespace Lacuna {
 
         public event EventHandler Click;
 
+        private MouseState oldMouseState;
+
         private Text2D text2D;
         private SoundEffect hoverSoundEffect;
         private SoundEffectInstance hoverSoundEffectInstance;
@@ -27,14 +29,20 @@ namespace Lacuna {
         private SoundEffectInstance clickSoundEffectInstance;
         private bool readyToPlay = true;
 
-        public Button(Sprite image, string text, Color defaultColor, Color hoverColor, Color clickColor) {
-            Image = image;
+        // ------------------------------------------------------------------------------------------
+        public Button(string texture2DName, string spriteFontName, Vector2 position, string text, Color defaultColor, Color hoverColor, Color clickColor) {
+            Image = new Sprite(texture2DName, position, DefaultColor);
             MouseArea = new Rectangle(0, 0, 2, 2);
             DefaultColor = defaultColor;
             HoverColor = hoverColor;
             ClickColor = clickColor;
-            // Call this here because if done in Button Load() it is loaded too late, drawables need to be loaded first before Button Load()
-            text2D = new Text2D("Terminus", text, new Vector2(0, 0), Color.White);
+
+            text2D = new Text2D(spriteFontName, text, new Vector2(0, 0), Color.White);
+
+            Area = Image.Area;
+            Image.Position = new Vector2(Area.X, Area.Y);
+            SetTextCenter();
+
             hoverSoundEffect = AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             hoverSoundEffectInstance = hoverSoundEffect.CreateInstance();
             hoverSoundEffectInstance.Volume = 0.2f;
@@ -43,18 +51,30 @@ namespace Lacuna {
             clickSoundEffectInstance.Volume = 0.2f;
         }
 
-        public void OnClick(EventArgs e) {
-            Click?.Invoke(this, e);
-        }
-
-        public void Initialize() {
-            Area = Image.Area;
-            Image.Position = new Vector2(Area.X, Area.Y);
+        // ------------------------------------------------------------------------------------------
+        public void SetTextCenter() {
             text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y + Area.Height / 2);
             text2D.SetOriginCenter();
         }
 
-        private MouseState oldMouseState;
+        // ------------------------------------------------------------------------------------------
+        public void SetTextBelow() {
+            text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y + Area.Height + text2D.MeasureString().Y / 2);
+            text2D.SetOriginCenter();
+        }
+
+        // ------------------------------------------------------------------------------------------
+        public void SetTextAbove() {
+            text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y - text2D.MeasureString().Y / 2);
+            text2D.SetOriginCenter();
+        }
+
+        // ------------------------------------------------------------------------------------------
+        public void OnClick(EventArgs e) {
+            Click?.Invoke(this, e);
+        }
+
+        // ------------------------------------------------------------------------------------------
         public void Update(MouseState mouseState) {
             if (Click != null && Click.GetInvocationList().Length > 0) {
                 MouseArea = new Rectangle(mouseState.X, mouseState.Y, MouseArea.Width, MouseArea.Height);

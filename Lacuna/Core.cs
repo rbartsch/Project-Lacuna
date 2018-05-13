@@ -19,15 +19,17 @@ namespace Lacuna {
         float statDrawFrameRate;
         float statUpdateFrameRate;
 
-        public GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Text2D rateStatistics;
+        Text2D info;
 
+        // ------------------------------------------------------------------------------------------
         public void Quit(object s, EventArgs e) {
             Exit();
         }
 
+        // ------------------------------------------------------------------------------------------
         public void SetResolution(int width, int height, bool fullScreen, bool vSync) {
             graphics.SynchronizeWithVerticalRetrace = vSync;
             graphics.PreferredBackBufferWidth = width;
@@ -43,6 +45,7 @@ namespace Lacuna {
             minRelativeHeight = ((graphics.PreferredBackBufferHeight - minResolutionHeight) / 2);
         }
 
+        // ------------------------------------------------------------------------------------------
         private static Cursor GetCursor(string cursorName) {
             var buffer = Resource1.ResourceManager.GetObject(cursorName) as byte[];
 
@@ -73,6 +76,7 @@ namespace Lacuna {
             ScreenManager.AddScreen(new GameplayScreen(this));
             ScreenManager.AddScreen(new TestScreen(this));
             ScreenManager.AddScreen(new MainMenuScreen(this));
+            ScreenManager.AddScreen(new StarMapScreen(this));
 
             base.Initialize();
         }
@@ -85,7 +89,6 @@ namespace Lacuna {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            AssetManager.GraphicsDevice = GraphicsDevice;
             AssetManager.Content = Content;
 
             AssetManager.LoadAsset(AssetType.Texture2D, "button");
@@ -112,6 +115,8 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.Texture2D, "background_3");
             AssetManager.LoadAsset(AssetType.Texture2D, "background_4");
             AssetManager.LoadAsset(AssetType.Texture2D, "background_5");
+            AssetManager.LoadAsset(AssetType.Texture2D, "star_map_planetary_system_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "local_map_grid_tile");
 
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
@@ -124,7 +129,7 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.SpriteFont, "TinyUnicode");
             AssetManager.LoadAsset(AssetType.SpriteFont, "Verdana");
 
-            rateStatistics = new Text2D("TinyUnicode", string.Format("Draw {0}; Update {1}", statDrawFrameRate.ToString("0"), statUpdateFrameRate.ToString("0")), new Vector2(1, -3), Color.White);
+            info = new Text2D("TinyUnicode", string.Format(""), new Vector2(1, -3), Color.White);
 
             //ScreenManager.InitializeScreens();
             ScreenManager.InitializeScreen("MainMenuScreen");
@@ -162,9 +167,9 @@ namespace Lacuna {
 
             // Update statistics text
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
-            rateStatistics.Draw(spriteBatch);
+            info.Draw(spriteBatch);
             spriteBatch.End();
-            rateStatistics.Text = string.Format("project lacuna ver. 01 (dev)\ndraw: {0}; count: {1}\nupdate: {2}\nassets loaded (global): {3}\npress Esc for menu, WASD to move", statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
+            info.Text = string.Format("project lacuna ver. 01 (dev)\n-\ndraw: {0}; count: {1}\nupdate: {2}\nassets loaded (global): {3}\n-\npress Esc for menu, WASD to move", statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
 
             base.Draw(gameTime);
         }
