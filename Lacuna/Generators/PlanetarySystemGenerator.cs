@@ -9,7 +9,7 @@ using Lacuna.AstronomicalObjects;
 namespace Lacuna.Generators {
     public class PlanetarySystemGenerator {
         public PlanetarySystem Generate() {
-            PlanetarySystem planetarySystem = new PlanetarySystem(new NameGenerator().GeneratelAstronomicalObjectName(), new Vector2(Rng.Random.Next(100, 741), Rng.Random.Next(100, 581)));
+            PlanetarySystem planetarySystem = new PlanetarySystem(new NameGenerator().GenerateAstroObjNameRandom(), new Vector2(Rng.Random.Next(100, 741), Rng.Random.Next(100, 581)));
             return planetarySystem;
         }
     }

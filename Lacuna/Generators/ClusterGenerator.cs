@@ -9,19 +9,19 @@ using Lacuna.AstronomicalObjects;
 namespace Lacuna.Generators {
     public class ClusterGenerator {
         public int NPlanetarySystems { get; private set; } = 10;
-        public int MaxStarsPerSystem { get; private set; } = 1;
-        public int MaxPlanetsPerSystem { get; private set; } = 6;
-        public int MaxMoonsPerSystem { get; private set; } = 12;
+        public int MaxStars { get; private set; } = 1;
+        public int MaxPlanetsPerStar { get; private set; } = 6;
+        public int MaxMoonsPerPlanet { get; private set; } = 3;
 
         public ClusterGenerator() {
 
         }
 
-        public ClusterGenerator(int nPlanetarySystems, int maxStarsPerSystem, int maxPlanetsPerSystem, int maxMoonsPerSystem) {
+        public ClusterGenerator(int nPlanetarySystems, int maxStars, int maxPlanetsPerStar, int maxMoonsPerPlanet) {
             NPlanetarySystems = nPlanetarySystems;
-            MaxStarsPerSystem = maxStarsPerSystem;
-            MaxPlanetsPerSystem = maxPlanetsPerSystem;
-            MaxMoonsPerSystem = maxMoonsPerSystem;
+            MaxStars = maxStars;
+            MaxPlanetsPerStar = maxPlanetsPerStar;
+            MaxMoonsPerPlanet = maxMoonsPerPlanet;
         }
 
         public Cluster Generate() {

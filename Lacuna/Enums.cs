@@ -43,4 +43,22 @@ namespace Lacuna {
         West,                               // 3
         Unknown                             // 4
     }
+
+    public enum PlanetType {
+        Rocky,
+        Terra,
+        Oceanic,
+        Icy,
+        Gas
+    }
+
+    public enum MoonType {
+        Regolith,
+        Icy,
+    }
+
+    public enum StarType {
+        MainSequence,
+        Neutron
+    }
 }

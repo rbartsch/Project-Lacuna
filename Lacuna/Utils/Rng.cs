@@ -22,6 +22,8 @@ namespace Lacuna {
         }
 
         public static class Dice {
+            //My implementation of Amit Patel's resource for dice rolling and probabilities http://www.redblobgames.com/articles/probability/damage-rolls.html
+
             /// <summary>
             /// Basic roll. Scale is from 1 to x
             /// </summary>

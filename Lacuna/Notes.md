@@ -50,7 +50,10 @@ Game/Engine Technical:
 
 - Have two screen types, ScreenStartup, ScreenLoadable?
 - Have a contentmanager for global and contentmanager for each screen, so we can unload content for a screen if needed.
+- Madlib system for description text generation
 
 Other:
 
 - Maybe fleet/squadron-based? Would need to change the grid to be bigger grid
+- Star has a name and uses alphabet letter if more than one, planet derives name from star name and uses roman numerals, moon derives from planet name and uses arabic numerals
+  - [Star] Aberulug a, [Planet] Aberulug a -> I, [Moon] Aberulug a -> I -> 1
