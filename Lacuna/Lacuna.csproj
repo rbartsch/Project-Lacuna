@@ -48,14 +48,14 @@
   <ItemGroup>
     <Compile Include="AstronomicalObjects\AsteroidBelt.cs" />
     <Compile Include="AstronomicalObjects\AstronomicalObject.cs" />
-    <Compile Include="AstronomicalObjects\Cluster.cs" />
+    <Compile Include="Camera2D.cs" />
+    <Compile Include="ClusterObjects\Cluster.cs" />
     <Compile Include="Generators\ClusterGenerator.cs" />
     <Compile Include="AstronomicalObjects\Moon.cs" />
-    <Compile Include="AstronomicalObjects\PlanetarySystem.cs" />
+    <Compile Include="ClusterObjects\PlanetarySystem.cs" />
     <Compile Include="AstronomicalObjects\Planet.cs" />
     <Compile Include="AstronomicalObjects\Star.cs" />
     <Compile Include="Generators\NameGenerator.cs" />
-    <Compile Include="Generators\PlanetarySystemGenerator.cs" />
     <Compile Include="Graphics\Line.cs" />
     <Compile Include="Persistence.cs" />
     <Compile Include="Screens\StarMapScreen.cs" />

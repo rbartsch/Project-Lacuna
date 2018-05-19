@@ -19,25 +19,32 @@ namespace Lacuna {
         public SpriteEffects SpriteEffects { get; set; }
         public float LayerDepth { get; set; }
         public bool DoDraw { get; set; } = true;
+        public bool DrawInScreenSpace { get; set; }
 
         // ------------------------------------------------------------------------------------------
-        public Drawable2D(Vector2 position, Color color, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.0f) {
+        public Drawable2D(Vector2 position, Color color, bool drawInScreenSpace = false, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.0f) {
             Position = position;
             Color = color;
+            DrawInScreenSpace = drawInScreenSpace;
             Tag = tag;
             Rotation = rotation;
             Origin = origin ?? Vector2.Zero;
             Scale = scale ?? Vector2.One;
             SpriteEffects = spriteEffects;
             LayerDepth = layerDepth;
-            if (Drawable2DManager.IsUnassignedScreenDrawable2DList()) {
+            if (Drawable2DManager.IsUnassignedScreenDrawable2DsList()) {
                 ConsoleColor originalColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Warning: A Drawable2D is being created without being added to a screen's internal Drawable2D list.\n\t If this is intended make sure to manually call its draw method.");
                 Console.ForegroundColor = originalColor;
             }
             else {
-                Drawable2DManager.Add(this);
+                if (!DrawInScreenSpace) {
+                    Drawable2DManager.AddToDrawable2DList(this);
+                }
+                else {
+                    Drawable2DManager.AddToScreenSpaceDrawable2DList(this);
+                }
             }
         }
 

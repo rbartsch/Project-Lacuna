@@ -16,7 +16,7 @@ namespace Lacuna {
         public Rectangle Area { get => new Rectangle((int)Position.X, (int)Position.Y, Width, Height); }
 
         // ------------------------------------------------------------------------------------------
-        public Sprite(string texture2DName, Vector2 position, Color color, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.1f) : base(position, color, tag, rotation, origin, scale, spriteEffects, layerDepth) {
+        public Sprite(string texture2DName, Vector2 position, Color color, bool drawInScreenSpace = false, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.12f) : base(position, color, drawInScreenSpace, tag, rotation, origin, scale, spriteEffects, layerDepth) {
             texture2D = AssetManager.GetAsset(AssetType.Texture2D, texture2DName);
         }
 

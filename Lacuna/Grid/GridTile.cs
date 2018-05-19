@@ -12,6 +12,7 @@ namespace Lacuna {
         public Vector2 WorldPosition { get => sprite.Position; set => sprite.Position = value; }
         public Point GridPosition { get; set; }
         public bool Occupied { get; set; }
+        public bool Passable { get; set; }
 
         // ------------------------------------------------------------------------------------------
         public GridTile(Sprite tileSprite, Point gridPosition) {

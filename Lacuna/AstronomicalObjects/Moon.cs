@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace Lacuna.AstronomicalObjects {
     public class Moon : AstronomicalObject {
-        public Moon(string texture2DPath, IsoGrid grid, Point gridPosition) : base(texture2DPath, grid, gridPosition) {
+        public Planet Parent { get; set; }
+
+        public Moon(string name, Planet parent) : base(name) {
+            Parent = parent;
         }
     }
 }

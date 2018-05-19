@@ -34,7 +34,7 @@ Other mechanics:
 
 - Dice rolls to resolve almost everything.
 - Rolls still determine things like chance to hit based on target maneuverability, but strategy of ship positioning is entirely dependent on the player.
-- Events with a short and long text narrative that can involve a wide range of activities and situations, such as stumbling upon a derelict ship randomly, with associated text narrative/adventure. An emphasis on writing strong short stories and short events, as well as connected arcs.
+- Events with a short and long text narrative that can involve a wide range of activities and situations, such as stumbling upon a derelict ship randomly that can branch into salvaging or mishaps, with associated text narrative/adventure. An emphasis on writing strong short stories and short events, as well as connected arcs.
 - Interactions with other ships can involve hailing them, diplomacy, trade, surrender terms, etc.
 - You can send out probes to scout the grid and other star systems.
 - Game has an economy, trade and manufacturing/industry jobs i.e EVE Online-style.
@@ -44,7 +44,7 @@ Graphics:
 
 - Procedural celestial generation, or make all celestial graphics white and then randomise colours? Or use parts to build up celestial objects like independent rings
 - Display arrows next to ship if adjacent grid is valid move position
-- Display small banners/images for events/planets selections like PDX GSG style, use minimalism
+- Display small banners/images for events/planets selections like PDX GSG style, use minimalism. Make use of procedural generation to generate horizonal views of city skyscrapers etc
 
 Game/Engine Technical:
 

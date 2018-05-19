@@ -5,11 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Lacuna {
+    // TODO: Refactor to normal class away from static
     public static class Rng {
         public static Random Random { get; private set; } = new Random();
 
+        public static void Initialize() {
+            Random = new Random();
+        }
+
         // ------------------------------------------------------------------------------------------
-        public static void SetSeed(int seed) {
+        public static void InitializeWithSeed(int seed) {
             Random = new Random(seed);
         }
 

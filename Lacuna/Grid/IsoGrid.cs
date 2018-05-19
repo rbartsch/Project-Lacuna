@@ -83,15 +83,17 @@ namespace Lacuna {
         }
 
         // ------------------------------------------------------------------------------------------
-        public bool OccupyGridTileByPoint(Point p, ref GridTile activeGridTile) {
+        public bool OccupyGridTileByPoint(Point p, ref GridTile activeGridTile, bool passable) {
             if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
                 return false;
 
-            if (GetGridTileByPoint(p).Occupied)
+            if (GetGridTileByPoint(p).Occupied && !GetGridTileByPoint(p).Passable)
                 return false;
 
             activeGridTile.Occupied = false;
+            activeGridTile.Passable = true;
             GetGridTileByPoint(p).Occupied = true;
+            GetGridTileByPoint(p).Passable = passable;
             activeGridTile = GetGridTileByPoint(p);
 
             //foreach (GridTile g in GridTiles) {

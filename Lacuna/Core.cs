@@ -54,6 +54,7 @@ namespace Lacuna {
             }
         }
 
+        // ------------------------------------------------------------------------------------------
         public Core() {
             Form form = (Form)Control.FromHandle(Window.Handle);
             form.Cursor = GetCursor("cursor");
@@ -73,6 +74,8 @@ namespace Lacuna {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
+            Rng.Initialize();
+
             ScreenManager.AddScreen(new GameplayScreen(this));
             ScreenManager.AddScreen(new TestScreen(this));
             ScreenManager.AddScreen(new MainMenuScreen(this));
@@ -117,6 +120,7 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.Texture2D, "background_5");
             AssetManager.LoadAsset(AssetType.Texture2D, "star_map_planetary_system_button");
             AssetManager.LoadAsset(AssetType.Texture2D, "local_map_grid_tile");
+            AssetManager.LoadAsset(AssetType.Texture2D, "star_map_selected_system_panel");
 
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");

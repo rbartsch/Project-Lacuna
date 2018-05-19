@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 
 namespace Lacuna {
-    // TODO: Be able to specify custom sound effects
+    // TODO: Be able to specify custom sound effects, improve performance by refactoring update out into
+    // an event instead, otherwise if any situation needs thousands of buttons (highly unlikely) it can impact fps
     public class Button {
         public Sprite Image { get; set; }
         public string Text { get => text2D.Text; set => text2D.Text = value; }
@@ -59,13 +60,13 @@ namespace Lacuna {
 
         // ------------------------------------------------------------------------------------------
         public void SetTextBelow() {
-            text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y + Area.Height + text2D.MeasureString().Y / 2);
+            text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y + Area.Height + (float)Math.Round(text2D.MeasureString().Y / 2));
             text2D.SetOriginCenter();
         }
 
         // ------------------------------------------------------------------------------------------
         public void SetTextAbove() {
-            text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y - text2D.MeasureString().Y / 2);
+            text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y - (float)Math.Round(text2D.MeasureString().Y / 2));
             text2D.SetOriginCenter();
         }
 
@@ -75,9 +76,18 @@ namespace Lacuna {
         }
 
         // ------------------------------------------------------------------------------------------
-        public void Update(MouseState mouseState) {
+        public void Update(MouseState mouseState, Camera2D camera2D = null) {
             if (Click != null && Click.GetInvocationList().Length > 0) {
                 MouseArea = new Rectangle(mouseState.X, mouseState.Y, MouseArea.Width, MouseArea.Height);
+
+                // Transform Mouse.GetState() mouse pos which is screen position to world position
+                // Useful for clicking on things that are in "world space" and not "screen space"
+                if (camera2D != null) {
+                    Matrix inverseTransform = Matrix.Invert(camera2D.Transform);
+                    Vector2 mouseInWorld = Vector2.Transform(new Vector2(MouseArea.X, MouseArea.Y), inverseTransform);
+                    mouseInWorld = new Vector2(mouseInWorld.X, mouseInWorld.Y);
+                    MouseArea = new Rectangle((int)mouseInWorld.X, (int)mouseInWorld.Y, MouseArea.Width, MouseArea.Height);
+                }
 
                 if (Area.Contains(MouseArea)) {
                     Image.Color = HoverColor;

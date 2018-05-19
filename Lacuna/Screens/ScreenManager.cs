@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Lacuna {
+    // TODO: Refactor initialize and load
     public static class ScreenManager {
         private static List<Screen> screens = new List<Screen>();
         private static Screen activeScreen;
@@ -72,20 +73,6 @@ namespace Lacuna {
             Drawable2DManager.AssignScreenDrawable2DList(activeScreen);
         }
 
-        // Initialize all screens at startup, usually the assets are loaded at startup first
-        // for these screens, these aren't screens that must load new assets on initializing
-        // because it is unnecessary and would increase load time for no reason
-        // ------------------------------------------------------------------------------------------
-        public static void InitializeScreens() {
-            foreach(Screen s in screens) {
-                if (s.InitializeOnStartup) {
-                    Console.WriteLine("Initializing screen: " + s.Name);
-                    Drawable2DManager.AssignScreenDrawable2DList(s);
-                    s.Initialize();
-                }
-            }
-        }
-
         // Used for when we want to initialize a screen later on the game when first switching
         // and has new assets that must be also loaded before initializing. May be useful for large
         // levels for example that load in new assets not loaded on startup.
@@ -108,7 +95,7 @@ namespace Lacuna {
             screen.Initialize();
         }
 
-        // Load all screens game content on startup.
+        // Load all screen game content
         // ------------------------------------------------------------------------------------------
         private static void LoadContentScreen(Screen screen) {
             Console.WriteLine("Loading content for screen: " + screen.Name);

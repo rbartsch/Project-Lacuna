@@ -14,7 +14,7 @@ namespace Lacuna {
         public Vector2 EndPosition { get; set; }
         public int Width { get; set; }
 
-        public Line(Vector2 startPosition, Vector2 endPosition, int width, Color color, string tag = "", float layerDepth = 0.1f) : base(startPosition, color, tag, 0f, null, null, SpriteEffects.None, layerDepth) {
+        public Line(Vector2 startPosition, Vector2 endPosition, int width, Color color, bool drawInScreenSpace, string tag = "", float layerDepth = 0.11f) : base(startPosition, color, drawInScreenSpace, tag, 0f, null, null, SpriteEffects.None, layerDepth) {
             EndPosition = endPosition;
             Width = width;
 

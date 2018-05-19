@@ -14,7 +14,7 @@ namespace Lacuna {
         private SpriteFont spriteFont;
 
         // ------------------------------------------------------------------------------------------
-        public Text2D(string spriteFontName, string text, Vector2 position, Color color, string tag = "") : base(position, color, tag, 0f, null, null, SpriteEffects.None, 0.0f) {
+        public Text2D(string spriteFontName, string text, Vector2 position, Color color, bool drawInScreenSpace = false, string tag = "", float layerDepth = 0.11f) : base(position, color, drawInScreenSpace, tag, 0f, null, null, SpriteEffects.None, layerDepth) {
             spriteFont = AssetManager.GetAsset(AssetType.SpriteFont, spriteFontName);
             Text = text;
         }

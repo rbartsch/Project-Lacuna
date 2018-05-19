@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Utils {
+namespace Lacuna {
     // http://rosettacode.org/wiki/Roman_numerals/Encode
     public static class RomanNumeral {
         private static uint[] nums = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };

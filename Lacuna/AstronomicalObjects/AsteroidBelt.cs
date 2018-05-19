@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace Lacuna.AstronomicalObjects {
     public class AsteroidBelt : AstronomicalObject {
-        public AsteroidBelt(string texture2DPath, IsoGrid grid, Point gridPosition) : base(texture2DPath, grid, gridPosition) {
+        AstronomicalObject Parent { get; set; }
+
+        public AsteroidBelt(string name, AstronomicalObject parent) : base(name) {
+            Parent = parent;
         }
     }
 }

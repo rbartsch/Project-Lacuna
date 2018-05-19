@@ -17,7 +17,7 @@ namespace Lacuna {
         public Rectangle Area { get => new Rectangle((int)Position.X, (int)Position.Y, Width, Height); }
 
         // ------------------------------------------------------------------------------------------
-        public MultiSprite(string[] texture2DNames, Vector2 position, Color color, string tag = "", float rotation = 0, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.1f) : base(position, color, tag, rotation, origin, scale, spriteEffects, layerDepth) {
+        public MultiSprite(string[] texture2DNames, Vector2 position, Color color, bool drawInScreenSpace = false, string tag = "", float rotation = 0, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.12f) : base(position, color, drawInScreenSpace, tag, rotation, origin, scale, spriteEffects, layerDepth) {
             texture2Ds = new Texture2D[texture2DNames.Length];
             for(int i = 0; i < texture2Ds.Length; i++) {
                 if(texture2DNames[i] != null) {

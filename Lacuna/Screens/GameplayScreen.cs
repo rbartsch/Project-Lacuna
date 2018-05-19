@@ -46,8 +46,8 @@ namespace Lacuna
                 "ship_1_left"
             }, grid, new Point(1, 2));
 
-            planet = new Sprite("planet_rocky", grid.GetGridTileWorldPosByPoint(new Point(2, 1)), Color.White, "", 0, null, null, SpriteEffects.None, 0.2f);
-            gasGiant = new Sprite("gas_giant", grid.GetGridTileWorldPosByPoint(new Point(0, 2)), Color.White, "", 0, null, null, SpriteEffects.None, 0.2f);
+            planet = new Sprite("planet_rocky", grid.GetGridTileWorldPosByPoint(new Point(2, 1)), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f);
+            gasGiant = new Sprite("gas_giant", grid.GetGridTileWorldPosByPoint(new Point(0, 2)), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f);
 
             npcShip = new NpcShip(new string[] {
                 "ship_2_forward",
