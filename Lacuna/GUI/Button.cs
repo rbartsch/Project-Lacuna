@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Lacuna {
@@ -25,31 +26,30 @@ namespace Lacuna {
 
         private Text2D text2D;
         private SoundEffect hoverSoundEffect;
-        private SoundEffectInstance hoverSoundEffectInstance;
         private SoundEffect clickSoundEffect;
-        private SoundEffectInstance clickSoundEffectInstance;
         private bool readyToPlay = true;
 
         // ------------------------------------------------------------------------------------------
-        public Button(string texture2DName, string spriteFontName, Vector2 position, string text, Color defaultColor, Color hoverColor, Color clickColor) {
-            Image = new Sprite(texture2DName, position, DefaultColor);
+        public Button(string texture2DName, string spriteFontName, Vector2 position, string text, Color defaultColor, Color hoverColor, Color clickColor, bool drawInScreenSpace, float layerDepth = 0.12f) {
+            Image = new Sprite(texture2DName, position, DefaultColor, drawInScreenSpace, "", 0, null, null, SpriteEffects.None, layerDepth);
             MouseArea = new Rectangle(0, 0, 2, 2);
             DefaultColor = defaultColor;
             HoverColor = hoverColor;
             ClickColor = clickColor;
 
-            text2D = new Text2D(spriteFontName, text, new Vector2(0, 0), Color.White);
+            text2D = new Text2D(spriteFontName, text, new Vector2(0, 0), Color.White, drawInScreenSpace, "", layerDepth-0.01f);
 
             Area = Image.Area;
             Image.Position = new Vector2(Area.X, Area.Y);
             SetTextCenter();
 
             hoverSoundEffect = AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
-            hoverSoundEffectInstance = hoverSoundEffect.CreateInstance();
-            hoverSoundEffectInstance.Volume = 0.2f;
             clickSoundEffect= AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
-            clickSoundEffectInstance = clickSoundEffect.CreateInstance();
-            clickSoundEffectInstance.Volume = 0.2f;
+        }
+
+        // ------------------------------------------------------------------------------------------
+        public void ClearSubscriptions() {
+            Click = null;
         }
 
         // ------------------------------------------------------------------------------------------
@@ -91,6 +91,7 @@ namespace Lacuna {
 
                 if (Area.Contains(MouseArea)) {
                     Image.Color = HoverColor;
+                    //text2D.Color = HoverColor;
 
                     if (readyToPlay) {
                         hoverSoundEffect.Play(0.2f, 0f, 0f);
@@ -99,6 +100,7 @@ namespace Lacuna {
 
                     if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released) {
                         Image.Color = ClickColor;
+                        //text2D.Color = ClickColor;
 
                         clickSoundEffect.Play(0.2f, 0f, 0f);
 
@@ -110,6 +112,7 @@ namespace Lacuna {
                 }
                 else {
                     Image.Color = DefaultColor;
+                    //text2D.Color = DefaultColor;
                     readyToPlay = true;
                 }
             }

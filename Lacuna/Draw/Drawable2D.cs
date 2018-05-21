@@ -48,6 +48,7 @@ namespace Lacuna {
             }
         }
 
+        // ------------------------------------------------------------------------------------------
         public virtual void Draw(SpriteBatch spriteBatch) { }
     }
 }

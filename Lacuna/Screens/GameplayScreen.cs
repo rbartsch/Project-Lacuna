@@ -33,7 +33,7 @@ namespace Lacuna
         public override void Initialize() {
             uiLayout = new Sprite("ui_layout", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White);
 
-            button = new Button("button", "Terminus", new Vector2(Core.minRelativeWidth + 117, Core.minRelativeHeight + 220), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255));
+            button = new Button("button", "Terminus", new Vector2(Core.minRelativeWidth + 117, Core.minRelativeHeight + 220), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
             button.Click += Test;
 
             grid = new IsoGrid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minRelativeWidth, 261 + Core.minRelativeHeight), "single_blue_grid_tile");

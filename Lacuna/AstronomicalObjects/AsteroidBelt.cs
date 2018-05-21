@@ -9,6 +9,7 @@ namespace Lacuna.AstronomicalObjects {
     public class AsteroidBelt : AstronomicalObject {
         AstronomicalObject Parent { get; set; }
 
+        // ------------------------------------------------------------------------------------------
         public AsteroidBelt(string name, AstronomicalObject parent) : base(name) {
             Parent = parent;
         }

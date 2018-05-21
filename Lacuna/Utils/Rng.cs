@@ -9,6 +9,7 @@ namespace Lacuna {
     public static class Rng {
         public static Random Random { get; private set; } = new Random();
 
+        // ------------------------------------------------------------------------------------------
         public static void Initialize() {
             Random = new Random();
         }

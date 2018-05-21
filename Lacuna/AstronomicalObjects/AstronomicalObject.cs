@@ -14,21 +14,27 @@ namespace Lacuna.AstronomicalObjects {
         private IsoGrid grid;
         private GridTile activeGridTile;
 
+        // ------------------------------------------------------------------------------------------
         public AstronomicalObject(string name) {
             Name = name;
         }
 
-        public bool BuildWorldData(string texture2DPath, IsoGrid grid, Point gridPosition) {
+        // ------------------------------------------------------------------------------------------
+        public bool CanAssignWorldPosition(IsoGrid grid, Point gridPosition) {
             GridPosition = gridPosition;
             this.grid = grid;
             activeGridTile = grid.GetGridTileByPoint(gridPosition);
             if (grid.OccupyGridTileByPoint(gridPosition, ref activeGridTile, true)) {
-                Sprite = new Sprite(texture2DPath, grid.GetGridTileWorldPosByPoint(gridPosition), Color.White);
                 return true;
             }
             else {
                 return false;
             }
+        }
+
+        // ------------------------------------------------------------------------------------------
+        public void AssignGraphicData(string texture2DPath) {
+            Sprite = new Sprite(texture2DPath, grid.GetGridTileWorldPosByPoint(GridPosition), Color.White);
         }
     }
 }

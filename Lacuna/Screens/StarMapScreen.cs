@@ -16,32 +16,57 @@ namespace Lacuna {
         public Camera2D camera2D;
         Sprite planetarySystemSummaryPanel;
         Text2D planetarySystemSummary;
+        Button viewLocalPlanetarySystemButton;
 
-        public void Test(object s, EventArgs e) {
-            Console.WriteLine("Test");
+        // ------------------------------------------------------------------------------------------
+        public StarMapScreen(Core core) : base("StarMapScreen", core, false) {
+            camera2D = new Camera2D(core.GraphicsDevice.Viewport);
+            CameraTransform = camera2D.Transform;
+            camera2D.MoveCamera(new Vector2(Core.graphics.PreferredBackBufferWidth / 2, -Core.graphics.PreferredBackBufferHeight / 2));
         }
 
+        // ------------------------------------------------------------------------------------------
+        public override void Initialize() {
+            BuildMap();
+            planetarySystemSummaryPanel = new Sprite("star_map_selected_system_panel", new Vector2(10, 10), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
+            planetarySystemSummary = new Text2D("Terminus", "", new Vector2(16, planetarySystemSummaryPanel.Position.Y + 27), Color.White, true, "", 0.09f);
+            viewLocalPlanetarySystemButton = new Button("button", "Terminus", new Vector2(22, planetarySystemSummaryPanel.Position.Y + 149), "View Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true, 0.09f);
+
+            base.Initialize();
+        }
+
+        // ------------------------------------------------------------------------------------------
+        public void ViewLocalMap(object sender, EventArgs e, PlanetarySystem planetarySystem) {
+            Screen s = ScreenManager.GetScreen("PlanetarySystemMapScreen");
+            s.Initialized = false;
+            ScreenManager.InitializeScreen("PlanetarySystemMapScreen");
+            s = ScreenManager.GetScreen("PlanetarySystemMapScreen");
+            ((PlanetarySystemMapScreen)s).ReadPlanetarySystem(planetarySystem);
+            ScreenManager.SwitchScreen("PlanetarySystemMapScreen");
+        }
+
+        // ------------------------------------------------------------------------------------------
         public void PrintPlanetarySystem(object sender, EventArgs e, PlanetarySystem planetarySystem) {
             int nStars = 0;
             int nPlanets = 0;
             int nMoons = 0;
             Console.WriteLine("-- Planetary System (" + planetarySystem.Name + ") --");
-            foreach(AstronomicalObject a in planetarySystem.AstronomicalObjects) {
-                if(a is Star star) {
+            foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
+                if (a is Star star) {
                     Console.WriteLine("[Star]");
                     Console.WriteLine("=> " + star.Name + ":");
                     nStars++;
 
-                    foreach(AstronomicalObject p in planetarySystem.AstronomicalObjects) {
-                        if(p is Planet planet) {
+                    foreach (AstronomicalObject p in planetarySystem.AstronomicalObjects) {
+                        if (p is Planet planet) {
                             nPlanets++;
-                            if(planet.Parent == star) {
+                            if (planet.Parent == star) {
                                 Console.WriteLine("     [Planet]");
                                 Console.WriteLine("     => " + p.Name + ":");
 
-                                foreach(AstronomicalObject m in planetarySystem.AstronomicalObjects) {
-                                    if(m is Moon moon) {
-                                        if(moon.Parent == planet) {
+                                foreach (AstronomicalObject m in planetarySystem.AstronomicalObjects) {
+                                    if (m is Moon moon) {
+                                        if (moon.Parent == planet) {
                                             nMoons++;
                                             Console.WriteLine("         [Moon]");
                                             Console.WriteLine("         => " + m.Name);
@@ -53,29 +78,20 @@ namespace Lacuna {
                     }
                 }
             }
-          
+
             Console.WriteLine("----------------------");
 
-            planetarySystemSummary.Text = string.Format("{0}:\n{1}   Stars(s)\n{2}   Planet(s)\n{3}   Moon(s)", planetarySystem.Name, nStars, nPlanets, nMoons);
+            planetarySystemSummary.Text = string.Format("{0}:\n{1}   Star(s)\n{2}   Planet(s)\n{3}   Moon(s)", planetarySystem.Name, nStars, nPlanets, nMoons);
+            viewLocalPlanetarySystemButton.ClearSubscriptions();
+            viewLocalPlanetarySystemButton.Click += delegate (object s, EventArgs ee) {
+                ViewLocalMap(s, ee, planetarySystem);
+            };
         }
 
-        public StarMapScreen(Core core, bool initializeOnStartup = true) : base("StarMapScreen", core, initializeOnStartup) {
-            camera2D = new Camera2D(core.GraphicsDevice.Viewport);
-            CameraTransform = camera2D.Transform;
-            camera2D.MoveCamera(new Vector2(Core.graphics.PreferredBackBufferWidth / 2, -Core.graphics.PreferredBackBufferHeight / 2));
-        }
-
-        public override void Initialize() {
-            BuildMap();
-            planetarySystemSummaryPanel = new Sprite("star_map_selected_system_panel", new Vector2(10, 100), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
-            planetarySystemSummary = new Text2D("Terminus", "", new Vector2(16, 127), Color.White, true, "", 0.09f);
-
-            base.Initialize();
-        }
-
+        // ------------------------------------------------------------------------------------------
         public void BuildMap() {
             foreach(PlanetarySystem p in Persistence.cluster.PlanetarySystems) {
-                markers.Add(new Button("star_map_planetary_system_button", "Terminus", p.WorldPosition, p.Name, Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255)));
+                markers.Add(new Button("star_map_planetary_system_button", "Terminus", p.WorldPosition, p.Name, Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
                 //markers.Last().Click += Test;
                 markers.Last().Click += delegate (object s, EventArgs e) {
                     PrintPlanetarySystem(s, e, p);
@@ -84,13 +100,20 @@ namespace Lacuna {
             }
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             foreach(Button b in markers) {
                 b.Update(Mouse.GetState(), camera2D);
             }
 
+            if (NewKeyState.IsKeyDown(Keys.Escape) && OldKeyState.IsKeyDown(Keys.Escape)) {
+                ScreenManager.SwitchScreen("MainMenuScreen");
+            }
+
             camera2D.Update(Core.GraphicsDevice.Viewport, gameTime, NewKeyState, OldKeyState, Mouse.GetState());
             CameraTransform = camera2D.Transform;
+
+            viewLocalPlanetarySystemButton.Update(Mouse.GetState());
 
             base.Update(gameTime, NewKeyState, OldKeyState);
         }

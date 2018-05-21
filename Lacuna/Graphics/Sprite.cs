@@ -42,6 +42,7 @@ namespace Lacuna {
             return buffer.All(c => c == Color.Transparent);
         }
 
+        // ------------------------------------------------------------------------------------------
         public override void Draw(SpriteBatch spriteBatch) {
             if (texture2D != null && DoDraw) {
                 spriteBatch.Draw(texture2D, ParentPosition + Position, null, Color, Rotation, Origin, Scale, SpriteEffects, LayerDepth);

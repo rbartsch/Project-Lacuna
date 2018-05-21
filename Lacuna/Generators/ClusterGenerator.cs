@@ -94,19 +94,25 @@ namespace Lacuna.Generators {
             return planetarySystem;
         }
 
+        // ------------------------------------------------------------------------------------------
         public Star GenerateStar(PlanetarySystem planetarySystem, int nStar) {
             Star star = new Star(planetarySystem.Name);
             star.Name = star.Name.Insert(star.Name.Length, " " + starNumToLetter[nStar]);
+            star.Type = StarType.MainSequence;
             return star;
         }
 
+        // ------------------------------------------------------------------------------------------
         public Planet GeneratePlanet(Star star, int nPlanet) {
             Planet planet = new Planet(star.Name + " " + RomanNumeral.Encode((uint)nPlanet), star);
+            planet.Type = (PlanetType)Rng.Random.Next(0, Enum.GetValues(typeof(PlanetType)).Cast<int>().Max() + 1);
             return planet;
         }
 
+        // ------------------------------------------------------------------------------------------
         public Moon GenerateMoon(Planet planet, int nMoon) {
             Moon moon = new Moon(planet.Name + " " + nMoon.ToString(), planet);
+            planet.Type = (PlanetType)Rng.Random.Next(0, Enum.GetValues(typeof(MoonType)).Cast<int>().Max() + 1);
             return moon;
         }
     }

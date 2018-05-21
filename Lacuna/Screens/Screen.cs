@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Lacuna {
+    // TODO: We should notify a screen when we switch back, useful for example to replay the mainmenu music when switching back and forth to it
     public abstract class Screen {
         // Maybe we should have a new contentmanager per screen? then we can unload each screen if needed
         public ContentManager Content;

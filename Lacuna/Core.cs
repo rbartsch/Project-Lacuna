@@ -80,6 +80,7 @@ namespace Lacuna {
             ScreenManager.AddScreen(new TestScreen(this));
             ScreenManager.AddScreen(new MainMenuScreen(this));
             ScreenManager.AddScreen(new StarMapScreen(this));
+            ScreenManager.AddScreen(new PlanetarySystemMapScreen(this));
 
             base.Initialize();
         }
@@ -121,11 +122,19 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.Texture2D, "star_map_planetary_system_button");
             AssetManager.LoadAsset(AssetType.Texture2D, "local_map_grid_tile");
             AssetManager.LoadAsset(AssetType.Texture2D, "star_map_selected_system_panel");
+            AssetManager.LoadAsset(AssetType.Texture2D, "local_map_horizontal_divider");
+            AssetManager.LoadAsset(AssetType.Texture2D, "local_map_name_divider");
+            AssetManager.LoadAsset(AssetType.Texture2D, "local_map_object_name_divider");
+            AssetManager.LoadAsset(AssetType.Texture2D, "local_map_travel_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "local_map_vertical_divider");
+            AssetManager.LoadAsset(AssetType.Texture2D, "camera_pan_arrow");
+            AssetManager.LoadAsset(AssetType.Texture2D, "menu_title");
 
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
 
             AssetManager.LoadAsset(AssetType.Song, "PM_CINEMATIC_SOUNDSCAPES__38");
+            AssetManager.LoadAsset(AssetType.Song, "PM_FN_Music_SeamlessLoop_1C_resampled");
 
             AssetManager.LoadAsset(AssetType.SpriteFont, "Arial");
             AssetManager.LoadAsset(AssetType.SpriteFont, "SourceCodePro");
@@ -133,7 +142,7 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.SpriteFont, "TinyUnicode");
             AssetManager.LoadAsset(AssetType.SpriteFont, "Verdana");
 
-            info = new Text2D("TinyUnicode", string.Format(""), new Vector2(1, -3), Color.White);
+            info = new Text2D("TinyUnicode", string.Format(""), new Vector2(1, graphics.PreferredBackBufferHeight-98), Color.White);
 
             //ScreenManager.InitializeScreens();
             ScreenManager.InitializeScreen("MainMenuScreen");
