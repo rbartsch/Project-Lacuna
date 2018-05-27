@@ -13,6 +13,7 @@ namespace Lacuna {
     public abstract class Screen {
         // Maybe we should have a new contentmanager per screen? then we can unload each screen if needed
         public ContentManager Content;
+        // Drawables are handled per screen, and their objects should always be created there
         public List<Drawable2D> Drawable2Ds = new List<Drawable2D>();
         public List<Drawable2D> ScreenSpaceDrawable2Ds = new List<Drawable2D>();
         public string Name { get; set; }

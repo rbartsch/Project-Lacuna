@@ -14,11 +14,10 @@ namespace Lacuna {
         public Rectangle Bounds { get; protected set; }
         public Rectangle VisibleArea { get; protected set; }
         public Matrix Transform { get; protected set; }
+        public bool CanZoom { get; set; } = true;
 
         private float currentMouseWheelValue;
         float previousMouseWheelValue;
-        float zoom;
-        float previousZoom;
 
         // ------------------------------------------------------------------------------------------
         public Camera2D(Viewport viewport) {
@@ -71,7 +70,7 @@ namespace Lacuna {
         }
 
         // ------------------------------------------------------------------------------------------
-        public void Update(Viewport bounds, GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState, MouseState mouseState) {
+        public void Update(Viewport bounds, GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState, MouseState mouseState, bool horizontalOnly = false) {
             Bounds = bounds.Bounds;
             UpdateMatrix();
 
@@ -112,12 +111,14 @@ namespace Lacuna {
             }
 
             // Mouse
-            if (mouseState.Position.Y <= 0) {
-                cameraMovement.Y = moveSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            if (!horizontalOnly) {
+                if (mouseState.Position.Y <= 0) {
+                    cameraMovement.Y = moveSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
 
-            if (mouseState.Position.Y >= Bounds.Height - 1) {
-                cameraMovement.Y = -moveSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (mouseState.Position.Y >= Bounds.Height - 1) {
+                    cameraMovement.Y = -moveSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
             }
 
             if (mouseState.Position.X <= 0) {
@@ -132,17 +133,15 @@ namespace Lacuna {
             currentMouseWheelValue = mouseState.ScrollWheelValue;
 
             if (currentMouseWheelValue > previousMouseWheelValue) {
-                AdjustZoom(1.0f);
+                // Zoom will stop zoom on a screen, but using the scroll wheel Mouse.GetState() still changes scroll value,
+                // so when switchihg to a screen that allows zoom, it could be zoomed a little on switch
+                if(CanZoom)
+                    AdjustZoom(1.0f);
             }
 
             if (currentMouseWheelValue < previousMouseWheelValue) {
-                AdjustZoom(-1.0f);
-            }
-
-            previousZoom = zoom;
-            zoom = Zoom;
-            if (previousZoom != zoom) {
-
+                if(CanZoom)
+                    AdjustZoom(-1.0f);
             }
 
             cameraMovement.X = (float)Math.Round(cameraMovement.X);

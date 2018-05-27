@@ -32,7 +32,7 @@ namespace Lacuna
 
             song = AssetManager.GetAsset(AssetType.Song, "PM_FN_Music_SeamlessLoop_1C_resampled");
             MediaPlayer.Play(song);
-            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.Volume = 0.3f;
             MediaPlayer.IsRepeating = true;
 
             base.Initialize();

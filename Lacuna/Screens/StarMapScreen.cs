@@ -17,6 +17,8 @@ namespace Lacuna {
         Sprite planetarySystemSummaryPanel;
         Text2D planetarySystemSummary;
         Button viewLocalPlanetarySystemButton;
+        Button backToGameplayButton;
+        Text2D title;
 
         // ------------------------------------------------------------------------------------------
         public StarMapScreen(Core core) : base("StarMapScreen", core, false) {
@@ -25,12 +27,19 @@ namespace Lacuna {
             camera2D.MoveCamera(new Vector2(Core.graphics.PreferredBackBufferWidth / 2, -Core.graphics.PreferredBackBufferHeight / 2));
         }
 
+        public void ViewGameplay(object s, EventArgs e) {
+            ScreenManager.SwitchScreen("GameplayScreen");
+        }
+
         // ------------------------------------------------------------------------------------------
         public override void Initialize() {
             BuildMap();
-            planetarySystemSummaryPanel = new Sprite("star_map_selected_system_panel", new Vector2(10, 10), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
+            planetarySystemSummaryPanel = new Sprite("star_map_selected_system_panel", new Vector2(10, 80), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
             planetarySystemSummary = new Text2D("Terminus", "", new Vector2(16, planetarySystemSummaryPanel.Position.Y + 27), Color.White, true, "", 0.09f);
             viewLocalPlanetarySystemButton = new Button("button", "Terminus", new Vector2(22, planetarySystemSummaryPanel.Position.Y + 149), "View Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true, 0.09f);
+            title = new Text2D("Terminus", "Cluster Star Map", new Vector2(10, 5), Color.White, true);
+            backToGameplayButton = new Button("button", "Terminus", new Vector2(10, 30), "Back", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
+            backToGameplayButton.Click += ViewGameplay;
 
             base.Initialize();
         }
@@ -40,7 +49,6 @@ namespace Lacuna {
             Screen s = ScreenManager.GetScreen("PlanetarySystemMapScreen");
             s.Initialized = false;
             ScreenManager.InitializeScreen("PlanetarySystemMapScreen");
-            s = ScreenManager.GetScreen("PlanetarySystemMapScreen");
             ((PlanetarySystemMapScreen)s).ReadPlanetarySystem(planetarySystem);
             ScreenManager.SwitchScreen("PlanetarySystemMapScreen");
         }
@@ -54,7 +62,7 @@ namespace Lacuna {
             foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
                 if (a is Star star) {
                     Console.WriteLine("[Star]");
-                    Console.WriteLine("=> " + star.Name + ":");
+                    Console.WriteLine("=> " + star.FullName + ":");
                     nStars++;
 
                     foreach (AstronomicalObject p in planetarySystem.AstronomicalObjects) {
@@ -62,14 +70,14 @@ namespace Lacuna {
                             nPlanets++;
                             if (planet.Parent == star) {
                                 Console.WriteLine("     [Planet]");
-                                Console.WriteLine("     => " + p.Name + ":");
+                                Console.WriteLine("     => " + p.FullName + ":");
 
                                 foreach (AstronomicalObject m in planetarySystem.AstronomicalObjects) {
                                     if (m is Moon moon) {
                                         if (moon.Parent == planet) {
                                             nMoons++;
                                             Console.WriteLine("         [Moon]");
-                                            Console.WriteLine("         => " + m.Name);
+                                            Console.WriteLine("         => " + m.FullName);
                                         }
                                     }
                                 }
@@ -114,6 +122,7 @@ namespace Lacuna {
             CameraTransform = camera2D.Transform;
 
             viewLocalPlanetarySystemButton.Update(Mouse.GetState());
+            backToGameplayButton.Update(Mouse.GetState());
 
             base.Update(gameTime, NewKeyState, OldKeyState);
         }

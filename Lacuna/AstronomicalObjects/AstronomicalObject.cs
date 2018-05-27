@@ -7,16 +7,17 @@ using Microsoft.Xna.Framework;
 
 namespace Lacuna.AstronomicalObjects {
     public abstract class AstronomicalObject {
-        public string Name { get; set; }
+        public string FullName { get; set; }
+        public string ShortName { get; set; }
         public Point GridPosition { get; set; }
-        public Sprite Sprite { get; set; }
+        public string Texture2DPath;
 
         private IsoGrid grid;
-        private GridTile activeGridTile;
+        private GridTile activeGridTile;        
 
         // ------------------------------------------------------------------------------------------
-        public AstronomicalObject(string name) {
-            Name = name;
+        public AstronomicalObject(string fullName) {
+            FullName = fullName;
         }
 
         // ------------------------------------------------------------------------------------------
@@ -30,11 +31,6 @@ namespace Lacuna.AstronomicalObjects {
             else {
                 return false;
             }
-        }
-
-        // ------------------------------------------------------------------------------------------
-        public void AssignGraphicData(string texture2DPath) {
-            Sprite = new Sprite(texture2DPath, grid.GetGridTileWorldPosByPoint(GridPosition), Color.White);
         }
     }
 }

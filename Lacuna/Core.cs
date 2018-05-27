@@ -14,8 +14,8 @@ namespace Lacuna {
     public class Core : Game {
         public readonly int minResolutionWidth = 1366;
         public readonly int minResolutionHeight = 768;
-        public int minRelativeWidth;
-        public int minRelativeHeight;
+        public int minResolutionRelativeWidth;
+        public int minResolutionRelativeHeight;
         float statDrawFrameRate;
         float statUpdateFrameRate;
 
@@ -41,8 +41,8 @@ namespace Lacuna {
 
             // If to scale with higher resolutions, subtract minimum target resolution from desired resolution, then divide that value by 2, then add that value to the resolution.
             // e.g for width of 682 and a minimum target resolution of 1366, 1920-1366=554, 554/2=277, 682+277=959.
-            minRelativeWidth = ((graphics.PreferredBackBufferWidth - minResolutionWidth) / 2);
-            minRelativeHeight = ((graphics.PreferredBackBufferHeight - minResolutionHeight) / 2);
+            minResolutionRelativeWidth = ((graphics.PreferredBackBufferWidth - minResolutionWidth) / 2);
+            minResolutionRelativeHeight = ((graphics.PreferredBackBufferHeight - minResolutionHeight) / 2);
         }
 
         // ------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ namespace Lacuna {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
             info.Draw(spriteBatch);
             spriteBatch.End();
-            info.Text = string.Format("project lacuna ver. 01 (dev)\n-\ndraw: {0}; count: {1}\nupdate: {2}\nassets loaded (global): {3}\n-\npress Esc for menu, WASD to move", statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
+            info.Text = string.Format("project lacuna ver. {0} (dev)\n-\ndraw: {1}; count: {2}\nupdate: {3}\nassets loaded (global): {4}\n-\npress Esc for menu. WASD to move and M to view star map while in gameplay screen", Application.ProductVersion, statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
 
             base.Draw(gameTime);
         }
