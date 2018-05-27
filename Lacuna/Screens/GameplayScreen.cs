@@ -14,7 +14,7 @@ namespace Lacuna {
         Sprite uiLayout;
         Button button;
         IsoGrid grid;
-        //PlayerShip playerShip;
+        PlayerShip playerShip;
         //Sprite planet;
         //Sprite gasGiant;
         //NpcShip npcShip;
@@ -57,12 +57,18 @@ namespace Lacuna {
 
             lastAstroObjsSprites.Clear();
 
+            // Clear any tiles that were set to occupied or non-passable from previous planetary system
+            foreach(GridTile tile in grid.GridTiles) {
+                tile.Occupied = false;
+                tile.Passable = true;
+            }
+
             Console.WriteLine("Adding new astronomical object sprites");
             foreach(AstronomicalObject astroObj in astroObjsGroup) {
-                lastAstroObjsSprites.Add(new Sprite(astroObj.Texture2DPath, grid.GetGridTileWorldPosByPoint(astroObj.GridPosition), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f));
-                Console.WriteLine(astroObj.GridPosition);
-                Console.WriteLine(lastAstroObjsSprites.Last().Position);
-                lastAstroObjsSprites.Last().SetOriginCenter();
+                if (grid.OccupyGridTileByPointAsStatic(astroObj.GridPosition, true)) {
+                    lastAstroObjsSprites.Add(new Sprite(astroObj.Texture2DPath, grid.GetGridTileWorldPosByPoint(astroObj.GridPosition), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f));
+                    lastAstroObjsSprites.Last().SetOriginCenter();
+                }
             }
         }
 
@@ -80,12 +86,12 @@ namespace Lacuna {
             grid = new IsoGrid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minResolutionRelativeWidth, 261 + Core.minResolutionRelativeHeight), "single_blue_grid_tile");
             grid.Construct();
 
-            //playerShip = new PlayerShip(new string[] {
-            //    "ship_1_forward",
-            //    "ship_1_backward",
-            //    "ship_1_right",
-            //    "ship_1_left"
-            //}, grid, new Point(1, 2));
+            playerShip = new PlayerShip(new string[] {
+                "ship_1_forward",
+                "ship_1_backward",
+                "ship_1_right",
+                "ship_1_left"
+            }, grid, new Point(1, 2));
 
             //planet = new Sprite("planet_rocky", grid.GetGridTileWorldPosByPoint(new Point(2, 1)), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f);
             //gasGiant = new Sprite("gas_giant", grid.GetGridTileWorldPosByPoint(new Point(0, 2)), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f);
@@ -109,8 +115,8 @@ namespace Lacuna {
                 t.SetOriginCenter();
             }
 
-            //playerShip.Sprite.SetOriginCenter();
-            //playerShip.SetDirection(ShipMoveDirection.Forward);
+            playerShip.Sprite.SetOriginCenter();
+            playerShip.SetDirection(ShipMoveDirection.Forward);
 
             //planet.SetOriginCenter();
             //gasGiant.SetOriginCenter();
@@ -130,7 +136,7 @@ namespace Lacuna {
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             button.Update(Mouse.GetState());
             starMapButton.Update(Mouse.GetState());
-            //playerShip.Update(NewKeyState, OldKeyState);
+            playerShip.Update(NewKeyState, OldKeyState);
             if (NewKeyState.IsKeyDown(Keys.Space) && OldKeyState.IsKeyUp(Keys.Space)) {
                 ScreenManager.SwitchScreen("TestScreen");
             }

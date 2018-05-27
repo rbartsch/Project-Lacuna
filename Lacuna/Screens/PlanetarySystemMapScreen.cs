@@ -61,6 +61,7 @@ namespace Lacuna {
 
         // ------------------------------------------------------------------------------------------
         public void ReadPlanetarySystem(PlanetarySystem planetarySystem) {
+            camera2D.Position = new Vector2(Core.graphics.PreferredBackBufferWidth / 2, -Core.graphics.PreferredBackBufferHeight / 2);
             this.planetarySystem = planetarySystem;
             systemName.Text = planetarySystem.Name + " System";
 

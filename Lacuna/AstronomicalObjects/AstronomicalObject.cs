@@ -12,25 +12,9 @@ namespace Lacuna.AstronomicalObjects {
         public Point GridPosition { get; set; }
         public string Texture2DPath;
 
-        private IsoGrid grid;
-        private GridTile activeGridTile;        
-
         // ------------------------------------------------------------------------------------------
         public AstronomicalObject(string fullName) {
             FullName = fullName;
-        }
-
-        // ------------------------------------------------------------------------------------------
-        public bool CanAssignWorldPosition(IsoGrid grid, Point gridPosition) {
-            GridPosition = gridPosition;
-            this.grid = grid;
-            activeGridTile = grid.GetGridTileByPoint(gridPosition);
-            if (grid.OccupyGridTileByPoint(gridPosition, ref activeGridTile, true)) {
-                return true;
-            }
-            else {
-                return false;
-            }
         }
     }
 }

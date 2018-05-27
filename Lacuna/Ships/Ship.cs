@@ -21,7 +21,7 @@ namespace Lacuna {
             GridPosition = gridPosition;
             this.grid = grid;
             activeGridTile = grid.GetGridTileByPoint(gridPosition);
-            if(grid.OccupyGridTileByPoint(gridPosition, ref activeGridTile, false)) {
+            if(grid.OccupyGridTileByPointAsMovable(gridPosition, ref activeGridTile, false)) {
                 Sprite = new MultiSprite(texture2DPaths, grid.GetGridTileWorldPosByPoint(gridPosition), Color.White);
             }
         }
@@ -86,7 +86,7 @@ namespace Lacuna {
                     }
             }
 
-            if (grid.OccupyGridTileByPoint(newGridPosition, ref activeGridTile, false)) {
+            if (grid.OccupyGridTileByPointAsMovable(newGridPosition, ref activeGridTile, false)) {
                 GridPosition = newGridPosition;
                 Sprite.Position = grid.GetGridTileWorldPosByPoint(GridPosition);
                 SetDirection(direction);
