@@ -31,12 +31,16 @@ namespace Lacuna {
         // ------------------------------------------------------------------------------------------
         public override void Initialize() {
             // Garbage may not be collected here, needs testing
+            for(int i = 0; i < travelButtons.Count; i++)
+                travelButtons[i] = null;
+
             for (int i = 0; i < Drawable2Ds.Count; i++)
                 Drawable2Ds[i] = null;
 
             for (int i = 0; i < ScreenSpaceDrawable2Ds.Count; i++)
                 ScreenSpaceDrawable2Ds[i] = null;
 
+            travelButtons.Clear();
             Drawable2Ds.Clear();
             ScreenSpaceDrawable2Ds.Clear();
             //GC.Collect();

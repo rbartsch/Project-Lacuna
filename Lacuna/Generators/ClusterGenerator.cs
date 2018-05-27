@@ -12,7 +12,7 @@ namespace Lacuna.Generators {
         public int NPlanetarySystems { get; private set; } = 20;
         public int MaxStars { get; private set; } = 1; // Only support drawing local planetary system map for one star at the moment
         public int MaxPlanetsPerStar { get; private set; } = 6;
-        public int MaxMoonsPerPlanet { get; private set; } = 6;
+        public int MaxMoonsPerPlanet { get; private set; } = 3;
 
         private static readonly string[] starNumToLetter = {
             "a","b","c","d","e","f","g","h","i","j","k","l","m",
