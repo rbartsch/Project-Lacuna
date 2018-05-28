@@ -8,12 +8,10 @@ using Microsoft.Xna.Framework;
 namespace Lacuna {
     public class NpcShip : Ship {
 
-        // ------------------------------------------------------------------------------------------
         public NpcShip(string[] texture2DPaths, IsoGrid grid, Point gridPosition, PlayerShip playerShip) : base(texture2DPaths, grid, gridPosition) {
             playerShip.ShipMoved += OnPlayerMoved;
         }
 
-        // ------------------------------------------------------------------------------------------
         public void OnPlayerMoved(object sender, ShipMoveCompleteEventArgs e) {
             //Move(ShipMoveDirection.Backward);
 
@@ -30,7 +28,6 @@ namespace Lacuna {
         }
 
         // TODO: check if not moving out of bounds first then redo random
-        // ------------------------------------------------------------------------------------------
         public ShipMoveDirection DetermineNextMove(Point targetPos) {
             Compass c = GetRelativeCompassDirection(GridPosition, targetPos);
 

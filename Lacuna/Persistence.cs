@@ -10,7 +10,6 @@ namespace Lacuna {
     public static class Persistence {
         public static Cluster cluster;
 
-        // ------------------------------------------------------------------------------------------
         public static void StartCluster() {
             cluster = new ClusterGenerator().GenerateCluster();
         }

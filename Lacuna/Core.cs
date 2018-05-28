@@ -24,12 +24,10 @@ namespace Lacuna {
 
         Text2D info;
 
-        // ------------------------------------------------------------------------------------------
         public void Quit(object s, EventArgs e) {
             Exit();
         }
 
-        // ------------------------------------------------------------------------------------------
         public void SetResolution(int width, int height, bool fullScreen, bool vSync) {
             graphics.SynchronizeWithVerticalRetrace = vSync;
             graphics.PreferredBackBufferWidth = width;
@@ -45,7 +43,6 @@ namespace Lacuna {
             minResolutionRelativeHeight = ((graphics.PreferredBackBufferHeight - minResolutionHeight) / 2);
         }
 
-        // ------------------------------------------------------------------------------------------
         private static Cursor GetCursor(string cursorName) {
             var buffer = Resource1.ResourceManager.GetObject(cursorName) as byte[];
 
@@ -54,7 +51,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public Core() {
             Form form = (Form)Control.FromHandle(Window.Handle);
             form.Cursor = GetCursor("cursor");

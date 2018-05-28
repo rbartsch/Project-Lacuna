@@ -9,17 +9,14 @@ namespace Lacuna {
     public static class Rng {
         public static Random Random { get; private set; } = new Random();
 
-        // ------------------------------------------------------------------------------------------
         public static void Initialize() {
             Random = new Random();
         }
 
-        // ------------------------------------------------------------------------------------------
         public static void InitializeWithSeed(int seed) {
             Random = new Random(seed);
         }
 
-        // ------------------------------------------------------------------------------------------
         public static bool Chance(int percentage) {
             if (Random.Next(0, 101) <= percentage)
                 return true;

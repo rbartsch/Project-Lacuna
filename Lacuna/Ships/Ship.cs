@@ -16,7 +16,6 @@ namespace Lacuna {
         private IsoGrid grid;
         private GridTile activeGridTile;
 
-        // ------------------------------------------------------------------------------------------
         public Ship(string[] texture2DPaths, IsoGrid grid, Point gridPosition) {            
             GridPosition = gridPosition;
             this.grid = grid;
@@ -26,12 +25,10 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         protected void RaiseShipMovedEvent(ShipMoveCompleteEventArgs eventArgs) {
             ShipMoved?.Invoke(this, eventArgs);
         }
 
-        // ------------------------------------------------------------------------------------------
         public void SetDirection(ShipMoveDirection direction) {
             switch (direction) {
                 case ShipMoveDirection.Forward: {
@@ -60,7 +57,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public bool Move(ShipMoveDirection direction) {
             Point newGridPosition = Point.Zero;
 
@@ -99,7 +95,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public EngagementVector GetEngagementCombination(ShipMoveDirection targetDir, Point targetPos) {
             Compass c = GetRelativeCompassDirection(GridPosition, targetPos);
             Console.WriteLine("npc=" + CurrentShipDirection + "; player=" + targetDir + "; compass=" + c);
@@ -121,7 +116,6 @@ namespace Lacuna {
 
         // No diagonals
         // TODO: We'd pass in weapon grid tile ranges here in future
-        // ------------------------------------------------------------------------------------------
         public Compass GetRelativeCompassDirection(Point currentPos, Point targetPos) {
             if (targetPos.X == currentPos.X) {
                 // target is on the relative backward grid
@@ -153,7 +147,6 @@ namespace Lacuna {
         }
 
         // Match to enums numerical order
-        // ------------------------------------------------------------------------------------------
         public int CalculateSide(ShipMoveDirection currentDir, ShipMoveDirection targetDir, Compass c) {
             if (c == Compass.Unknown) {
                 Console.WriteLine("Cannot calculate engagement side as it is diagonal");

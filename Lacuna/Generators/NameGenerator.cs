@@ -32,7 +32,6 @@ namespace Lacuna.Generators {
         // Format must be comma-delimited. Format is executed from left to right order
         // Can include spaces, i.e GLN, ,C,V,C,V could yield Alpha Tera
         // If an incorrect format is used, "?" will be added in place
-        // ------------------------------------------------------------------------------------------
         public string GenerateAstroObjName(string format = "C,V,C,V") {
             string[] formatType = format.Split(',');
 
@@ -91,7 +90,6 @@ namespace Lacuna.Generators {
             return result;
         }
 
-        // ------------------------------------------------------------------------------------------
         public string GenerateAstroObjNameRandom() {
             string[] formats = {
                 "C,V,C",

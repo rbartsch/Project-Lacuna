@@ -29,7 +29,6 @@ namespace Lacuna {
         private SoundEffect clickSoundEffect;
         private bool readyToPlay = true;
 
-        // ------------------------------------------------------------------------------------------
         public Button(string texture2DName, string spriteFontName, Vector2 position, string text, Color defaultColor, Color hoverColor, Color clickColor, bool drawInScreenSpace, float layerDepth = 0.12f) {
             Image = new Sprite(texture2DName, position, DefaultColor, drawInScreenSpace, "", 0, null, null, SpriteEffects.None, layerDepth);
             MouseArea = new Rectangle(0, 0, 2, 2);
@@ -47,35 +46,29 @@ namespace Lacuna {
             clickSoundEffect= AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
         }
 
-        // ------------------------------------------------------------------------------------------
         public void ClearSubscriptions() {
             Click = null;
         }
 
-        // ------------------------------------------------------------------------------------------
         public void SetTextCenter() {
             text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y + Area.Height / 2);
             text2D.SetOriginCenter();
         }
 
-        // ------------------------------------------------------------------------------------------
         public void SetTextBelow() {
             text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y + Area.Height + (float)Math.Round(text2D.MeasureString().Y / 2));
             text2D.SetOriginCenter();
         }
 
-        // ------------------------------------------------------------------------------------------
         public void SetTextAbove() {
             text2D.Position = new Vector2(Area.X + Area.Width / 2, Area.Y - (float)Math.Round(text2D.MeasureString().Y / 2));
             text2D.SetOriginCenter();
         }
 
-        // ------------------------------------------------------------------------------------------
         public void OnClick(EventArgs e) {
             Click?.Invoke(this, e);
         }
 
-        // ------------------------------------------------------------------------------------------
         public void Update(MouseState mouseState, Camera2D camera2D = null) {
             if (Click != null && Click.GetInvocationList().Length > 0) {
                 MouseArea = new Rectangle(mouseState.X, mouseState.Y, MouseArea.Width, MouseArea.Height);

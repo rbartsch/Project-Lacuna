@@ -21,7 +21,6 @@ namespace Lacuna {
         public bool DoDraw { get; set; } = true;
         public bool DrawInScreenSpace { get; set; }
 
-        // ------------------------------------------------------------------------------------------
         public Drawable2D(Vector2 position, Color color, bool drawInScreenSpace = false, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.0f) {
             Position = position;
             Color = color;
@@ -48,7 +47,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public virtual void Draw(SpriteBatch spriteBatch) { }
     }
 }

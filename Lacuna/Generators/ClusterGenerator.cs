@@ -18,13 +18,11 @@ namespace Lacuna.Generators {
             "a","b","c","d","e","f","g","h","i","j","k","l","m",
             "n","o","p","q","r","s","t","v","w","x","y","z",
         };
-
-        // ------------------------------------------------------------------------------------------
+        
         public ClusterGenerator() {
 
         }
-
-        // ------------------------------------------------------------------------------------------
+       
         public ClusterGenerator(int nPlanetarySystems, int maxStars, int maxPlanetsPerStar, int maxMoonsPerPlanet) {
             NPlanetarySystems = nPlanetarySystems;
             MaxStars = maxStars;
@@ -32,7 +30,6 @@ namespace Lacuna.Generators {
             MaxMoonsPerPlanet = maxMoonsPerPlanet;
         }
 
-        // ------------------------------------------------------------------------------------------
         public Cluster GenerateCluster() {
             Console.WriteLine("Generating Cluster");
             Cluster cluster = new Cluster();
@@ -44,7 +41,6 @@ namespace Lacuna.Generators {
             return cluster;
         }
 
-        // ------------------------------------------------------------------------------------------
         public PlanetarySystem GeneratePlanetarySystem() {
             int nStars = Rng.Random.Next(1, MaxStars + 1);
 
@@ -111,7 +107,6 @@ namespace Lacuna.Generators {
             return planetarySystem;
         }
 
-        // ------------------------------------------------------------------------------------------
         public Star GenerateStar(PlanetarySystem planetarySystem, int nStar) {
             Star star = new Star(planetarySystem.Name);
             star.FullName = star.FullName.Insert(star.FullName.Length, " " + starNumToLetter[nStar]);
@@ -123,7 +118,6 @@ namespace Lacuna.Generators {
             return star;
         }
 
-        // ------------------------------------------------------------------------------------------
         public Planet GeneratePlanet(Star star, int nPlanet) {
             Planet planet = new Planet(star.FullName + " " + RomanNumeral.Encode((uint)nPlanet), star);
             planet.ShortName = RomanNumeral.Encode((uint)nPlanet) + ".";
@@ -152,7 +146,6 @@ namespace Lacuna.Generators {
             return planet;
         }
 
-        // ------------------------------------------------------------------------------------------
         public Moon GenerateMoon(Planet planet, int nMoon) {
             Moon moon = new Moon(planet.FullName + " " + nMoon.ToString(), planet);
             moon.ShortName = nMoon.ToString() + ".";

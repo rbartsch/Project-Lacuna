@@ -25,7 +25,6 @@ namespace Lacuna {
         // Needs to be updated in child class screen's update with the camera used there
         public Matrix CameraTransform { get; set; } = Matrix.Identity;
 
-        // ------------------------------------------------------------------------------------------
         public Screen(string name, Core core, bool initializeOnStartup) {
             Name = name;
             Core = core;
@@ -34,24 +33,19 @@ namespace Lacuna {
 
         // For screens if we are loading in new content for screen not at startup then load is called
         // before initialize, we load with AssetManager here
-        // ------------------------------------------------------------------------------------------
         public virtual void Load() {
             LoadedContent = true;
         }
 
-        // ------------------------------------------------------------------------------------------
         //public virtual void Unload() {
         //}
 
-        // ------------------------------------------------------------------------------------------
         public virtual void Initialize() {
             Initialized = true;
         }
 
-        // ------------------------------------------------------------------------------------------
         public virtual void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) { }
 
-        // ------------------------------------------------------------------------------------------
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime) {
             // If layer depth is used for sorting you MUST use BackToFront or FrontToBack sort mode!
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, CameraTransform);

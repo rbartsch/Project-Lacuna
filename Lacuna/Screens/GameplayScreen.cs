@@ -23,7 +23,6 @@ namespace Lacuna {
 
         List<Sprite> lastAstroObjsSprites = new List<Sprite>();
 
-        // ------------------------------------------------------------------------------------------
         public void Test(object s, EventArgs e) {
             Console.WriteLine("Test");
         }
@@ -72,11 +71,9 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
         }
 
-        // ------------------------------------------------------------------------------------------
         public override void Initialize() {
             uiLayout = new Sprite("ui_layout", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White);
 
@@ -132,7 +129,6 @@ namespace Lacuna {
             base.Initialize();
         }
 
-        // ------------------------------------------------------------------------------------------
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             button.Update(Mouse.GetState());
             starMapButton.Update(Mouse.GetState());

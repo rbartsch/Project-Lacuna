@@ -115,7 +115,6 @@ namespace Lacuna {
             return copy;
         }
 
-        // ------------------------------------------------------------------------------------------
         public static int TotalLoaded() {
             return Texture2Ds.Count + SpriteFonts.Count + SoundEffects.Count + Songs.Count;
         }

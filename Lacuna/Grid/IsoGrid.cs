@@ -21,7 +21,6 @@ namespace Lacuna {
             "N","O","P","Q","R","S","T","V","W","X","Y","Z",
         };
 
-        // ------------------------------------------------------------------------------------------
         public IsoGrid(Point gridSize, Point gridTileSize, Vector2 gridWorldStartPosition, string spriteName) {
             GridSize = gridSize;
             GridTileSize = gridTileSize;
@@ -31,7 +30,6 @@ namespace Lacuna {
             SpriteName = spriteName;
         }
 
-        // ------------------------------------------------------------------------------------------
         public void Construct(bool generateMarkers = true) {
             Vector2 currGridTilePos = new Vector2(GridWorldStartPosition.X, GridWorldStartPosition.Y);
             int counter = 0;
@@ -58,7 +56,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public Vector2 GetGridTileWorldPosByPoint(Point p) {
             Vector2 v = Vector2.One;
             foreach(GridTile g in GridTiles) {
@@ -70,7 +67,6 @@ namespace Lacuna {
             return v;
         }
 
-        // ------------------------------------------------------------------------------------------
         public GridTile GetGridTileByPoint(Point p) {
             GridTile gridTile = null;
             foreach(GridTile g in GridTiles) {
@@ -82,7 +78,6 @@ namespace Lacuna {
             return gridTile;
         }
 
-        // ------------------------------------------------------------------------------------------
         public bool OccupyGridTileByPointAsMovable(Point p, ref GridTile activeGridTile, bool passable) {
             if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
                 return false;
@@ -104,7 +99,6 @@ namespace Lacuna {
             return true;
         }
 
-        // ------------------------------------------------------------------------------------------
         public bool OccupyGridTileByPointAsStatic(Point p, bool passable) {
             if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
                 return false;

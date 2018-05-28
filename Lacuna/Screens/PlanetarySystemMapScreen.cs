@@ -20,7 +20,6 @@ namespace Lacuna {
 
         public Camera2D camera2D;
 
-        // ------------------------------------------------------------------------------------------
         public PlanetarySystemMapScreen(Core core) : base("PlanetarySystemMapScreen", core, false) {
             camera2D = new Camera2D(core.GraphicsDevice.Viewport);
             CameraTransform = camera2D.Transform;
@@ -28,7 +27,6 @@ namespace Lacuna {
             camera2D.MoveCamera(new Vector2(Core.graphics.PreferredBackBufferWidth / 2, -Core.graphics.PreferredBackBufferHeight / 2));
         }
 
-        // ------------------------------------------------------------------------------------------
         public override void Initialize() {
             // Garbage may not be collected here, needs testing
             for(int i = 0; i < travelButtons.Count; i++)
@@ -59,7 +57,6 @@ namespace Lacuna {
             ((GameplayScreen)s).ReadAstronomicalGroup(s, e, astroObjsGroup);
         }
 
-        // ------------------------------------------------------------------------------------------
         public void ReadPlanetarySystem(PlanetarySystem planetarySystem) {
             camera2D.Position = new Vector2(Core.graphics.PreferredBackBufferWidth / 2, -Core.graphics.PreferredBackBufferHeight / 2);
             this.planetarySystem = planetarySystem;
@@ -135,12 +132,10 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public void BackToStarMap(object sender, EventArgs e) {
             ScreenManager.SwitchScreen("StarMapScreen");
         }
 
-        // ------------------------------------------------------------------------------------------
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             backToStarMapButton.Update(Mouse.GetState());
             foreach(Button b in travelButtons) {

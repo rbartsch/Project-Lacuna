@@ -20,7 +20,6 @@ namespace Lacuna {
         Button backToGameplayButton;
         Text2D title;
 
-        // ------------------------------------------------------------------------------------------
         public StarMapScreen(Core core) : base("StarMapScreen", core, false) {
             camera2D = new Camera2D(core.GraphicsDevice.Viewport);
             CameraTransform = camera2D.Transform;
@@ -31,7 +30,6 @@ namespace Lacuna {
             ScreenManager.SwitchScreen("GameplayScreen");
         }
 
-        // ------------------------------------------------------------------------------------------
         public override void Initialize() {
             BuildMap();
             planetarySystemSummaryPanel = new Sprite("star_map_selected_system_panel", new Vector2(10, 80), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
@@ -44,7 +42,6 @@ namespace Lacuna {
             base.Initialize();
         }
 
-        // ------------------------------------------------------------------------------------------
         public void ViewLocalMap(object sender, EventArgs e, PlanetarySystem planetarySystem) {
             Screen s = ScreenManager.GetScreen("PlanetarySystemMapScreen");
             s.Initialized = false;
@@ -53,7 +50,6 @@ namespace Lacuna {
             ScreenManager.SwitchScreen("PlanetarySystemMapScreen");
         }
 
-        // ------------------------------------------------------------------------------------------
         public void PrintPlanetarySystem(object sender, EventArgs e, PlanetarySystem planetarySystem) {
             int nStars = 0;
             int nPlanets = 0;
@@ -96,7 +92,6 @@ namespace Lacuna {
             };
         }
 
-        // ------------------------------------------------------------------------------------------
         public void BuildMap() {
             foreach(PlanetarySystem p in Persistence.cluster.PlanetarySystems) {
                 markers.Add(new Button("star_map_planetary_system_button", "Terminus", p.WorldPosition, p.Name, Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
@@ -108,7 +103,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             foreach(Button b in markers) {
                 b.Update(Mouse.GetState(), camera2D);

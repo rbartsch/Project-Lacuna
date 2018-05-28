@@ -14,13 +14,11 @@ namespace Lacuna {
         public bool Occupied { get; set; } = false;
         public bool Passable { get; set; } = true;
 
-        // ------------------------------------------------------------------------------------------
         public GridTile(Sprite tileSprite, Point gridPosition) {
             sprite = tileSprite;
             GridPosition = gridPosition;
         }
 
-        // ------------------------------------------------------------------------------------------
         public void SetOriginCenter() => sprite.SetOriginCenter();
     }
 }

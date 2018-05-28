@@ -14,7 +14,6 @@ namespace Lacuna {
         private static List<Screen> screens = new List<Screen>();
         private static Screen activeScreen;
 
-        // ------------------------------------------------------------------------------------------
         public static void AddScreen(Screen screen) {
             Console.WriteLine("Adding screen: " + screen.Name);
 
@@ -25,7 +24,6 @@ namespace Lacuna {
             screens.Add(screen);
         }
 
-        // ------------------------------------------------------------------------------------------
         public static Screen GetActiveScreen() {
             if (activeScreen != null) {
                 Console.WriteLine("Getting active screen: " + activeScreen.Name);
@@ -36,12 +34,10 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public static Screen GetScreen(string name) {
             return screens.Find(x => string.Equals(name, x.Name));
         }
 
-        // ------------------------------------------------------------------------------------------
         public static void SwitchScreen(Screen screen) {
             if (activeScreen != null) {
                 activeScreen.Active = false;
@@ -57,7 +53,6 @@ namespace Lacuna {
             Drawable2DManager.AssignScreenDrawable2DList(activeScreen);
         }
 
-        // ------------------------------------------------------------------------------------------
         public static void SwitchScreen(string name) {
             if (activeScreen != null) {
                 activeScreen.Active = false;
@@ -78,7 +73,6 @@ namespace Lacuna {
         // levels for example that load in new assets not loaded on startup.
         // TODO: can be added back when assetmanager can have a content manager for each screen
         // so that we can unload the content for a screen when not needed any more
-        // ------------------------------------------------------------------------------------------
         public static void InitializeScreen(string name) {
             LoadContentScreen(GetScreen(name));
             Console.WriteLine("Initializing screen: " + name);
@@ -87,7 +81,6 @@ namespace Lacuna {
             s.Initialize();
         }
 
-        // ------------------------------------------------------------------------------------------
         public static void InitializeScreen(Screen screen) {
             LoadContentScreen(screen);
             Console.WriteLine("Initializing screen: " + screen);
@@ -96,25 +89,21 @@ namespace Lacuna {
         }
 
         // Load all screen game content
-        // ------------------------------------------------------------------------------------------
         private static void LoadContentScreen(Screen screen) {
             Console.WriteLine("Loading content for screen: " + screen.Name);
             screen.Load();
         }
 
         // Update active screen
-        // ------------------------------------------------------------------------------------------
         public static void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             activeScreen.Update(gameTime, NewKeyState, OldKeyState);
         }
 
         // Draw active screen
-        // ------------------------------------------------------------------------------------------
         public static void Draw(SpriteBatch spriteBatch, GameTime gameTime) {
             activeScreen.Draw(spriteBatch, gameTime);
         }
 
-        // ------------------------------------------------------------------------------------------
         //public static void UnloadScreens() { }
     }
 }

@@ -11,11 +11,9 @@ using Microsoft.Xna.Framework.Input;
 namespace Lacuna {
     public class PlayerShip : Ship {
 
-        // ------------------------------------------------------------------------------------------
         public PlayerShip(string[] texture2DPaths, IsoGrid grid, Point gridPoint) : base(texture2DPaths, grid, gridPoint) {
         }
 
-        // ------------------------------------------------------------------------------------------
         public void Update(KeyboardState NewKeyState, KeyboardState OldKeyState) {
             if (NewKeyState.IsKeyDown(Keys.W) && OldKeyState.IsKeyUp(Keys.W)) {
                 Move(ShipMoveDirection.Forward);

@@ -9,12 +9,10 @@
 
 namespace Lacuna {
     public static class LinearConversion {
-        // ------------------------------------------------------------------------------------------
         public static float Float(float oldValue, float oldMin, float oldMax, float newMin, float newMax) {
             return (((oldValue) - (oldMin)) / ((oldMax) - (oldMin))) * ((newMax) - (newMin)) + (newMin);
         }
 
-        // ------------------------------------------------------------------------------------------
         public static int Integer(int oldValue, int oldMin, int oldMax, int newMin, int newMax) {
             return (((oldValue) - (oldMin)) / ((oldMax) - (oldMin))) * ((newMax) - (newMin)) + (newMin);
         }

@@ -10,7 +10,6 @@ namespace Lacuna {
         public Point GridPosition { get; set; }
         public ShipMoveDirection Direction { get; set; }
 
-        // ------------------------------------------------------------------------------------------
         public ShipMoveCompleteEventArgs(Point gridPosition, ShipMoveDirection direction) {
             GridPosition = gridPosition;
             Direction = direction;

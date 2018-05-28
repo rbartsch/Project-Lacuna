@@ -12,7 +12,6 @@ namespace Lacuna.ClusterObjects {
         public Vector2 WorldPosition { get; set; }
         public List<AstronomicalObject> AstronomicalObjects { get; set; } = new List<AstronomicalObject>();
 
-        // ------------------------------------------------------------------------------------------
         public PlanetarySystem(string name, Vector2 worldPos) {
             Name = name;
             WorldPosition = worldPos;

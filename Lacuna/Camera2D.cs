@@ -19,14 +19,12 @@ namespace Lacuna {
         private float currentMouseWheelValue;
         float previousMouseWheelValue;
 
-        // ------------------------------------------------------------------------------------------
         public Camera2D(Viewport viewport) {
             Bounds = viewport.Bounds;
             Zoom = 1f;
             Position = Vector2.Zero;
         }
 
-        // ------------------------------------------------------------------------------------------
         private void UpdateVisibleArea() {
             var inverseViewMatrix = Matrix.Invert(Transform);
 
@@ -44,7 +42,6 @@ namespace Lacuna {
             VisibleArea = new Rectangle((int)min.X, (int)min.Y, (int)(max.X - min.X), (int)(max.Y - min.Y));
         }
 
-        // ------------------------------------------------------------------------------------------
         private void UpdateMatrix() {
             Transform = Matrix.CreateTranslation(new Vector3(-Position.X, Position.Y, 0)) *
                     Matrix.CreateScale(Zoom) *
@@ -52,13 +49,11 @@ namespace Lacuna {
             UpdateVisibleArea();
         }
 
-        // ------------------------------------------------------------------------------------------
         public void MoveCamera(Vector2 movePosition) {
             Vector2 newPosition = Position + movePosition;
             Position = newPosition;
         }
 
-        // ------------------------------------------------------------------------------------------
         public void AdjustZoom(float zoomAmount) {
             Zoom += zoomAmount;
             if (Zoom < 1.0f) {
@@ -69,7 +64,6 @@ namespace Lacuna {
             }
         }
 
-        // ------------------------------------------------------------------------------------------
         public void Update(Viewport bounds, GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState, MouseState mouseState, bool horizontalOnly = false) {
             Bounds = bounds.Bounds;
             UpdateMatrix();

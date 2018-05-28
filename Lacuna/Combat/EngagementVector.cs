@@ -9,7 +9,6 @@ namespace Lacuna {
         public ShipSide AttackerSide { get; set; }
         public ShipSide TargetSide { get; set; }
 
-        // ------------------------------------------------------------------------------------------
         public EngagementVector(ShipSide attackerSide, ShipSide targetSide) {
             AttackerSide = attackerSide;
             TargetSide = targetSide;
