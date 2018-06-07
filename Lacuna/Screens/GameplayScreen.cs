@@ -18,6 +18,8 @@ namespace Lacuna {
         //NpcShip npcShip;
         Sprite background;
         Button starMapButton;
+        Button localMapButton;
+        Text2D mainText;
 
         List<Sprite> lastAstroObjsSprites = new List<Sprite>();
         List<AstronomicalObject> astroObjsGroup = new List<AstronomicalObject>();
@@ -34,7 +36,11 @@ namespace Lacuna {
             ScreenManager.SwitchScreen("StarMapScreen");
         }
 
-        public void ReadAstronomicalGroup(object s, EventArgs e, List<AstronomicalObject> astroObjsGroup) {
+        public void ViewLocalMap(object s, EventArgs e) {
+            ScreenManager.SwitchScreen("PlanetarySystemMapScreen");
+        }
+
+        public void ReadAstronomicalGroup(object s, EventArgs e, string systemName, List<AstronomicalObject> astroObjsGroup) {
             Console.WriteLine("Clearing old astronomical object sprites");
             foreach (Sprite sprite in lastAstroObjsSprites) {
                 for (int i = 0; i < Drawable2Ds.Count; i++) {
@@ -69,6 +75,10 @@ namespace Lacuna {
                     lastAstroObjsSprites.Last().SetOriginCenter();
                 }
             }
+
+            localMapButton.ClearSubscriptions();
+            localMapButton.Click += ViewLocalMap;
+            mainText.Text = string.Format("You are in the {0}.", systemName);
         }
 
         public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
@@ -117,6 +127,9 @@ namespace Lacuna {
 
             starMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 16), "Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
             starMapButton.Click += ViewStarMap;
+            localMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 61), "Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+
+            mainText = new Text2D("Verdana", "Main Text", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 582), Color.White);
 
             Persistence.GenerateClusters();
 
@@ -126,6 +139,7 @@ namespace Lacuna {
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             button.Update(Mouse.GetState());
             starMapButton.Update(Mouse.GetState());
+            localMapButton.Update(Mouse.GetState());
             playerShip.Update(NewKeyState, OldKeyState);
             if (NewKeyState.IsKeyDown(Keys.Space) && OldKeyState.IsKeyUp(Keys.Space)) {
                 ScreenManager.SwitchScreen("TestScreen");

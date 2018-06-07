@@ -54,7 +54,7 @@ namespace Lacuna {
         public void TravelToAstroObjsGroup(object sender, EventArgs e, List<AstronomicalObject> astroObjsGroup) {
             Screen s = ScreenManager.GetScreen("GameplayScreen");
             ScreenManager.SwitchScreen("GameplayScreen");
-            ((GameplayScreen)s).ReadAstronomicalGroup(s, e, astroObjsGroup);
+            ((GameplayScreen)s).ReadAstronomicalGroup(s, e, systemName.Text, astroObjsGroup);
         }
 
         public void ReadPlanetarySystem(PlanetarySystem planetarySystem) {
