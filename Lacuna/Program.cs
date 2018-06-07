@@ -11,10 +11,10 @@ namespace Lacuna {
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
-            using (var game = new Core())
+        static void Main(string[] args) {
+            using (var game = new Core()) {
                 game.Run();
+            }
         }
     }
 #endif

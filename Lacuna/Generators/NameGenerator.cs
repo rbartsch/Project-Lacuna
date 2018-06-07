@@ -27,7 +27,9 @@ namespace Lacuna.Generators {
         private readonly string[] flairAffixes = { "er", "ury", "ion", "opa", "asi", "esi", "isi", "osi", "usi", "as", "es", "is", "os", "us", "on", "ov", "uv", "ald", "eld", "ild", "old", "uld", "alt", "elt", "ilt",
             "olt", "ult", "alv", "elv", "ilv", "olv", "ulv", "agh", "egh", "igh", "ogh", "ugh", "ayt", "eyt", "iyt", "oyt", "uyt", "and", "end", "ind", "ond", "und" };
         // S
-        private readonly string[] symbols = { "@", "#", "-" };
+        private readonly string[] symbols = { /*"@", "#",*/ "-" };
+        // N
+        private readonly string[] numbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
         // Format must be comma-delimited. Format is executed from left to right order
         // Can include spaces, i.e GLN, ,C,V,C,V could yield Alpha Tera
@@ -75,6 +77,10 @@ namespace Lacuna.Generators {
                         sb.Append(symbols[Rng.Random.Next(0, symbols.Length)]);
                         break;
 
+                    case "N":
+                        sb.Append(numbers[Rng.Random.Next(0, numbers.Length)]);
+                        break;
+
                     case " ":
                         sb.Append(" ");
                         break;
@@ -92,6 +98,25 @@ namespace Lacuna.Generators {
 
         public string GenerateAstroObjNameRandom() {
             string[] formats = {
+                "C,S,N,V,C",
+                "C,S,V,N,C",
+                "V,S,N,C,V",
+                "V,S,C,N,V",
+
+                "V,V,C,V,C,FA",
+                "GLN, ,V,V,C,V,C,FA",
+                "V,V,C,V,C,FA, ,MN",
+                "GLN, ,V,V,C,V,C,FA, ,MN",
+
+                "C,V,V,C",
+                "GLN, ,C,V,V,C",
+                "C,V,V,C, ,MN",
+                "GLN, ,C,V,V,C, ,MN",
+
+                "C,V,C, ,V,V,C",
+                "V,V,C, ,C,V,C",
+                "C,V,V,C,V,C, ,C,V,C",
+
                 "C,V,C",
                 "GLN, ,C,V,C",
                 "C,V,C, ,MN",
@@ -206,6 +231,10 @@ namespace Lacuna.Generators {
             // GLN and MN
             else if (Rng.Chance(5)) {
                 formatResult = formats.Where(x => x.StartsWith("GLN") && x.EndsWith("MN")).ToArray();
+            }
+            // N
+            else if (Rng.Chance(1)) {
+                formatResult = formats.Where(x => x.Contains("N")).ToArray();
             }
             else {
                 formatResult = formats.Where(x => !x.StartsWith("GLN") && !x.EndsWith("MN")).ToArray();

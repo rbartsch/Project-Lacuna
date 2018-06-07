@@ -85,11 +85,14 @@ namespace Lacuna {
             if (GetGridTileByPoint(p).Occupied && !GetGridTileByPoint(p).Passable)
                 return false;
 
+            //activeGridTile.Occupier = null;
             activeGridTile.Occupied = false;
             activeGridTile.Passable = true;
-            GetGridTileByPoint(p).Occupied = true;
-            GetGridTileByPoint(p).Passable = passable;
-            activeGridTile = GetGridTileByPoint(p);
+            GridTile tile = GetGridTileByPoint(p);
+            tile.Occupied = true;
+            tile.Passable = passable;
+            //tile.Occupier = occupier;
+            activeGridTile = tile;
 
             //foreach (GridTile g in GridTiles) {
             //    if (g.Occupied)
@@ -98,6 +101,30 @@ namespace Lacuna {
 
             return true;
         }
+
+        //public bool OccupyGridTileByPointAsMovable<T>(Point p, T occupier, ref GridTile activeGridTile, bool passable) {
+        //    if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
+        //        return false;
+
+        //    if (GetGridTileByPoint(p).Occupied && !GetGridTileByPoint(p).Passable)
+        //        return false;
+
+        //    //activeGridTile.Occupier = null;
+        //    activeGridTile.Occupied = false;
+        //    activeGridTile.Passable = true;
+        //    GridTile tile = GetGridTileByPoint(p);
+        //    tile.Occupied = true;
+        //    tile.Passable = passable;
+        //    //tile.Occupier = occupier;
+        //    activeGridTile = tile;
+
+        //    //foreach (GridTile g in GridTiles) {
+        //    //    if (g.Occupied)
+        //    //        Console.WriteLine("GridTile @ " + g.GridPosition + " is occupied");
+        //    //}
+
+        //    return true;
+        //}
 
         public bool OccupyGridTileByPointAsStatic(Point p, bool passable) {
             if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
@@ -106,8 +133,10 @@ namespace Lacuna {
             if (GetGridTileByPoint(p).Occupied && !GetGridTileByPoint(p).Passable)
                 return false;
 
-            GetGridTileByPoint(p).Occupied = true;
-            GetGridTileByPoint(p).Passable = passable;
+            GridTile tile = GetGridTileByPoint(p);
+            tile.Occupied = true;
+            tile.Passable = passable;
+            //tile.Occupier = occupier;
 
             //foreach (GridTile g in GridTiles) {
             //    if (g.Occupied)
@@ -116,5 +145,25 @@ namespace Lacuna {
 
             return true;
         }
+
+        //public bool OccupyGridTileByPointAsStatic<T>(Point p, T occupier, bool passable) {
+        //    if (p.Y < 0 || p.X < 0 || p.Y >= GridSize.Y || p.X >= GridSize.X)
+        //        return false;
+
+        //    if (GetGridTileByPoint(p).Occupied && !GetGridTileByPoint(p).Passable)
+        //        return false;
+
+        //    GridTile tile = GetGridTileByPoint(p);
+        //    tile.Occupied = true;
+        //    tile.Passable = passable;
+        //    //tile.Occupier = occupier;
+
+        //    //foreach (GridTile g in GridTiles) {
+        //    //    if (g.Occupied)
+        //    //        Console.WriteLine("GridTile @ " + g.GridPosition + " is occupied");
+        //    //}
+
+        //    return true;
+        //}
     }
 }

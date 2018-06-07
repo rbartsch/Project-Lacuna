@@ -8,10 +8,10 @@ using Lacuna.Generators;
 
 namespace Lacuna {
     public static class Persistence {
-        public static Cluster cluster;
+        public static List<Cluster> clusters = new List<Cluster>();
 
-        public static void StartCluster() {
-            cluster = new ClusterGenerator().GenerateCluster();
+        public static void GenerateClusters() {
+            clusters.Add(new ClusterGenerator().GenerateCluster());
         }
     }
 }

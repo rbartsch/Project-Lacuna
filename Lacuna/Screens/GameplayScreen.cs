@@ -15,13 +15,12 @@ namespace Lacuna {
         Button button;
         IsoGrid grid;
         PlayerShip playerShip;
-        //Sprite planet;
-        //Sprite gasGiant;
         //NpcShip npcShip;
         Sprite background;
         Button starMapButton;
 
         List<Sprite> lastAstroObjsSprites = new List<Sprite>();
+        List<AstronomicalObject> astroObjsGroup = new List<AstronomicalObject>();
 
         public void Test(object s, EventArgs e) {
             Console.WriteLine("Test");
@@ -37,8 +36,8 @@ namespace Lacuna {
 
         public void ReadAstronomicalGroup(object s, EventArgs e, List<AstronomicalObject> astroObjsGroup) {
             Console.WriteLine("Clearing old astronomical object sprites");
-            foreach(Sprite sprite in lastAstroObjsSprites) {
-                for(int i = 0; i < Drawable2Ds.Count; i++) {
+            foreach (Sprite sprite in lastAstroObjsSprites) {
+                for (int i = 0; i < Drawable2Ds.Count; i++) {
                     if (sprite == Drawable2Ds[i]) {
                         Drawable2Ds.Remove(Drawable2Ds[i]);
                     }
@@ -63,6 +62,7 @@ namespace Lacuna {
             }
 
             Console.WriteLine("Adding new astronomical object sprites");
+            this.astroObjsGroup = astroObjsGroup;
             foreach(AstronomicalObject astroObj in astroObjsGroup) {
                 if (grid.OccupyGridTileByPointAsStatic(astroObj.GridPosition, true)) {
                     lastAstroObjsSprites.Add(new Sprite(astroObj.Texture2DPath, grid.GetGridTileWorldPosByPoint(astroObj.GridPosition), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f));
@@ -90,9 +90,6 @@ namespace Lacuna {
                 "ship_1_left"
             }, grid, new Point(1, 2));
 
-            //planet = new Sprite("planet_rocky", grid.GetGridTileWorldPosByPoint(new Point(2, 1)), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f);
-            //gasGiant = new Sprite("gas_giant", grid.GetGridTileWorldPosByPoint(new Point(0, 2)), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f);
-
             //npcShip = new NpcShip(new string[] {
             //    "ship_2_forward",
             //    "ship_2_backward",
@@ -115,16 +112,13 @@ namespace Lacuna {
             playerShip.Sprite.SetOriginCenter();
             playerShip.SetDirection(ShipMoveDirection.Forward);
 
-            //planet.SetOriginCenter();
-            //gasGiant.SetOriginCenter();
-
             //npcShip.Sprite.SetOriginCenter();
             //npcShip.SetDirection(ShipMoveDirection.Backward);
 
             starMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 16), "Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
             starMapButton.Click += ViewStarMap;
 
-            Persistence.StartCluster();
+            Persistence.GenerateClusters();
 
             base.Initialize();
         }
@@ -150,6 +144,13 @@ namespace Lacuna {
                 }
 
                 ScreenManager.SwitchScreen("StarMapScreen");
+            }
+            if(NewKeyState.IsKeyDown(Keys.F) && OldKeyState.IsKeyUp(Keys.F)) {
+                AstronomicalObject astroObj = astroObjsGroup.Find(x => x.GridPosition == playerShip.GridPosition);
+
+                if (astroObj != null) {
+                    Console.WriteLine(astroObj.FullName);
+                }
             }
         }
     }

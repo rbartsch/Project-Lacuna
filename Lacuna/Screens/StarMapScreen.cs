@@ -93,7 +93,7 @@ namespace Lacuna {
         }
 
         public void BuildMap() {
-            foreach(PlanetarySystem p in Persistence.cluster.PlanetarySystems) {
+            foreach(PlanetarySystem p in Persistence.clusters[0].PlanetarySystems) {
                 markers.Add(new Button("star_map_planetary_system_button", "Terminus", p.WorldPosition, p.Name, Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
                 //markers.Last().Click += Test;
                 markers.Last().Click += delegate (object s, EventArgs e) {

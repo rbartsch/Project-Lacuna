@@ -17,8 +17,25 @@ namespace Lacuna {
             Random = new Random(seed);
         }
 
+        /// <summary>
+        /// Percentage 0..100
+        /// </summary>
+        /// <param name="percentage"></param>
+        /// <returns></returns>
         public static bool Chance(int percentage) {
             if (Random.Next(0, 101) <= percentage)
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Percentage 0.0..100.0
+        /// </summary>
+        /// <param name="percentage"></param>
+        /// <returns></returns>
+        public static bool Chance(double percentage) {
+            if (Random.NextDouble() <= (percentage / 100.0))
                 return true;
             else
                 return false;

@@ -24,9 +24,11 @@ namespace Lacuna {
 
         Text2D info;
 
+
         public void Quit(object s, EventArgs e) {
             Exit();
         }
+
 
         public void SetResolution(int width, int height, bool fullScreen, bool vSync) {
             graphics.SynchronizeWithVerticalRetrace = vSync;
@@ -34,14 +36,17 @@ namespace Lacuna {
             graphics.PreferredBackBufferHeight = height;
             graphics.IsFullScreen = fullScreen;
             graphics.ApplyChanges();
-            if (!graphics.IsFullScreen)
-                Window.Position = new Point((GraphicsDevice.DisplayMode.Width / 2) - graphics.PreferredBackBufferWidth / 2, (GraphicsDevice.DisplayMode.Height / 2) - graphics.PreferredBackBufferHeight / 2);
+            if (!graphics.IsFullScreen) {
+                Window.Position = new Point((GraphicsDevice.DisplayMode.Width / 2) - graphics.PreferredBackBufferWidth / 2,
+                    (GraphicsDevice.DisplayMode.Height / 2) - graphics.PreferredBackBufferHeight / 2);
+            }
 
             // If to scale with higher resolutions, subtract minimum target resolution from desired resolution, then divide that value by 2, then add that value to the resolution.
             // e.g for width of 682 and a minimum target resolution of 1366, 1920-1366=554, 554/2=277, 682+277=959.
             minResolutionRelativeWidth = ((graphics.PreferredBackBufferWidth - minResolutionWidth) / 2);
             minResolutionRelativeHeight = ((graphics.PreferredBackBufferHeight - minResolutionHeight) / 2);
         }
+
 
         private static Cursor GetCursor(string cursorName) {
             var buffer = Resource1.ResourceManager.GetObject(cursorName) as byte[];
@@ -51,6 +56,7 @@ namespace Lacuna {
             }
         }
 
+
         public Core() {
             Form form = (Form)Control.FromHandle(Window.Handle);
             form.Cursor = GetCursor("cursor");
@@ -58,10 +64,13 @@ namespace Lacuna {
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
             IsMouseVisible = true;
-            graphics.HardwareModeSwitch = false; // Full screen alt-tab bug in 3.6. This is borderless window switch for temp workaround https://github.com/MonoGame/MonoGame/issues/5885
+            // Full screen alt-tab bug in 3.6. 
+            // This is borderless window switch for temp workaround https://github.com/MonoGame/MonoGame/issues/5885
+            graphics.HardwareModeSwitch = false;
             SetResolution(1366, 768, false, true);
             //SetResolution(1920, 1080, true, true);
         }
+
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -80,6 +89,7 @@ namespace Lacuna {
 
             base.Initialize();
         }
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -138,13 +148,13 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.SpriteFont, "TinyUnicode");
             AssetManager.LoadAsset(AssetType.SpriteFont, "Verdana");
 
-            info = new Text2D("TinyUnicode", string.Format(""), new Vector2(1, graphics.PreferredBackBufferHeight-98), Color.White);
+            info = new Text2D("TinyUnicode", string.Format(""), new Vector2(1, graphics.PreferredBackBufferHeight - 98), Color.White);
 
-            //ScreenManager.InitializeScreens();
             ScreenManager.InitializeScreen("MainMenuScreen");
             ScreenManager.InitializeScreen("TestScreen");
-            ScreenManager.SwitchScreen("MainMenuScreen");            
+            ScreenManager.SwitchScreen("MainMenuScreen");
         }
+
 
         KeyboardState OldKeyState;
         /// <summary>
@@ -163,6 +173,7 @@ namespace Lacuna {
             base.Update(gameTime);
         }
 
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -178,10 +189,13 @@ namespace Lacuna {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
             info.Draw(spriteBatch);
             spriteBatch.End();
-            info.Text = string.Format("project lacuna ver. {0} (dev)\n-\ndraw: {1}; count: {2}\nupdate: {3}\nassets loaded (global): {4}\n-\npress Esc for menu. WASD to move and M to view star map while in gameplay screen", Application.ProductVersion, statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
+            info.Text = string.Format("project lacuna ver. {0} (dev)\n-\ndraw: {1}; count: {2}\nupdate: {3}\nassets loaded (global): {4}\n-" +
+                "\npress Esc for menu. WASD to move and M to view star map while in gameplay screen",
+                Application.ProductVersion, statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
 
             base.Draw(gameTime);
         }
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
