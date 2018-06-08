@@ -13,10 +13,21 @@ namespace Lacuna {
     public class PlanetarySystemMapScreen : Screen {
         Sprite systemNameHorizontalDivider;
         Text2D systemName;
+        Text2D legend;
         PlanetarySystem planetarySystem;
         Button backToStarMapButton;
 
+        Sprite panel;
+        Text2D panelTextStats;
+        Text2D panelTextDescription;
+        Button closePanelButton;
+
+        string astroObjTitle;
+        string astroObjStats;
+        string astroObjDescription;
+
         List<Button> travelButtons = new List<Button>();
+        List<Button> infoButtons = new List<Button>();
 
         public Camera2D camera2D;
 
@@ -32,6 +43,9 @@ namespace Lacuna {
             for(int i = 0; i < travelButtons.Count; i++)
                 travelButtons[i] = null;
 
+            for (int i = 0; i < infoButtons.Count; i++)
+                infoButtons[i] = null;
+
             for (int i = 0; i < Drawable2Ds.Count; i++)
                 Drawable2Ds[i] = null;
 
@@ -39,14 +53,26 @@ namespace Lacuna {
                 ScreenSpaceDrawable2Ds[i] = null;
 
             travelButtons.Clear();
+            infoButtons.Clear();
             Drawable2Ds.Clear();
             ScreenSpaceDrawable2Ds.Clear();
             //GC.Collect();
 
             systemNameHorizontalDivider = new Sprite("local_map_name_divider", new Vector2(10, 28), Color.White, true);
             systemName = new Text2D("Terminus", "?", new Vector2(10, systemNameHorizontalDivider.Position.Y-22), Color.White, true);
+            legend = new Text2D("Terminus", "Legend: (S) - Station;", new Vector2(400, systemNameHorizontalDivider.Position.Y - 22), Color.White, true);
             backToStarMapButton = new Button("button", "Terminus", new Vector2(systemNameHorizontalDivider.Position.X, systemNameHorizontalDivider.Position.Y + 10), "Back To Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
+            backToStarMapButton.ClearSubscriptions();
             backToStarMapButton.Click += BackToStarMap;
+
+            panel = new Sprite("panel", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
+            panel.SetOriginCenter();
+            panelTextStats = new Text2D("Terminus", "Astronomical Object Information", new Vector2((panel.Position.X-panel.Width/2) + 6, (panel.Position.Y-panel.Height/2) + 4), Color.White, true, "", 0.09f);
+            panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, panelTextStats.Position.Y + panelTextStats.MeasureString().Y + 14), Color.White, true, "", 0.09f);
+            closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X-88, (panel.Position.Y+panel.Height/2)+5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
+            closePanelButton.ClearSubscriptions();
+            closePanelButton.Click += ClosePanel;
+            ClosePanel(this, EventArgs.Empty);
 
             base.Initialize();
         }
@@ -55,6 +81,28 @@ namespace Lacuna {
             Screen s = ScreenManager.GetScreen("GameplayScreen");
             ScreenManager.SwitchScreen("GameplayScreen");
             ((GameplayScreen)s).ReadAstronomicalGroup(s, e, systemName.Text, astroObjsGroup);
+        }
+
+        public void ViewAstroObjInfo(object sender, EventArgs e, AstronomicalObject astroObj) {
+            astroObjTitle = $"Astronomical Object Information:";
+            astroObjStats = $"Name: {astroObj.ShortName}                    (Full: {astroObj.FullName})\nMore stats here...";
+            astroObjDescription = $"Description here...";
+            panelTextStats.Text = $"{astroObjTitle}\n{astroObjStats}";
+            panelTextDescription.Text = $"{astroObjDescription}";
+
+            panel.DoDraw = true;
+            panelTextStats.DoDraw = true;
+            panelTextDescription.DoDraw = true;
+            closePanelButton.ToggleActiveStatus();
+
+            panelTextDescription.Position = new Vector2(panelTextDescription.Position.X, panelTextStats.Position.Y + panelTextStats.MeasureString().Y + 14);
+        }
+
+        public void ClosePanel(object sender, EventArgs e) {
+            panel.DoDraw = false;
+            panelTextStats.DoDraw = false;
+            panelTextDescription.DoDraw = false;
+            closePanelButton.ToggleActiveStatus();
         }
 
         public void ReadPlanetarySystem(PlanetarySystem planetarySystem) {
@@ -77,6 +125,10 @@ namespace Lacuna {
                     Sprite starSprite = new Sprite(star.Texture2DPath, new Vector2(prevX, prevY), Color.White);
                     prevY += starSprite.Height + 20;
                     Sprite starNameDivider = new Sprite("local_map_object_name_divider", new Vector2(prevX, prevY), Color.White);
+                    infoButtons.Add(new Button("info_button", "Terminus", new Vector2(starNameDivider.Position.X + starNameDivider.Width, starNameDivider.Position.Y), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
+                    infoButtons.Last().Click += delegate (object s, EventArgs e) {
+                        ViewAstroObjInfo(s, e, star);
+                    };
                     Text2D starName = new Text2D("Terminus", star.ShortName, new Vector2(starNameDivider.Position.X, starNameDivider.Position.Y - 17), Color.White);
                     prevX += starSprite.Width + 5;
                     prevY = 100;
@@ -98,6 +150,10 @@ namespace Lacuna {
                                 Sprite planetSprite = new Sprite(planet.Texture2DPath, new Vector2(prevX, prevY), Color.White);
                                 prevY += planetSprite.Height + 20;
                                 Sprite planetNameDivider = new Sprite("local_map_object_name_divider", new Vector2(prevX, prevY), Color.White);
+                                infoButtons.Add(new Button("info_button", "Terminus", new Vector2(planetNameDivider.Position.X + planetNameDivider.Width, planetNameDivider.Position.Y), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
+                                infoButtons.Last().Click += delegate (object s, EventArgs e) {
+                                    ViewAstroObjInfo(s, e, planet);
+                                };
                                 Text2D planetName = new Text2D("Terminus", planet.ShortName, new Vector2(planetNameDivider.Position.X, planetNameDivider.Position.Y - 17), Color.White);
                                 prevX += planetSprite.Width + 5;
 
@@ -115,6 +171,10 @@ namespace Lacuna {
                                             Sprite moonSprite = new Sprite(moon.Texture2DPath, new Vector2(prevX, prevY), Color.White);
                                             prevY += moonSprite.Height + 20;
                                             Sprite moonNameDivider = new Sprite("local_map_object_name_divider", new Vector2(prevX, prevY), Color.White);
+                                            infoButtons.Add(new Button("info_button", "Terminus", new Vector2(moonNameDivider.Position.X + moonNameDivider.Width, moonNameDivider.Position.Y), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
+                                            infoButtons.Last().Click += delegate (object s, EventArgs e) {
+                                                ViewAstroObjInfo(s, e, moon);
+                                            };
                                             Text2D moonName = new Text2D("Terminus", moon.ShortName, new Vector2(moonNameDivider.Position.X, moonNameDivider.Position.Y - 17), Color.White);
 
                                             moonSprite.Position = new Vector2(moonSprite.Position.X - moonSprite.Width / 2, moonSprite.Position.Y);
@@ -138,7 +198,11 @@ namespace Lacuna {
 
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
             backToStarMapButton.Update(Mouse.GetState());
+            closePanelButton.Update(Mouse.GetState());
             foreach(Button b in travelButtons) {
+                b.Update(Mouse.GetState(), camera2D);
+            }
+            foreach(Button b in infoButtons) {
                 b.Update(Mouse.GetState(), camera2D);
             }
 

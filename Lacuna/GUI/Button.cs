@@ -18,9 +18,11 @@ namespace Lacuna {
         public Rectangle MouseArea { get; private set; }
         public Color DefaultColor { get; set; }
         public Color HoverColor { get; set; }
-        public Color ClickColor { get; set; }
+        public Color ClickColor { get; set; }       
 
         public event EventHandler Click;
+
+        private bool activeStatus = true;
 
         private MouseState oldMouseState;
 
@@ -44,6 +46,12 @@ namespace Lacuna {
 
             hoverSoundEffect = AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             clickSoundEffect= AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
+        }
+
+        public void ToggleActiveStatus() {
+            activeStatus = !activeStatus;
+            Image.DoDraw = activeStatus;
+            text2D.DoDraw = activeStatus;
         }
 
         public void ClearSubscriptions() {
@@ -70,6 +78,10 @@ namespace Lacuna {
         }
 
         public void Update(MouseState mouseState, Camera2D camera2D = null) {
+            if (!activeStatus) {
+                return;
+            }
+
             if (Click != null && Click.GetInvocationList().Length > 0) {
                 MouseArea = new Rectangle(mouseState.X, mouseState.Y, MouseArea.Width, MouseArea.Height);
 

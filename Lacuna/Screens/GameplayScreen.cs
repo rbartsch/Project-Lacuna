@@ -19,7 +19,11 @@ namespace Lacuna {
         Sprite background;
         Button starMapButton;
         Button localMapButton;
+        Button visitObj;
         Text2D mainText;
+
+        string currentSystem;
+        string lastAction;
 
         List<Sprite> lastAstroObjsSprites = new List<Sprite>();
         List<AstronomicalObject> astroObjsGroup = new List<AstronomicalObject>();
@@ -38,6 +42,15 @@ namespace Lacuna {
 
         public void ViewLocalMap(object s, EventArgs e) {
             ScreenManager.SwitchScreen("PlanetarySystemMapScreen");
+        }
+
+        public void VisitAstroObjAtPos(object s, EventArgs e) {
+            AstronomicalObject astroObj = astroObjsGroup.Find(x => x.GridPosition == playerShip.GridPosition);
+
+            if (astroObj != null) {
+                Console.WriteLine(astroObj.FullName);
+                lastAction = $"You visited {astroObj.FullName}.";
+            }
         }
 
         public void ReadAstronomicalGroup(object s, EventArgs e, string systemName, List<AstronomicalObject> astroObjsGroup) {
@@ -78,7 +91,7 @@ namespace Lacuna {
 
             localMapButton.ClearSubscriptions();
             localMapButton.Click += ViewLocalMap;
-            mainText.Text = string.Format("You are in the {0}.", systemName);
+            currentSystem = $"You are in the {systemName}.";
         }
 
         public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
@@ -128,6 +141,8 @@ namespace Lacuna {
             starMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 16), "Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
             starMapButton.Click += ViewStarMap;
             localMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 61), "Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            visitObj = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 106), "Visit Object @ Position", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            visitObj.Click += VisitAstroObjAtPos;
 
             mainText = new Text2D("Verdana", "Main Text", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 582), Color.White);
 
@@ -140,7 +155,9 @@ namespace Lacuna {
             button.Update(Mouse.GetState());
             starMapButton.Update(Mouse.GetState());
             localMapButton.Update(Mouse.GetState());
+            visitObj.Update(Mouse.GetState());
             playerShip.Update(NewKeyState, OldKeyState);
+            mainText.Text = $"{currentSystem}\nLast action: {lastAction}";
             if (NewKeyState.IsKeyDown(Keys.Space) && OldKeyState.IsKeyUp(Keys.Space)) {
                 ScreenManager.SwitchScreen("TestScreen");
             }
@@ -159,12 +176,8 @@ namespace Lacuna {
 
                 ScreenManager.SwitchScreen("StarMapScreen");
             }
-            if(NewKeyState.IsKeyDown(Keys.F) && OldKeyState.IsKeyUp(Keys.F)) {
-                AstronomicalObject astroObj = astroObjsGroup.Find(x => x.GridPosition == playerShip.GridPosition);
-
-                if (astroObj != null) {
-                    Console.WriteLine(astroObj.FullName);
-                }
+            if(NewKeyState.IsKeyDown(Keys.V) && OldKeyState.IsKeyUp(Keys.V)) {
+                VisitAstroObjAtPos(this, EventArgs.Empty);
             }
         }
     }

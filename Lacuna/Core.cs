@@ -58,6 +58,7 @@ namespace Lacuna {
 
 
         public Core() {
+            // Hack for drawing cursor as it's currently broken to do so natively in MG.
             Form form = (Form)Control.FromHandle(Window.Handle);
             form.Cursor = GetCursor("cursor");
             graphics = new GraphicsDeviceManager(this);
@@ -135,6 +136,8 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.Texture2D, "local_map_vertical_divider");
             AssetManager.LoadAsset(AssetType.Texture2D, "camera_pan_arrow");
             AssetManager.LoadAsset(AssetType.Texture2D, "menu_title");
+            AssetManager.LoadAsset(AssetType.Texture2D, "info_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "panel");
 
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
@@ -189,9 +192,11 @@ namespace Lacuna {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
             info.Draw(spriteBatch);
             spriteBatch.End();
-            info.Text = string.Format("project lacuna ver. {0} (dev)\n-\ndraw: {1}; count: {2}\nupdate: {3}\nassets loaded (global): {4}\n-" +
-                "\npress Esc for menu. WASD to move and M to view star map while in gameplay screen",
-                Application.ProductVersion, statDrawFrameRate.ToString("0"), GraphicsDevice.Metrics.DrawCount, statUpdateFrameRate.ToString("0"), AssetManager.TotalLoaded());
+
+            info.Text = $"project lacuna ver. {Application.ProductVersion} (dev)\nmemory: {(GC.GetTotalMemory(false) / 1048576.0f).ToString("F")} MB" +
+                $"\ndraw: {statDrawFrameRate.ToString("0")}; count: {GraphicsDevice.Metrics.DrawCount}" +
+                $"\nupdate: {statUpdateFrameRate.ToString("0")}\nassets loaded (global): {AssetManager.TotalLoaded()}" +
+                $"\n-\npress Esc for menu. WASD to move and M to view star map while in gameplay screen";
 
             base.Draw(gameTime);
         }
