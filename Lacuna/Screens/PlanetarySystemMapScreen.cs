@@ -18,12 +18,11 @@ namespace Lacuna {
         Button backToStarMapButton;
 
         Sprite panel;
-        Text2D panelTextStats;
+        Text2D panelTitle;
+        Text2DTabular text2DTabular;
         Text2D panelTextDescription;
         Button closePanelButton;
 
-        string astroObjTitle;
-        string astroObjStats;
         string astroObjDescription;
 
         List<Button> travelButtons = new List<Button>();
@@ -67,8 +66,9 @@ namespace Lacuna {
 
             panel = new Sprite("panel", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
             panel.SetOriginCenter();
-            panelTextStats = new Text2D("Terminus", "Astronomical Object Information", new Vector2((panel.Position.X-panel.Width/2) + 6, (panel.Position.Y-panel.Height/2) + 4), Color.White, true, "", 0.09f);
-            panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, panelTextStats.Position.Y + panelTextStats.MeasureString().Y + 14), Color.White, true, "", 0.09f);
+            panelTitle = new Text2D("Terminus", "Astronomical Object Information:", new Vector2((panel.Position.X - panel.Width / 2) + 6, (panel.Position.Y - panel.Height / 2) + 4), Color.White, true, "", 0.09f);
+            text2DTabular = new Text2DTabular(3, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), 300, 20);
+            panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, 0), Color.White, true, "", 0.09f);
             closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X-88, (panel.Position.Y+panel.Height/2)+5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
             closePanelButton.ClearSubscriptions();
             closePanelButton.Click += ClosePanel;
@@ -83,26 +83,60 @@ namespace Lacuna {
             ((GameplayScreen)s).ReadAstronomicalGroup(s, e, systemName.Text, astroObjsGroup);
         }
 
-        public void ViewAstroObjInfo(object sender, EventArgs e, AstronomicalObject astroObj) {
-            astroObjTitle = $"Astronomical Object Information:";
-            astroObjStats = $"Name: {astroObj.ShortName}                    (Full: {astroObj.FullName})\nMore stats here...";
+        public void ViewAstroObjInfo(object sender, EventArgs e, AstronomicalObject astroObj, PlanetarySystem planetarySystem) {
+            string stationName = "";
+            string populationAmount = "";
+
+            foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
+                if(a is Station station && station.Parent == astroObj) {
+                    stationName = station.FullName;
+                }
+            }
+
+            if (astroObj is Planet planet) {
+                populationAmount = planet.Population.ToString();
+
+            }
+            else if (astroObj is Moon moon) {
+                populationAmount = moon.Population.ToString();
+            }
+
+            text2DTabular.Construct("Terminus", true, "", 0.09f);
+            text2DTabular.text2Ds[0, 0].Text = "Name:";
+            text2DTabular.text2Ds[1, 0].Text = $"{astroObj.ShortName} / Full: {astroObj.FullName}";
+            text2DTabular.text2Ds[0, 1].Text = "Station:";
+            text2DTabular.text2Ds[1, 1].Text = $"{stationName}";
+            text2DTabular.text2Ds[0, 2].Text = "Population:";
+            text2DTabular.text2Ds[1, 2].Text = $"{populationAmount}";
+
             astroObjDescription = $"Description here...";
-            panelTextStats.Text = $"{astroObjTitle}\n{astroObjStats}";
             panelTextDescription.Text = $"{astroObjDescription}";
 
-            panel.DoDraw = true;
-            panelTextStats.DoDraw = true;
-            panelTextDescription.DoDraw = true;
-            closePanelButton.ToggleActiveStatus();
+            panelTextDescription.Position = new Vector2(panelTextDescription.Position.X, 
+                text2DTabular.text2Ds[text2DTabular.text2Ds.GetUpperBound(0), text2DTabular.text2Ds.GetUpperBound(1)].Position.Y + 
+                text2DTabular.text2Ds[text2DTabular.text2Ds.GetUpperBound(0), text2DTabular.text2Ds.GetUpperBound(1)].MeasureString().Y + 50);
 
-            panelTextDescription.Position = new Vector2(panelTextDescription.Position.X, panelTextStats.Position.Y + panelTextStats.MeasureString().Y + 14);
+            panel.DoDraw = true;
+            panelTitle.DoDraw = true;
+            foreach(Text2D textTab in text2DTabular.text2Ds) {
+                if (textTab != null) {
+                    textTab.DoDraw = true;
+                }
+            }
+            panelTextDescription.DoDraw = true;
+            closePanelButton.SetActiveStatus(true);            
         }
 
         public void ClosePanel(object sender, EventArgs e) {
             panel.DoDraw = false;
-            panelTextStats.DoDraw = false;
+            panelTitle.DoDraw = false;
+            foreach (Text2D textTab in text2DTabular.text2Ds) {
+                if (textTab != null) {
+                    textTab.DoDraw = false;
+                }
+            }
             panelTextDescription.DoDraw = false;
-            closePanelButton.ToggleActiveStatus();
+            closePanelButton.SetActiveStatus(false);
         }
 
         public void ReadPlanetarySystem(PlanetarySystem planetarySystem) {
@@ -127,7 +161,8 @@ namespace Lacuna {
                     Sprite starNameDivider = new Sprite("local_map_object_name_divider", new Vector2(prevX, prevY), Color.White);
                     infoButtons.Add(new Button("info_button", "Terminus", new Vector2(starNameDivider.Position.X + starNameDivider.Width, starNameDivider.Position.Y), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
                     infoButtons.Last().Click += delegate (object s, EventArgs e) {
-                        ViewAstroObjInfo(s, e, star);
+                        ClosePanel(s, e);
+                        ViewAstroObjInfo(s, e, star, planetarySystem);
                     };
                     Text2D starName = new Text2D("Terminus", star.ShortName, new Vector2(starNameDivider.Position.X, starNameDivider.Position.Y - 17), Color.White);
                     prevX += starSprite.Width + 5;
@@ -140,10 +175,10 @@ namespace Lacuna {
                                 prevX += horizontalDivider.Width + 5;
 
                                 travelButtons.Add(new Button("local_map_travel_button", "Terminus", new Vector2(prevX, prevY + 20), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
-                                List<AstronomicalObject> planetAndMoonGroup = new List<AstronomicalObject>();
-                                planetAndMoonGroup.Add(planet);
+                                List<AstronomicalObject> planetStationAndMoonGroup = new List<AstronomicalObject>();
+                                planetStationAndMoonGroup.Add(planet);
                                 travelButtons.Last().Click += delegate (object s, EventArgs e) {
-                                    TravelToAstroObjsGroup(s, e, planetAndMoonGroup);
+                                    TravelToAstroObjsGroup(s, e, planetStationAndMoonGroup);
                                 };
                                 prevX += travelButtons.Last().Image.Width + 5;
 
@@ -152,9 +187,18 @@ namespace Lacuna {
                                 Sprite planetNameDivider = new Sprite("local_map_object_name_divider", new Vector2(prevX, prevY), Color.White);
                                 infoButtons.Add(new Button("info_button", "Terminus", new Vector2(planetNameDivider.Position.X + planetNameDivider.Width, planetNameDivider.Position.Y), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
                                 infoButtons.Last().Click += delegate (object s, EventArgs e) {
-                                    ViewAstroObjInfo(s, e, planet);
+                                    ClosePanel(s, e);
+                                    ViewAstroObjInfo(s, e, planet, planetarySystem);
                                 };
                                 Text2D planetName = new Text2D("Terminus", planet.ShortName, new Vector2(planetNameDivider.Position.X, planetNameDivider.Position.Y - 17), Color.White);
+                                foreach(AstronomicalObject planetStation in planetarySystem.AstronomicalObjects) {
+                                    if(planetStation is Station station) {
+                                        if (station.Parent == planet) {
+                                            planetName.Text += " (S)";
+                                            planetStationAndMoonGroup.Add(station);
+                                        }
+                                    }
+                                }
                                 prevX += planetSprite.Width + 5;
 
                                 int tmpPrevX = prevX;
@@ -166,14 +210,15 @@ namespace Lacuna {
                                             Sprite verticalDivider = new Sprite("local_map_vertical_divider", new Vector2(prevX, prevY), Color.White);
                                             prevY += verticalDivider.Height + 5;
 
-                                            planetAndMoonGroup.Add(moon);
+                                            planetStationAndMoonGroup.Add(moon);
 
                                             Sprite moonSprite = new Sprite(moon.Texture2DPath, new Vector2(prevX, prevY), Color.White);
                                             prevY += moonSprite.Height + 20;
                                             Sprite moonNameDivider = new Sprite("local_map_object_name_divider", new Vector2(prevX, prevY), Color.White);
                                             infoButtons.Add(new Button("info_button", "Terminus", new Vector2(moonNameDivider.Position.X + moonNameDivider.Width, moonNameDivider.Position.Y), "", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false));
                                             infoButtons.Last().Click += delegate (object s, EventArgs e) {
-                                                ViewAstroObjInfo(s, e, moon);
+                                                ClosePanel(s, e);
+                                                ViewAstroObjInfo(s, e, moon, planetarySystem);
                                             };
                                             Text2D moonName = new Text2D("Terminus", moon.ShortName, new Vector2(moonNameDivider.Position.X, moonNameDivider.Position.Y - 17), Color.White);
 

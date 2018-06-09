@@ -55,4 +55,24 @@
         MainSequence,
         Neutron
     }
+
+    public enum CommodityType {
+        Food,
+        Medicine,
+        Narcotics,
+        Implants,
+        Weapons,
+        Information,
+        ShipComponents,
+        Machinery,
+        Construction,
+        RawMaterials,
+        ProcessedMaterials
+    }
+
+    public enum Legality {
+        Legal,
+        Illegal,
+        Unknown
+    }
 }

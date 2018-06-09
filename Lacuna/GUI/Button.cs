@@ -48,10 +48,10 @@ namespace Lacuna {
             clickSoundEffect= AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
         }
 
-        public void ToggleActiveStatus() {
-            activeStatus = !activeStatus;
-            Image.DoDraw = activeStatus;
-            text2D.DoDraw = activeStatus;
+        public void SetActiveStatus(bool status) {
+            activeStatus = status;
+            Image.DoDraw = status;
+            text2D.DoDraw = status;
         }
 
         public void ClearSubscriptions() {

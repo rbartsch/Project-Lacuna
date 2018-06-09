@@ -9,6 +9,7 @@ namespace Lacuna.AstronomicalObjects {
     public class Moon : AstronomicalObject {
         public Planet Parent { get; set; }
         public MoonType Type { get; set; }
+        public long Population { get; set; }
 
         public Moon(string name, Planet parent) : base(name) {
             Parent = parent;

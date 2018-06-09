@@ -84,6 +84,11 @@ namespace Lacuna {
             this.astroObjsGroup = astroObjsGroup;
             foreach(AstronomicalObject astroObj in astroObjsGroup) {
                 if (grid.OccupyGridTileByPointAsStatic(astroObj.GridPosition, true)) {
+                    if(astroObj is Station) {
+                        // skip stations for now, we don't display a graphic for them,
+                        // they are part of the planet/moons ATM.
+                        continue;
+                    }
                     lastAstroObjsSprites.Add(new Sprite(astroObj.Texture2DPath, grid.GetGridTileWorldPosByPoint(astroObj.GridPosition), Color.White, false, "", 0, null, null, SpriteEffects.None, 0.13f));
                     lastAstroObjsSprites.Last().SetOriginCenter();
                 }

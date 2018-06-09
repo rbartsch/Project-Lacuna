@@ -30,6 +30,10 @@ namespace Lacuna.Generators {
         private readonly string[] symbols = { /*"@", "#",*/ "-" };
         // N
         private readonly string[] numbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        // SS
+        private readonly string[] stationSuffixes = { "Station", "Gateway", "Outpost", "Terminal", "Dock", "Port", "Respite", "Depot", "Anchorage", "Gate", "Landing", "Haven", "Refuge", "Retreat", "Sanctuary", "Shelter", "Bay", "Cove" };
+        // SP
+        private readonly string[] stationPrefixes = { "Station", "Gateway", "Outpost", "Port", "Sanctuary" };
 
         // Format must be comma-delimited. Format is executed from left to right order
         // Can include spaces, i.e GLN, ,C,V,C,V could yield Alpha Tera
@@ -79,6 +83,14 @@ namespace Lacuna.Generators {
 
                     case "N":
                         sb.Append(numbers[Rng.Random.Next(0, numbers.Length)]);
+                        break;
+
+                    case "SS":
+                        sb.Append(stationSuffixes[Rng.Random.Next(0, stationSuffixes.Length)]);
+                        break;
+
+                    case "SP":
+                        sb.Append(stationPrefixes[Rng.Random.Next(0, stationPrefixes.Length)]);
                         break;
 
                     case " ":

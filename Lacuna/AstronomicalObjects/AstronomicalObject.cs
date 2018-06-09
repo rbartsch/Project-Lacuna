@@ -11,7 +11,8 @@ namespace Lacuna.AstronomicalObjects {
         public string ShortName { get; set; }
         public Point GridPosition { get; set; }
         //public GridTile activeGridTile { get; set; }
-        public string Texture2DPath;
+        public string Texture2DPath { get; set; }
+        public string Description { get; set; }
 
         public AstronomicalObject(string fullName) {
             FullName = fullName;

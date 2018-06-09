@@ -61,6 +61,12 @@ namespace Lacuna.Generators {
                         Planet planet = GeneratePlanet(star, j);
                         planet.GridPosition = new Point(Rng.Random.Next(0, 3), Rng.Random.Next(0, 3));
                         planetarySystem.AstronomicalObjects.Add(planet);
+
+                        if (planet.Population > 0 && Rng.Chance(40)) {
+                            Station station = GenerateStation(planet);
+                            station.GridPosition = planet.GridPosition;
+                            planetarySystem.AstronomicalObjects.Add(station);
+                        }
                     }
                 }
             }
@@ -122,6 +128,11 @@ namespace Lacuna.Generators {
             Planet planet = new Planet(star.FullName + " " + RomanNumeral.Encode((uint)nPlanet), star);
             planet.ShortName = RomanNumeral.Encode((uint)nPlanet) + ".";
             planet.Type = (PlanetType)Rng.Random.Next(0, Enum.GetValues(typeof(PlanetType)).Cast<int>().Max() + 1);
+            if (Rng.Chance(30)) {
+                if (planet.Type == PlanetType.Terra || planet.Type == PlanetType.Rocky) {
+                    planet.Population = Rng.Random.Next(1000, 2000000);
+                }
+            }
 
             switch (planet.Type) {
                 case PlanetType.Gas:
@@ -150,6 +161,11 @@ namespace Lacuna.Generators {
             Moon moon = new Moon(planet.FullName + " " + nMoon.ToString(), planet);
             moon.ShortName = nMoon.ToString() + ".";
             moon.Type = (MoonType)Rng.Random.Next(0, Enum.GetValues(typeof(MoonType)).Cast<int>().Max() + 1);
+            if (Rng.Chance(15)) {
+                if (moon.Type == MoonType.Regolith) {
+                    moon.Population = Rng.Random.Next(100, 10000);
+                }
+            }
 
             switch (moon.Type) {
                 case MoonType.Icy:
@@ -163,6 +179,12 @@ namespace Lacuna.Generators {
             }
 
             return moon;
+        }
+
+        public Station GenerateStation(AstronomicalObject astroObj) {
+            Station station = new Station(new NameGenerator().GenerateAstroObjName("C,V,C,V,C,V,C, ,SS"), astroObj);
+            station.ShortName = station.FullName;
+            return station;
         }
     }
 }
