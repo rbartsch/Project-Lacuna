@@ -9,7 +9,7 @@ namespace Lacuna.AstronomicalObjects
 {
     public class Station : AstronomicalObject {
         public AstronomicalObject Parent { get; set; }
-        public List<StationService> Services { get; set; }
+        public List<IStationService> Services { get; set; }
 
         public Station(string fullName, AstronomicalObject parent) : base(fullName) {
             Parent = parent;

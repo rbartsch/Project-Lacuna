@@ -59,6 +59,7 @@ namespace Lacuna {
 
         public Core() {
             // Hack for drawing cursor as it's currently broken to do so natively in MG.
+            Window.Title = Application.ProductName + " ver. " + Application.ProductVersion + " (dev)";
             Form form = (Form)Control.FromHandle(Window.Handle);
             form.Cursor = GetCursor("cursor");
             graphics = new GraphicsDeviceManager(this);

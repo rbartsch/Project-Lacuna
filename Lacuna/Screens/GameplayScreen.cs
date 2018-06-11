@@ -146,12 +146,12 @@ namespace Lacuna {
             starMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 16), "Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
             starMapButton.Click += ViewStarMap;
             localMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 61), "Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
-            visitObj = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 106), "Visit Object @ Position", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            visitObj = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 106), "Visit Object @ Pos.", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
             visitObj.Click += VisitAstroObjAtPos;
 
             mainText = new Text2D("Verdana", "Main Text", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 582), Color.White);
 
-            Persistence.GenerateClusters();
+            Persistence.Initialize();
 
             base.Initialize();
         }

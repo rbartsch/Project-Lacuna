@@ -54,6 +54,7 @@ namespace Lacuna {
             int nStars = 0;
             int nPlanets = 0;
             int nMoons = 0;
+            int nStations = 0;
             Console.WriteLine("-- Planetary System (" + planetarySystem.Name + ") --");
             foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
                 if (a is Star star) {
@@ -67,6 +68,16 @@ namespace Lacuna {
                             if (planet.Parent == star) {
                                 Console.WriteLine("     [Planet]");
                                 Console.WriteLine("     => " + p.FullName + ":");
+
+                                foreach(AstronomicalObject s in planetarySystem.AstronomicalObjects) {
+                                    if(s is Station station) {
+                                        if (station.Parent == planet) {
+                                            nStations++;
+                                            Console.WriteLine("         [Station]");
+                                            Console.WriteLine("         => " + s.FullName);
+                                        }
+                                    }
+                                }
 
                                 foreach (AstronomicalObject m in planetarySystem.AstronomicalObjects) {
                                     if (m is Moon moon) {
@@ -85,7 +96,7 @@ namespace Lacuna {
 
             Console.WriteLine("----------------------");
 
-            planetarySystemSummary.Text = string.Format("{0}:\n{1}   Star(s)\n{2}   Planet(s)\n{3}   Moon(s)", planetarySystem.Name, nStars, nPlanets, nMoons);
+            planetarySystemSummary.Text = string.Format("{0}:\n{1}   Star(s)\n{2}   Planet(s)\n{3}   Moon(s)\n{4}    Station(s)", planetarySystem.Name, nStars, nPlanets, nMoons, nStations);
             viewLocalPlanetarySystemButton.ClearSubscriptions();
             viewLocalPlanetarySystemButton.Click += delegate (object s, EventArgs ee) {
                 ViewLocalMap(s, ee, planetarySystem);

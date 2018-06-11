@@ -41,6 +41,7 @@ namespace Lacuna.Generators {
             return cluster;
         }
 
+        // Weights are not currently performed to generate more or less gas giants, terras, etc.
         public PlanetarySystem GeneratePlanetarySystem() {
             int nStars = Rng.Random.Next(1, MaxStars + 1);
 
@@ -62,7 +63,7 @@ namespace Lacuna.Generators {
                         planet.GridPosition = new Point(Rng.Random.Next(0, 3), Rng.Random.Next(0, 3));
                         planetarySystem.AstronomicalObjects.Add(planet);
 
-                        if (planet.Population > 0 && Rng.Chance(40)) {
+                        if (planet.Population > 0 && Rng.Chance(80)) {
                             Station station = GenerateStation(planet);
                             station.GridPosition = planet.GridPosition;
                             planetarySystem.AstronomicalObjects.Add(station);
@@ -128,8 +129,9 @@ namespace Lacuna.Generators {
             Planet planet = new Planet(star.FullName + " " + RomanNumeral.Encode((uint)nPlanet), star);
             planet.ShortName = RomanNumeral.Encode((uint)nPlanet) + ".";
             planet.Type = (PlanetType)Rng.Random.Next(0, Enum.GetValues(typeof(PlanetType)).Cast<int>().Max() + 1);
-            if (Rng.Chance(30)) {
-                if (planet.Type == PlanetType.Terra || planet.Type == PlanetType.Rocky) {
+
+            if (planet.Type == PlanetType.Terra || planet.Type == PlanetType.Rocky) {
+                if (Rng.Chance(51)) {
                     planet.Population = Rng.Random.Next(1000, 2000000);
                 }
             }
@@ -151,7 +153,7 @@ namespace Lacuna.Generators {
                     planet.Texture2DPath = "planet_terra";
                     break;
                 default:
-                    throw new Exception("Invalid planet. Don't know which graphic to load");
+                    throw new Exception("Invalid planet. Unknown texture to load");
             }
 
             return planet;
@@ -175,7 +177,7 @@ namespace Lacuna.Generators {
                     moon.Texture2DPath = "moon_regolith";
                     break;
                 default:
-                    throw new Exception("Invalid moon. DOn't know which graphic to load");
+                    throw new Exception("Invalid moon. Unknown texture to load");
             }
 
             return moon;

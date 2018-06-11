@@ -56,7 +56,7 @@
         Neutron
     }
 
-    public enum CommodityType {
+    public enum TradeGoodType {
         Food,
         Medicine,
         Narcotics,
@@ -67,7 +67,8 @@
         Machinery,
         Construction,
         RawMaterials,
-        ProcessedMaterials
+        ProcessedMaterials,
+        Energy
     }
 
     public enum Legality {

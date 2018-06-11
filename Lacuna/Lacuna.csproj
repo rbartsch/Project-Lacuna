@@ -66,7 +66,8 @@
     <Compile Include="AstronomicalObjects\Station.cs" />
     <Compile Include="Camera2D.cs" />
     <Compile Include="ClusterObjects\Cluster.cs" />
-    <Compile Include="Commodities\Commodity.cs" />
+    <Compile Include="Commodities\TradeGood.cs" />
+    <Compile Include="Commodities\TradeGoodList.cs" />
     <Compile Include="Generators\ClusterGenerator.cs" />
     <Compile Include="AstronomicalObjects\Moon.cs" />
     <Compile Include="ClusterObjects\PlanetarySystem.cs" />
@@ -74,12 +75,14 @@
     <Compile Include="AstronomicalObjects\Star.cs" />
     <Compile Include="Generators\NameGenerator.cs" />
     <Compile Include="Graphics\Line.cs" />
+    <Compile Include="GUI\ButtonSimple.cs" />
+    <Compile Include="GUI\Hover.cs" />
     <Compile Include="GUI\Text2DTabular.cs" />
     <Compile Include="Persistence.cs" />
     <Compile Include="Screens\PlanetarySystemMapScreen.cs" />
     <Compile Include="Screens\StarMapScreen.cs" />
     <Compile Include="StationServices\Market.cs" />
-    <Compile Include="StationServices\StationService.cs" />
+    <Compile Include="StationServices\IStationService.cs" />
     <Compile Include="Utils\AssetManager.cs" />
     <Compile Include="GUI\Button.cs" />
     <Compile Include="Draw\Drawable2D.cs" />

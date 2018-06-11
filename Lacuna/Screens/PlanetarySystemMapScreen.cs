@@ -67,7 +67,7 @@ namespace Lacuna {
             panel = new Sprite("panel", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
             panel.SetOriginCenter();
             panelTitle = new Text2D("Terminus", "Astronomical Object Information:", new Vector2((panel.Position.X - panel.Width / 2) + 6, (panel.Position.Y - panel.Height / 2) + 4), Color.White, true, "", 0.09f);
-            text2DTabular = new Text2DTabular(3, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), 300, 20);
+            text2DTabular = new Text2DTabular(3, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), 200, 20);
             panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, 0), Color.White, true, "", 0.09f);
             closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X-88, (panel.Position.Y+panel.Height/2)+5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
             closePanelButton.ClearSubscriptions();
@@ -84,8 +84,8 @@ namespace Lacuna {
         }
 
         public void ViewAstroObjInfo(object sender, EventArgs e, AstronomicalObject astroObj, PlanetarySystem planetarySystem) {
-            string stationName = "";
-            string populationAmount = "";
+            string stationName = "None";
+            string populationAmount = "N/A";
 
             foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
                 if(a is Station station && station.Parent == astroObj) {
