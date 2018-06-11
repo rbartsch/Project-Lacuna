@@ -8,8 +8,10 @@ Early prototype screenshot (click to enlarge):
 
 ![prototype ss](https://i.imgur.com/7Jnl1gx.png)
 
-![prototype ss](https://i.imgur.com/HvF6XhL.png)
+![prototype ss](https://i.imgur.com/RwgVxI7.png)
 
-![prototype ss](https://i.imgur.com/kFvSIw5.png)
+![prototype ss](https://i.imgur.com/ptEGmNA.png)
+
+![prototype ss](https://i.imgur.com/HvF6XhL.png)
 
 ![prototype ss](https://i.imgur.com/ryGeTeU.png)
