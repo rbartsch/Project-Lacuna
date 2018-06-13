@@ -4,27 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lacuna.Commodities;
+using Lacuna.Trade;
 
 namespace Lacuna.StationServices {
     public class Market : IStationService {
-        public string Name { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
-
-        struct BuySellValue {
-            public double buy;
-            public double sell;
-
-            public BuySellValue(double buy, double sell) {
-                this.buy = buy;
-                this.sell = sell;
-            }
-        }
+        public string Name { get; private set; }
 
         Dictionary<TradeGood, BuySellValue> tradeGoodsForSale = new Dictionary<TradeGood, BuySellValue>();
 
         public Market(string name) {
             Name = name;
 
-            tradeGoodsForSale.Add(TradeGoodList.GetWithName("Military Rations").CloneWithNewQuantity(5) as TradeGood, new BuySellValue(100, 105));
+            TradeGood t = TradeGoodList.GetWithName("Military Ration").CloneWithNewQuantity(5) as TradeGood;
+            // for now use ints, need to make a random int64 generator
+            tradeGoodsForSale.Add(t, new BuySellValue(t.BasePrice.buy + Rng.Random.Next(0, 51), t.BasePrice.sell + Rng.Random.Next(50, 101)));
+        }
+
+        public void SeedMarket() {
         }
 
         // Remove commodities from list if stock depleted? Or leave as-is?

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Lacuna.AstronomicalObjects;
 using Lacuna.ClusterObjects;
+using Lacuna.StationServices;
 
 namespace Lacuna.Generators {
     public class ClusterGenerator {
@@ -186,6 +187,8 @@ namespace Lacuna.Generators {
         public Station GenerateStation(AstronomicalObject astroObj) {
             Station station = new Station(new NameGenerator().GenerateAstroObjName("C,V,C,V,C,V,C, ,SS"), astroObj);
             station.ShortName = station.FullName;
+
+            station.Services.Add(new Market("Trade Goods"));
             return station;
         }
     }

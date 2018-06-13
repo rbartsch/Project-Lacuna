@@ -19,6 +19,10 @@ namespace Lacuna {
             texture2D = AssetManager.GetAsset(AssetType.Texture2D, texture2DName);
         }
 
+        public Sprite(Texture2D texture2D, Vector2 position, Color color, bool drawInScreenSpace = false, string tag = "", float rotation = 0f, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0.12f) : base(position, color, drawInScreenSpace, tag, rotation, origin, scale, spriteEffects, layerDepth) {
+            this.texture2D = texture2D;
+        }
+
         // Must be set after texture2D loaded
         public void SetOriginTopLeft() {
             Origin = new Vector2(0, 0);

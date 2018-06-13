@@ -98,8 +98,8 @@ namespace Lacuna {
 
             planetarySystemSummary.Text = string.Format("{0}:\n{1}   Star(s)\n{2}   Planet(s)\n{3}   Moon(s)\n{4}    Station(s)", planetarySystem.Name, nStars, nPlanets, nMoons, nStations);
             viewLocalPlanetarySystemButton.ClearSubscriptions();
-            viewLocalPlanetarySystemButton.Click += delegate (object s, EventArgs ee) {
-                ViewLocalMap(s, ee, planetarySystem);
+            viewLocalPlanetarySystemButton.Click += delegate (object s, EventArgs ea) {
+                ViewLocalMap(s, ea, planetarySystem);
             };
         }
 

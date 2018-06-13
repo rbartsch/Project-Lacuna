@@ -88,6 +88,7 @@ namespace Lacuna {
             ScreenManager.AddScreen(new MainMenuScreen(this));
             ScreenManager.AddScreen(new StarMapScreen(this));
             ScreenManager.AddScreen(new PlanetarySystemMapScreen(this));
+            ScreenManager.AddScreen(new MarketScreen(this));
 
             base.Initialize();
         }
@@ -139,6 +140,21 @@ namespace Lacuna {
             AssetManager.LoadAsset(AssetType.Texture2D, "menu_title");
             AssetManager.LoadAsset(AssetType.Texture2D, "info_button");
             AssetManager.LoadAsset(AssetType.Texture2D, "panel");
+            AssetManager.LoadAsset(AssetType.Texture2D, "buy_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "sell_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "buying_window");
+            AssetManager.LoadAsset(AssetType.Texture2D, "selling_window");
+            AssetManager.LoadAsset(AssetType.Texture2D, "cancel_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "ok_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "cargo_hold");
+            AssetManager.LoadAsset(AssetType.Texture2D, "long_horizontal_divider");
+            AssetManager.LoadAsset(AssetType.Texture2D, "market_grid");
+            AssetManager.LoadAsset(AssetType.Texture2D, "minus_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "plus_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "right_arrow");
+            AssetManager.LoadAsset(AssetType.Texture2D, "search_button");
+            AssetManager.LoadAsset(AssetType.Texture2D, "small_arrow");
+            AssetManager.LoadAsset(AssetType.Texture2D, "thin_button");
 
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             AssetManager.LoadAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");

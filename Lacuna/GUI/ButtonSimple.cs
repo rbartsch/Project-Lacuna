@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Lacuna.GUI {
+namespace Lacuna {
     public class ButtonSimple {
         public Rectangle Area { get; set; }
         public Rectangle MouseArea { get; private set; }
 
         public event EventHandler Click;
+
+        private Sprite image;
 
         private bool activeStatus = true;
 
@@ -22,12 +25,15 @@ namespace Lacuna.GUI {
         private SoundEffect clickSoundEffect;
         private bool readyToPlay = true;
 
-        public ButtonSimple(Rectangle area) {
+        public ButtonSimple(Rectangle area, float hoverImageLayerDepth, Color hoverColor) {
             MouseArea = new Rectangle(0, 0, 2, 2);
             Area = area;
 
             hoverSoundEffect = AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_classic3_resampled");
             clickSoundEffect = AssetManager.GetAsset(AssetType.SoundEffect, "PM_CS_beep_action_resampled");
+
+            image = new Sprite(TextureUtils.GenerateFlatTexture(Core.graphics.GraphicsDevice, area.Width, area.Height, hoverColor), new Vector2(area.X, area.Y), Color.White, true, "", 0, null, null, SpriteEffects.None, hoverImageLayerDepth);
+            image.DoDraw = false;
         }
 
         public void SetActiveStatus(bool status) {
@@ -60,13 +66,14 @@ namespace Lacuna.GUI {
                 }
 
                 if (Area.Contains(MouseArea)) {
+                    image.DoDraw = true;
                     if (readyToPlay) {
-                        hoverSoundEffect.Play(0.2f, 0f, 0f);
+                        hoverSoundEffect.Play(0.05f, 0f, 0f);
                         readyToPlay = false;
                     }
 
                     if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released) {
-                        clickSoundEffect.Play(0.2f, 0f, 0f);
+                        clickSoundEffect.Play(0.1f, 0f, 0f);
 
                         OnClick(new EventArgs());
                     }
@@ -75,6 +82,7 @@ namespace Lacuna.GUI {
                     //oldMouseState = mouseState; 
                 }
                 else {
+                    image.DoDraw = false;
                     readyToPlay = true;
                 }
             }

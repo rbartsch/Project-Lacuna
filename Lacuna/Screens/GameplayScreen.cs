@@ -184,6 +184,10 @@ namespace Lacuna {
             if(NewKeyState.IsKeyDown(Keys.V) && OldKeyState.IsKeyUp(Keys.V)) {
                 VisitAstroObjAtPos(this, EventArgs.Empty);
             }
+            if(NewKeyState.IsKeyDown(Keys.N) && OldKeyState.IsKeyUp(Keys.N)) {
+                ScreenManager.InitializeScreen("MarketScreen");
+                ScreenManager.SwitchScreen("MarketScreen");
+            }
         }
     }
 }

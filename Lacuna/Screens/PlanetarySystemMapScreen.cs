@@ -8,6 +8,7 @@ using Lacuna.AstronomicalObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Lacuna.StationServices;
 
 namespace Lacuna {
     public class PlanetarySystemMapScreen : Screen {
@@ -19,7 +20,7 @@ namespace Lacuna {
 
         Sprite panel;
         Text2D panelTitle;
-        Text2DTabular text2DTabular;
+        Text2DTab text2DTabular;
         Text2D panelTextDescription;
         Button closePanelButton;
 
@@ -67,7 +68,7 @@ namespace Lacuna {
             panel = new Sprite("panel", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
             panel.SetOriginCenter();
             panelTitle = new Text2D("Terminus", "Astronomical Object Information:", new Vector2((panel.Position.X - panel.Width / 2) + 6, (panel.Position.Y - panel.Height / 2) + 4), Color.White, true, "", 0.09f);
-            text2DTabular = new Text2DTabular(3, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), 200, 20);
+            text2DTabular = new Text2DTab(4, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), new int[] { 200, 200 }, 20);
             panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, 0), Color.White, true, "", 0.09f);
             closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X-88, (panel.Position.Y+panel.Height/2)+5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
             closePanelButton.ClearSubscriptions();
@@ -85,11 +86,20 @@ namespace Lacuna {
 
         public void ViewAstroObjInfo(object sender, EventArgs e, AstronomicalObject astroObj, PlanetarySystem planetarySystem) {
             string stationName = "None";
+            string stationServices = "None";
             string populationAmount = "N/A";
 
             foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
                 if(a is Station station && station.Parent == astroObj) {
                     stationName = station.FullName;
+                    if(station.Services.Count > 0) {
+                        stationServices = "";
+                    }
+                    foreach(IStationService service in station.Services) {
+                        if(service is Market) {
+                            stationServices += "Market";
+                        }
+                    }
                 }
             }
 
@@ -101,24 +111,26 @@ namespace Lacuna {
                 populationAmount = moon.Population.ToString();
             }
 
-            text2DTabular.Construct("Terminus", true, "", 0.09f);
-            text2DTabular.text2Ds[0, 0].Text = "Name:";
-            text2DTabular.text2Ds[1, 0].Text = $"{astroObj.ShortName} / Full: {astroObj.FullName}";
-            text2DTabular.text2Ds[0, 1].Text = "Station:";
-            text2DTabular.text2Ds[1, 1].Text = $"{stationName}";
-            text2DTabular.text2Ds[0, 2].Text = "Population:";
-            text2DTabular.text2Ds[1, 2].Text = $"{populationAmount}";
+            text2DTabular.Construct("Terminus", true, "", 0.08f, 0.09f);
+            text2DTabular.Text2Ds[0, 0].Text = "Name:";
+            text2DTabular.Text2Ds[1, 0].Text = $"{astroObj.ShortName} / Full: {astroObj.FullName}";
+            text2DTabular.Text2Ds[0, 1].Text = "Station:";
+            text2DTabular.Text2Ds[1, 1].Text = $"{stationName}";
+            text2DTabular.Text2Ds[0, 2].Text = "Station Services:";
+            text2DTabular.Text2Ds[1, 2].Text = $"{stationServices}";
+            text2DTabular.Text2Ds[0, 3].Text = "Population:";
+            text2DTabular.Text2Ds[1, 3].Text = $"{populationAmount}";
 
             astroObjDescription = $"Description here...";
             panelTextDescription.Text = $"{astroObjDescription}";
 
             panelTextDescription.Position = new Vector2(panelTextDescription.Position.X, 
-                text2DTabular.text2Ds[text2DTabular.text2Ds.GetUpperBound(0), text2DTabular.text2Ds.GetUpperBound(1)].Position.Y + 
-                text2DTabular.text2Ds[text2DTabular.text2Ds.GetUpperBound(0), text2DTabular.text2Ds.GetUpperBound(1)].MeasureString().Y + 50);
+                text2DTabular.Text2Ds[text2DTabular.Text2Ds.GetUpperBound(0), text2DTabular.Text2Ds.GetUpperBound(1)].Position.Y + 
+                text2DTabular.Text2Ds[text2DTabular.Text2Ds.GetUpperBound(0), text2DTabular.Text2Ds.GetUpperBound(1)].MeasureString().Y + 50);
 
             panel.DoDraw = true;
             panelTitle.DoDraw = true;
-            foreach(Text2D textTab in text2DTabular.text2Ds) {
+            foreach(Text2D textTab in text2DTabular.Text2Ds) {
                 if (textTab != null) {
                     textTab.DoDraw = true;
                 }
@@ -130,7 +142,7 @@ namespace Lacuna {
         public void ClosePanel(object sender, EventArgs e) {
             panel.DoDraw = false;
             panelTitle.DoDraw = false;
-            foreach (Text2D textTab in text2DTabular.text2Ds) {
+            foreach (Text2D textTab in text2DTabular.Text2Ds) {
                 if (textTab != null) {
                     textTab.DoDraw = false;
                 }
