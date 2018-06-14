@@ -110,6 +110,11 @@ namespace Lacuna.Generators {
 
         public string GenerateAstroObjNameRandom() {
             string[] formats = {
+                "C,V,C,V,C,V,C",
+                "GLN, ,C,V,C,V,C,V,C",
+                "C,V,C,V,C,V,C, ,MN",
+                "GLN, ,C,V,C,V,C,V,C, ,MN",
+
                 "C,S,N,V,C",
                 "C,S,V,N,C",
                 "V,S,N,C,V",

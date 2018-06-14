@@ -79,7 +79,6 @@
     <Compile Include="Generators\NameGenerator.cs" />
     <Compile Include="Graphics\Line.cs" />
     <Compile Include="GUI\ButtonSimple.cs" />
-    <Compile Include="GUI\Hover.cs" />
     <Compile Include="GUI\Text2DTab.cs" />
     <Compile Include="Persistence.cs" />
     <Compile Include="Screens\PlanetarySystemMapScreen.cs" />

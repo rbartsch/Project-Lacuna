@@ -20,6 +20,7 @@ namespace Lacuna {
         public Text2D[,] Text2Ds { get; set; }
         public ButtonSimple[,] Buttons { get; set; }
         public int[] SelectedIndex { get; private set; }
+        public Vector2 SelectedPos { get; set; }
 
         /// <summary>
         /// Variable size width spacing should correspond to number of cols
@@ -56,8 +57,9 @@ namespace Lacuna {
 
                     Buttons[x, y] = new ButtonSimple(cell, hoverImageLayerDepth, hoverColor ?? new Color(53, 82, 120));
                     int[] indexRef = { x, y };
+                    Vector2 posRef = new Vector2(Buttons[x, y].Area.X, Buttons[x, y].Area.Y);
                     Buttons[x, y].Click += delegate (object s, EventArgs e) {
-                        AssignSelectedIndex(s, e, indexRef);
+                        AssignSelectedIndex(s, e, indexRef, posRef);
                     };
 
                     Text2Ds[x, y] = new Text2D(spriteFontName, "", new Vector2(cell.X + textPosTopLeftRelative.X, cell.Y + textPosTopLeftRelative.Y), Color.White, drawInScreenSpace, tag, layerDepth);
@@ -70,9 +72,11 @@ namespace Lacuna {
             }
         }
 
-        public void AssignSelectedIndex(object s, EventArgs e, int[] index) {
-            Console.WriteLine(index[0] + "," + index[1]);
+        public void AssignSelectedIndex(object s, EventArgs e, int[] index, Vector2 pos) {
             SelectedIndex = index;
+            SelectedPos = pos;
+
+            Console.WriteLine($"SelectedIndex: {SelectedIndex[0]},{SelectedIndex[1]}; SelectedPos: {SelectedPos}");
         }
 
         public void Update(MouseState mouse, Camera2D camera2D = null) {

@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Lacuna.Trade;
 
-namespace Lacuna.Commodities {
+namespace Lacuna.Trade {
     public static class TradeGoodList {
-        public static List<TradeGood> tradeGoods;
+        public static List<TradeGood> tradeGoods = new List<TradeGood>();
 
         public static void Populate() {
-            tradeGoods = new List<TradeGood>();
             tradeGoods.Add(new TradeGood("Military Ration", 1, TradeGoodType.Food, new BuySellValue(90, 100)));
             tradeGoods.Add(new TradeGood("Colony Foods Crate Type-A", 1, TradeGoodType.Food, new BuySellValue()));
             tradeGoods.Add(new TradeGood("Colony Foods Crate Type-B", 1, TradeGoodType.Food, new BuySellValue()));

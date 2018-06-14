@@ -24,7 +24,6 @@ namespace Lacuna {
         Text2D panelTextDescription;
         Button closePanelButton;
 
-        string astroObjDescription;
 
         List<Button> travelButtons = new List<Button>();
         List<Button> infoButtons = new List<Button>();
@@ -72,22 +71,25 @@ namespace Lacuna {
             panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, 0), Color.White, true, "", 0.09f);
             closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X-88, (panel.Position.Y+panel.Height/2)+5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
             closePanelButton.ClearSubscriptions();
-            closePanelButton.Click += ClosePanel;
+            closePanelButton.Click += ClosePanel;            
+
+
             ClosePanel(this, EventArgs.Empty);
 
             base.Initialize();
         }
 
-        public void TravelToAstroObjsGroup(object sender, EventArgs e, List<AstronomicalObject> astroObjsGroup) {
+        public void TravelToAstroObjsGroup(object sender, EventArgs e, List<AstronomicalObject> astroObjsGroup, PlanetarySystem planetarySystem) {
             Screen s = ScreenManager.GetScreen("GameplayScreen");
             ScreenManager.SwitchScreen("GameplayScreen");
-            ((GameplayScreen)s).ReadAstronomicalGroup(s, e, systemName.Text, astroObjsGroup);
+            ((GameplayScreen)s).ReadAstronomicalGroup(s, e, systemName.Text, astroObjsGroup, planetarySystem);
         }
 
         public void ViewAstroObjInfo(object sender, EventArgs e, AstronomicalObject astroObj, PlanetarySystem planetarySystem) {
             string stationName = "None";
             string stationServices = "None";
             string populationAmount = "N/A";
+            string astroObjDescription = "Description here...";
 
             foreach (AstronomicalObject a in planetarySystem.AstronomicalObjects) {
                 if(a is Station station && station.Parent == astroObj) {
@@ -121,7 +123,6 @@ namespace Lacuna {
             text2DTabular.Text2Ds[0, 3].Text = "Population:";
             text2DTabular.Text2Ds[1, 3].Text = $"{populationAmount}";
 
-            astroObjDescription = $"Description here...";
             panelTextDescription.Text = $"{astroObjDescription}";
 
             panelTextDescription.Position = new Vector2(panelTextDescription.Position.X, 
@@ -136,6 +137,7 @@ namespace Lacuna {
                 }
             }
             panelTextDescription.DoDraw = true;
+
             closePanelButton.SetActiveStatus(true);            
         }
 
@@ -164,7 +166,7 @@ namespace Lacuna {
                     List<AstronomicalObject> starGroup = new List<AstronomicalObject>();
                     starGroup.Add(star);
                     travelButtons.Last().Click += delegate (object s, EventArgs e) {
-                        TravelToAstroObjsGroup(s, e, starGroup);
+                        TravelToAstroObjsGroup(s, e, starGroup, planetarySystem);
                     };
                     prevX += travelButtons.Last().Image.Width + 5;
 
@@ -190,7 +192,7 @@ namespace Lacuna {
                                 List<AstronomicalObject> planetStationAndMoonGroup = new List<AstronomicalObject>();
                                 planetStationAndMoonGroup.Add(planet);
                                 travelButtons.Last().Click += delegate (object s, EventArgs e) {
-                                    TravelToAstroObjsGroup(s, e, planetStationAndMoonGroup);
+                                    TravelToAstroObjsGroup(s, e, planetStationAndMoonGroup, planetarySystem);
                                 };
                                 prevX += travelButtons.Last().Image.Width + 5;
 

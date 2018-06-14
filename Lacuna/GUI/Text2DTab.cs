@@ -36,12 +36,12 @@ namespace Lacuna {
             Text2Ds = new Text2D[cols, rows];
         }
 
-        public void Construct(string spriteFontName, bool drawInScreenSpace = false, string tag ="", float layerDepth = 0.08f, float hoverImageLayerDepth = 0.09f) {
+        public void Construct(string spriteFontName, bool drawInScreenSpace = false, string tag = "", float layerDepth = 0.08f, float hoverImageLayerDepth = 0.09f) {
             float rowMultiplier = startPosLeftCorner.Y;
             float colMultiplier = startPosLeftCorner.X;
-            for(int y = 0; y < rows; y++) {
-                for(int x = 0; x < cols; x++) {
-                    Text2Ds[x,y] = new Text2D(spriteFontName, "", new Vector2(colMultiplier, rowMultiplier), Color.White, drawInScreenSpace, tag, layerDepth);
+            for (int y = 0; y < rows; y++) {
+                for (int x = 0; x < cols; x++) {
+                    Text2Ds[x, y] = new Text2D(spriteFontName, "", new Vector2(colMultiplier, rowMultiplier), Color.White, drawInScreenSpace, tag, layerDepth);
                     colMultiplier += widthSpacing[x];
                 }
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lacuna.ClusterObjects;
 using Lacuna.Generators;
-using Lacuna.Commodities;
+using Lacuna.Trade;
 
 namespace Lacuna {
     public static class Persistence {

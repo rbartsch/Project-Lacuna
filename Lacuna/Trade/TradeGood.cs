@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lacuna.Trade;
 
-namespace Lacuna.Commodities {
+namespace Lacuna.Trade {
     public class TradeGood : ICloneable {
         public string Name { get; private set; }
         public long Quantity { get; private set; }
