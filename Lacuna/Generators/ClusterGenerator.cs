@@ -188,7 +188,7 @@ namespace Lacuna.Generators {
             Station station = new Station(new NameGenerator().GenerateAstroObjName("C,V,C,V,C,V,C, ,SS"), astroObj);
             station.ShortName = station.FullName;
 
-            station.Services.Add(new Market("Trade Goods"));
+            station.Services.Add(new Market($"{station.FullName} Market @ {astroObj.FullName}"));
             return station;
         }
     }

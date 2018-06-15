@@ -36,7 +36,7 @@ namespace Lacuna {
             Text2Ds = new Text2D[cols, rows];
         }
 
-        public void Construct(string spriteFontName, bool drawInScreenSpace = false, string tag = "", float layerDepth = 0.08f, float hoverImageLayerDepth = 0.09f) {
+        public void Construct(string spriteFontName, bool drawInScreenSpace = false, string tag = "", float layerDepth = 0.08f) {
             float rowMultiplier = startPosLeftCorner.Y;
             float colMultiplier = startPosLeftCorner.X;
             for (int y = 0; y < rows; y++) {

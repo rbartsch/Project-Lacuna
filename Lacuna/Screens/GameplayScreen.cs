@@ -103,7 +103,7 @@ namespace Lacuna {
                 populationAmount = moon.Population.ToString();
             }
 
-            text2DTabular.Construct("Terminus", true, "", 0.08f, 0.09f);
+            text2DTabular.Construct("Terminus", true, "", 0.08f);
             text2DTabular.Text2Ds[0, 0].Text = "Name:";
             text2DTabular.Text2Ds[1, 0].Text = $"{astroObj.ShortName} / Full: {astroObj.FullName}";
             text2DTabular.Text2Ds[0, 1].Text = "Station:";

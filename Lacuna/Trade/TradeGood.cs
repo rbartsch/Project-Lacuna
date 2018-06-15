@@ -19,13 +19,13 @@ namespace Lacuna.Trade {
             BasePrice = basePrice;
         }
 
-        public void Add() {
-            Quantity++;
+        public void Add(uint amount) {
+            Quantity += amount;
         }
 
-        public void Remove() {
-            if (Quantity > 0) {
-                Quantity--;
+        public void Remove(uint amount) {
+            if (Quantity - amount >= 0) {
+                Quantity -= amount;
             }
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Lacuna.Trade {
-    public struct BuySellValue {
+    public class BuySellValue {
         public long buy;
         public long sell;
 
