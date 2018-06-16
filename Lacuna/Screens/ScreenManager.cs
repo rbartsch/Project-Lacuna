@@ -51,6 +51,7 @@ namespace Lacuna {
             activeScreen = screen;
             activeScreen.Active = true;
             Drawable2DManager.AssignScreenDrawable2DList(activeScreen);
+            activeScreen.Switched();
         }
 
         public static void SwitchScreen(string name) {
@@ -66,6 +67,7 @@ namespace Lacuna {
             activeScreen = GetScreen(name);
             activeScreen.Active = true;
             Drawable2DManager.AssignScreenDrawable2DList(activeScreen);
+            activeScreen.Switched();
         }
 
         // Used for when we want to initialize a screen later on the game when first switching

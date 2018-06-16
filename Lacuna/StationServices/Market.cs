@@ -31,13 +31,5 @@ namespace Lacuna.StationServices {
         public void Clean() {
 
         }
-
-        public void View() {
-            throw new NotImplementedException();
-        }
-
-        public void Use() {
-            throw new NotImplementedException();
-        }
     }
 }

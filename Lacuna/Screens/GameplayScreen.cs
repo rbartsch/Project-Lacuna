@@ -34,9 +34,87 @@ namespace Lacuna {
         Button closePanelButton;
         Button marketButton;
 
+        Text2D playerStats;
+
         List<Sprite> lastAstroObjsSprites = new List<Sprite>();
         List<AstronomicalObject> astroObjsGroup = new List<AstronomicalObject>();
         PlanetarySystem planetarySystem;
+
+        public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
+        }
+
+        public override void Switched() {
+            playerStats.Text = $"Credits: {playerShip.Credits}\nCargo Hold: {playerShip.CargoHold.Count}";
+            Console.WriteLine("Called");
+        }
+
+        public override void Initialize() {
+            uiLayout = new Sprite("ui_layout", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White);
+
+            button = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 117, Core.minResolutionRelativeHeight + 270), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            button.Click += Test;
+
+            grid = new IsoGrid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minResolutionRelativeWidth, 261 + Core.minResolutionRelativeHeight), "single_blue_grid_tile");
+            grid.Construct();
+
+            playerShip = new PlayerShip(new string[] {
+                "ship_1_forward",
+                "ship_1_backward",
+                "ship_1_right",
+                "ship_1_left"
+            }, grid, new Point(1, 2));
+
+            //npcShip = new NpcShip(new string[] {
+            //    "ship_2_forward",
+            //    "ship_2_backward",
+            //    "ship_2_right",
+            //    "ship_2_left"
+            //}, grid, new Point(1, 0), playerShip);
+
+            background = new Sprite("background_1", new Vector2(Core.minResolutionRelativeWidth + 306, Core.minResolutionRelativeHeight + 192), Color.White);
+            background.LayerDepth = 1.0f;
+
+            uiLayout.SetOriginCenter();
+
+            foreach (GridTile g in grid.GridTiles) {
+                g.SetOriginCenter();
+            }
+            foreach (Text2D t in grid.TextMarkers) {
+                t.SetOriginCenter();
+            }
+
+            playerShip.Sprite.SetOriginCenter();
+            playerShip.SetDirection(ShipMoveDirection.Forward);
+
+            //npcShip.Sprite.SetOriginCenter();
+            //npcShip.SetDirection(ShipMoveDirection.Backward);
+
+            starMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 16), "Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            starMapButton.Click += ViewStarMap;
+            localMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 61), "Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            visitObj = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 106), "Visit Object @ Pos.", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            visitObj.Click += VisitAstroObjAtPos;
+
+            mainText = new Text2D("Verdana", "Main Text", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 582), Color.White);
+
+            panel = new Sprite("panel", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
+            panel.SetOriginCenter();
+            panelTitle = new Text2D("Terminus", "Astronomical Object Information:", new Vector2((panel.Position.X - panel.Width / 2) + 6, (panel.Position.Y - panel.Height / 2) + 4), Color.White, true, "", 0.09f);
+            text2DTabular = new Text2DTab(4, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), new int[] { 200, 200 }, 20);
+            panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, 0), Color.White, true, "", 0.09f);
+            closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X - 88, (panel.Position.Y + panel.Height / 2) + 5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
+            closePanelButton.ClearSubscriptions();
+            closePanelButton.Click += ClosePanel;
+            marketButton = new Button("button", "Terminus", new Vector2(panel.Position.X - panel.Width / 2 + 4, panel.Position.Y + panel.Height / 2 - 44), "Market", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true, 0.09f);
+            ClosePanel(this, EventArgs.Empty);
+
+            playerStats = new Text2D("Terminus", "", new Vector2(Core.minResolutionRelativeWidth + 111, Core.minResolutionRelativeHeight + 220), Color.White);
+            playerStats.Text = $"Credits: {playerShip.Credits}\nCargo Hold: {playerShip.CargoHold.Count}";
+
+            Persistence.Initialize();
+
+            base.Initialize();
+        }
 
         public void Test(object s, EventArgs e) {
             Console.WriteLine("Test");
@@ -58,11 +136,12 @@ namespace Lacuna {
             Screen s = ScreenManager.GetScreen("MarketScreen");
             s.Initialized = false;
             ScreenManager.InitializeScreen("MarketScreen");
-            ((MarketScreen)s).ReadMarket(market);
+            ((MarketScreen)s).ReadMarket(market, playerShip);
             ScreenManager.SwitchScreen("MarketScreen");
         }
 
         public void VisitAstroObjAtPos(object s, EventArgs e) {
+            ClosePanel(this, EventArgs.Empty);
             AstronomicalObject astroObj = astroObjsGroup.Find(x => x.GridPosition == playerShip.GridPosition);
             marketButton.ClearSubscriptions();
 
@@ -191,74 +270,6 @@ namespace Lacuna {
             localMapButton.ClearSubscriptions();
             localMapButton.Click += ViewLocalMap;
             currentSystem = $"You are in the {systemName}.";
-        }
-
-        public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
-        }
-
-        public override void Initialize() {
-            uiLayout = new Sprite("ui_layout", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White);
-
-            button = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 117, Core.minResolutionRelativeHeight + 220), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
-            button.Click += Test;
-
-            grid = new IsoGrid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minResolutionRelativeWidth, 261 + Core.minResolutionRelativeHeight), "single_blue_grid_tile");
-            grid.Construct();
-
-            playerShip = new PlayerShip(new string[] {
-                "ship_1_forward",
-                "ship_1_backward",
-                "ship_1_right",
-                "ship_1_left"
-            }, grid, new Point(1, 2));
-
-            //npcShip = new NpcShip(new string[] {
-            //    "ship_2_forward",
-            //    "ship_2_backward",
-            //    "ship_2_right",
-            //    "ship_2_left"
-            //}, grid, new Point(1, 0), playerShip);
-
-            background = new Sprite("background_1", new Vector2(Core.minResolutionRelativeWidth + 306, Core.minResolutionRelativeHeight + 192), Color.White);
-            background.LayerDepth = 1.0f;
-
-            uiLayout.SetOriginCenter();
-
-            foreach (GridTile g in grid.GridTiles) {
-                g.SetOriginCenter();
-            }
-            foreach (Text2D t in grid.TextMarkers) {
-                t.SetOriginCenter();
-            }
-
-            playerShip.Sprite.SetOriginCenter();
-            playerShip.SetDirection(ShipMoveDirection.Forward);
-
-            //npcShip.Sprite.SetOriginCenter();
-            //npcShip.SetDirection(ShipMoveDirection.Backward);
-
-            starMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 16), "Star Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
-            starMapButton.Click += ViewStarMap;
-            localMapButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 61), "Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
-            visitObj = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 106), "Visit Object @ Pos.", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
-            visitObj.Click += VisitAstroObjAtPos;
-
-            mainText = new Text2D("Verdana", "Main Text", new Vector2(Core.minResolutionRelativeWidth + 322, Core.minResolutionRelativeHeight + 582), Color.White);
-
-            panel = new Sprite("panel", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
-            panel.SetOriginCenter();
-            panelTitle = new Text2D("Terminus", "Astronomical Object Information:", new Vector2((panel.Position.X - panel.Width / 2) + 6, (panel.Position.Y - panel.Height / 2) + 4), Color.White, true, "", 0.09f);
-            text2DTabular = new Text2DTab(4, 2, new Vector2(panelTitle.Position.X, panelTitle.Position.Y + 30), new int[] { 200, 200 }, 20);
-            panelTextDescription = new Text2D("Verdana", "> Description here...", new Vector2((panel.Position.X - panel.Width / 2) + 6, 0), Color.White, true, "", 0.09f);
-            closePanelButton = new Button("button", "Terminus", new Vector2(panel.Position.X - 88, (panel.Position.Y + panel.Height / 2) + 5), "Close", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
-            closePanelButton.ClearSubscriptions();
-            closePanelButton.Click += ClosePanel;
-            marketButton = new Button("button", "Terminus", new Vector2(panel.Position.X-panel.Width/2+4, panel.Position.Y+panel.Height/2-44), "Market", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true, 0.09f);
-            ClosePanel(this, EventArgs.Empty);
-
-            Persistence.Initialize();
-
-            base.Initialize();
         }
 
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {

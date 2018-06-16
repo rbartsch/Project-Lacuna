@@ -268,6 +268,10 @@ namespace Lacuna {
             camera2D.Update(Core.GraphicsDevice.Viewport, gameTime, NewKeyState, OldKeyState, Mouse.GetState(), true);
             CameraTransform = camera2D.Transform;
 
+            if (NewKeyState.IsKeyDown(Keys.Escape) && OldKeyState.IsKeyUp(Keys.Escape)) {
+                ScreenManager.SwitchScreen("MainMenuScreen");
+            }
+
             base.Update(gameTime, NewKeyState, OldKeyState);
         }
     }

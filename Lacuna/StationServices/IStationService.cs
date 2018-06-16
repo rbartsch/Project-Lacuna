@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 namespace Lacuna.StationServices {
     public interface IStationService {
         string Name { get; }
-        void View();
-        void Use();
     }
 }

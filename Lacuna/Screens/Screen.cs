@@ -44,6 +44,8 @@ namespace Lacuna {
             Initialized = true;
         }
 
+        public virtual void Switched() { }
+
         public virtual void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) { }
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lacuna.Trade;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -10,6 +11,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Lacuna {
     public class PlayerShip : Ship {
+        public long Credits { get; set; } = 10000;
+        public List<TradeGood> CargoHold { get; set; } = new List<TradeGood>();
 
         public PlayerShip(string[] texture2DPaths, IsoGrid grid, Point gridPoint) : base(texture2DPaths, grid, gridPoint) {
         }
