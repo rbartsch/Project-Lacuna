@@ -2,6 +2,10 @@
 
 A space tactics game I am developing. Get the last prototype build from release section (windows): https://github.com/rbartsch/Project-Lacuna/releases
 
+Need .NET Framework 4.0+ installed (should be included in Windows 7+ installs automatically).
+
+The only real gameplay at the moment is simple trading between stations/systems.
+
 Early prototype screenshot (click to enlarge):
 
 ![prototype ss](https://i.imgur.com/TTbYIxb.png)
