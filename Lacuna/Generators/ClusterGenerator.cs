@@ -10,9 +10,9 @@ using Lacuna.StationServices;
 
 namespace Lacuna.Generators {
     public class ClusterGenerator {
-        public int NPlanetarySystems { get; private set; } = 20;
+        public int NPlanetarySystems { get; private set; } = 100;
         public int MaxStars { get; private set; } = 1; // Only support drawing local planetary system map for one star at the moment
-        public int MaxPlanetsPerStar { get; private set; } = 6;
+        public int MaxPlanetsPerStar { get; private set; } = 8;
         public int MaxMoonsPerPlanet { get; private set; } = 3;
 
         private static readonly string[] starNumToLetter = {
@@ -64,6 +64,7 @@ namespace Lacuna.Generators {
                         planet.GridPosition = new Point(Rng.Random.Next(0, 3), Rng.Random.Next(0, 3));
                         planetarySystem.AstronomicalObjects.Add(planet);
 
+                        // Generate station in orbit of planet
                         if (planet.Population > 0 && Rng.Chance(80)) {
                             Station station = GenerateStation(planet);
                             station.GridPosition = planet.GridPosition;
@@ -87,17 +88,17 @@ namespace Lacuna.Generators {
                     }
 
                     // Chance to generate moons for planet
-                    if (Rng.Chance(40)) {
+                    if (Rng.Chance(45)) {
                         // If passed, at least one moon
                         int nMoons = 1;
 
-                        // 60% chance of 2 moons
-                        if (Rng.Chance(60)) {
+                        // 20% chance of 2 moons
+                        if (Rng.Chance(20)) {
                             nMoons = 2;
                         }
 
-                        // 40% chance of 3 or more
-                        if (Rng.Chance(40)) {
+                        // 15% chance of 3 or more
+                        if (Rng.Chance(15)) {
                             nMoons = Rng.Random.Next(3, MaxMoonsPerPlanet + 1);
                         }
 
@@ -131,8 +132,8 @@ namespace Lacuna.Generators {
             planet.ShortName = RomanNumeral.Encode((uint)nPlanet) + ".";
             planet.Type = (PlanetType)Rng.Random.Next(0, Enum.GetValues(typeof(PlanetType)).Cast<int>().Max() + 1);
 
-            if (planet.Type == PlanetType.Terra || planet.Type == PlanetType.Rocky) {
-                if (Rng.Chance(51)) {
+            if (planet.Type == PlanetType.Terra || planet.Type == PlanetType.Rocky || planet.Type == PlanetType.Icy) {
+                if (Rng.Chance(61)) {
                     planet.Population = Rng.Random.Next(1000, 2000000);
                 }
             }

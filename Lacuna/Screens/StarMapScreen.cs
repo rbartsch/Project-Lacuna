@@ -35,7 +35,7 @@ namespace Lacuna {
             planetarySystemSummaryPanel = new Sprite("star_map_selected_system_panel", new Vector2(10, 80), Color.White, true, "", 0, null, null, SpriteEffects.None, 0.1f);
             planetarySystemSummary = new Text2D("Terminus", "", new Vector2(16, planetarySystemSummaryPanel.Position.Y + 27), Color.White, true, "", 0.09f);
             viewLocalPlanetarySystemButton = new Button("button", "Terminus", new Vector2(22, planetarySystemSummaryPanel.Position.Y + 149), "View Local Map", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true, 0.09f);
-            title = new Text2D("Terminus", "Cluster Star Map", new Vector2(10, 5), Color.White, true);
+            title = new Text2D("Terminus", "Cluster Star Map / Mouse to pan camera; Mouse scroll wheel to zoom", new Vector2(10, 5), Color.White, true);
             backToGameplayButton = new Button("button", "Terminus", new Vector2(10, 30), "Back", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), true);
             backToGameplayButton.Click += ViewGameplay;
 

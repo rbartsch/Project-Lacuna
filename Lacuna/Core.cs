@@ -81,14 +81,13 @@ namespace Lacuna {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
-            Rng.Initialize();
-
             ScreenManager.AddScreen(new GameplayScreen(this));
             ScreenManager.AddScreen(new TestScreen(this));
             ScreenManager.AddScreen(new MainMenuScreen(this));
             ScreenManager.AddScreen(new StarMapScreen(this));
             ScreenManager.AddScreen(new PlanetarySystemMapScreen(this));
             ScreenManager.AddScreen(new MarketScreen(this));
+            ScreenManager.AddScreen(new ShipOverviewScreen(this));
 
             base.Initialize();
         }

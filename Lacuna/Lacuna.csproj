@@ -68,6 +68,7 @@
     <Compile Include="ClusterObjects\Cluster.cs" />
     <Compile Include="GUI\Text2DTabInteractable.cs" />
     <Compile Include="Screens\MarketScreen.cs" />
+    <Compile Include="Screens\ShipOverviewScreen.cs" />
     <Compile Include="Trade\BuySellValue.cs" />
     <Compile Include="Trade\TradeGood.cs" />
     <Compile Include="Trade\TradeGoodList.cs" />

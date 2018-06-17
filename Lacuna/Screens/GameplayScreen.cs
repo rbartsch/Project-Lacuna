@@ -14,7 +14,7 @@ using Lacuna.ClusterObjects;
 namespace Lacuna {
     public class GameplayScreen : Screen {
         Sprite uiLayout;
-        Button button;
+        Button shipOverviewButton;
         IsoGrid grid;
         PlayerShip playerShip;
         //NpcShip npcShip;
@@ -43,16 +43,11 @@ namespace Lacuna {
         public GameplayScreen(Core core, bool initializeOnStartup = true) : base("GameplayScreen", core, initializeOnStartup) {
         }
 
-        public override void Switched() {
-            playerStats.Text = $"Credits: {playerShip.Credits}\nCargo Hold: {playerShip.CargoHold.Count}";
-            Console.WriteLine("Called");
-        }
-
         public override void Initialize() {
             uiLayout = new Sprite("ui_layout", new Vector2(Core.graphics.PreferredBackBufferWidth / 2, Core.graphics.PreferredBackBufferHeight / 2), Color.White);
 
-            button = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 117, Core.minResolutionRelativeHeight + 270), "Test", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
-            button.Click += Test;
+            shipOverviewButton = new Button("button", "Terminus", new Vector2(Core.minResolutionRelativeWidth + 117, Core.minResolutionRelativeHeight + 530), "Ship Overview", Color.White, new Color(53, 82, 120, 255), new Color(22, 81, 221, 255), false);
+            shipOverviewButton.Click += ViewShipOverview;
 
             grid = new IsoGrid(new Point(3, 3), new Point(242, 121), new Vector2(682 + Core.minResolutionRelativeWidth, 261 + Core.minResolutionRelativeHeight), "single_blue_grid_tile");
             grid.Construct();
@@ -116,8 +111,16 @@ namespace Lacuna {
             base.Initialize();
         }
 
-        public void Test(object s, EventArgs e) {
-            Console.WriteLine("Test");
+        public override void Switched(string prevScreen) {
+            playerStats.Text = $"Credits: {playerShip.Credits}\nCargo Hold: {playerShip.CargoHold.Count}";
+        }
+
+        public void ViewShipOverview(object sender, EventArgs e) {
+            Screen s = ScreenManager.GetScreen("ShipOverviewScreen");
+            s.Initialized = false;
+            ScreenManager.InitializeScreen("ShipOverviewScreen");
+            ((ShipOverviewScreen)s).ReadPlayerShip(playerShip);
+            ScreenManager.SwitchScreen("ShipOverviewScreen");
         }
 
         public void ViewStarMap(object s, EventArgs e) {
@@ -273,7 +276,7 @@ namespace Lacuna {
         }
 
         public override void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) {
-            button.Update(Mouse.GetState());
+            shipOverviewButton.Update(Mouse.GetState());
             starMapButton.Update(Mouse.GetState());
             localMapButton.Update(Mouse.GetState());
             visitObj.Update(Mouse.GetState());

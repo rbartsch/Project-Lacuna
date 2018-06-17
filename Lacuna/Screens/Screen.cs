@@ -44,7 +44,9 @@ namespace Lacuna {
             Initialized = true;
         }
 
-        public virtual void Switched() { }
+        public virtual void Switched(string prevScreen) { }
+
+        public virtual void Switched(Screen prevScreen) { }
 
         public virtual void Update(GameTime gameTime, KeyboardState NewKeyState, KeyboardState OldKeyState) { }
 

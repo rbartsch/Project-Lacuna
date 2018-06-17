@@ -12,6 +12,7 @@ namespace Lacuna {
         public static List<Cluster> clusters = new List<Cluster>();
 
         public static void Initialize() {
+            Rng.Initialize();
             TradeGoodList.Populate();
             GenerateClusters();
         }

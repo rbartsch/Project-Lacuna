@@ -39,35 +39,41 @@ namespace Lacuna {
         }
 
         public static void SwitchScreen(Screen screen) {
+            Screen prevScreen;
             if (activeScreen != null) {
+                prevScreen = activeScreen;
                 activeScreen.Active = false;
 
                 Console.WriteLine("Switching screen to: " + screen.Name + " from " + activeScreen.Name);
             }
             else {
+                prevScreen = null;
                 Console.WriteLine("Switching screen to: " + screen.Name);
             }
 
             activeScreen = screen;
             activeScreen.Active = true;
             Drawable2DManager.AssignScreenDrawable2DList(activeScreen);
-            activeScreen.Switched();
+            activeScreen.Switched(prevScreen);
         }
 
         public static void SwitchScreen(string name) {
+            string prevScreen;
             if (activeScreen != null) {
+                prevScreen = activeScreen.Name;
                 activeScreen.Active = false;
 
                 Console.WriteLine("Switching screen to: " + name + " from: " + activeScreen.Name);
             }
             else {
+                prevScreen = "first initialization";
                 Console.WriteLine("Switching screen to: " + name);
             }
 
             activeScreen = GetScreen(name);
             activeScreen.Active = true;
             Drawable2DManager.AssignScreenDrawable2DList(activeScreen);
-            activeScreen.Switched();
+            activeScreen.Switched(prevScreen);
         }
 
         // Used for when we want to initialize a screen later on the game when first switching
